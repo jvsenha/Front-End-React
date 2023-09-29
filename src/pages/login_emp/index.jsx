@@ -3,7 +3,7 @@ import { Container, Content, Main_content, FormLogin } from "./style";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
-const Home = () => {
+const LoginEmp = () => {
     return (
         <>
             <body>
@@ -11,7 +11,7 @@ const Home = () => {
                     <Content >
                         <Main_content >
                             <h1>
-                                Fazer login
+                                Fazer login - empresa
                             </h1>
                             <FormLogin>
                                 <Input placeholder="Name" label="Name" />
@@ -34,6 +34,6 @@ const Home = () => {
     );
 }
 
-export { Home };
+export { LoginEmp };
 
 // <Link to="/login"> Fazer login</Link> 

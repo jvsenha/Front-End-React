@@ -5,14 +5,15 @@ import {
 } from "react-router-dom"
 
 import { Home } from "./pages/home"
-import { Login } from "./pages/login"
+import { LoginEmp } from "./pages/login_emp"
+import './App.css';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/login" element={<LoginEmp />}></Route>
       </Routes> 
     </Router>
   );
