@@ -30,7 +30,7 @@ position: relative;
 margin: 10% 10%;
 `;
 
-export const FormLogin = styled.div`
+export const FormLogin = styled.form`
 margin-bottom: 3em;
 `;
 

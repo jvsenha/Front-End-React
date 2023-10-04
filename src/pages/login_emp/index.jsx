@@ -18,8 +18,8 @@ const LoginEmp = () => {
                                 Fazer login - empresa
                             </h1>
                             <FormLogin>
-                                <Input placeholder="Name" label="Name" />
-                                <Input placeholder="Senha" label="Senha" />
+                                <Input placeholder="Name" label="Name" classAdd="form__group field" />
+                                <Input placeholder="Senha" label="Senha" classAdd="form__group field" />
                             </FormLogin>
 
                             <Button nome="entrar" classname="Button" />
