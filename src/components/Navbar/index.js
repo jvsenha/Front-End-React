@@ -55,7 +55,7 @@ const Navbar = ({page}) => {
             <li>
               <div className="iocn-link">
                 <a href="#">
-                  <i className='bx bx-collection' ></i>
+                <i className='bx bx-user' ></i>
                   <span className="link_name">Clientes</span>
                 </a>
                 <i className='bx bxs-chevron-down arrow' ></i>
@@ -69,7 +69,7 @@ const Navbar = ({page}) => {
             <li>
               <div className="iocn-link">
                 <a href="#">
-                  <i className='bx bx-book-alt' ></i>
+                <i className='bx bxs-folder-open'></i>
                   <span className="link_name">Arquivos</span>
                 </a>
                 <i className='bx bxs-chevron-down arrow' ></i>
@@ -83,7 +83,7 @@ const Navbar = ({page}) => {
             </li>
             <li>
               <a href="#">
-                <i className='bx bx-pie-chart-alt-2' ></i>
+              <i class='bx bxs-trash-alt'></i>
                 <span className="link_name">Lixeira</span>
               </a>
               <ul className="sub-menu blank">
@@ -92,46 +92,14 @@ const Navbar = ({page}) => {
             </li>
             <li>
             <a href="#">
-              <i className='bx bx-line-chart' ></i>
+            <i class='bx bx-cloud-upload'></i>
               <span className="link_name">Backup</span>
             </a>
             <ul className="sub-menu blank">
               <li><a className="link_name" href="#">Backup</a></li>
             </ul>
           </li>
-            <li>
-              <div className="iocn-link">
-                <a href="#">
-                  <i className='bx bx-plug' ></i>
-                  <span className="link_name">Plugins</span>
-                </a>
-                <i className='bx bxs-chevron-down arrow' ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><a className="link_name" href="#">Plugins</a></li>
-                <li><a href="#">UI Face</a></li>
-                <li><a href="#">Pigments</a></li>
-                <li><a href="#">Box Icons</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">
-                <i className='bx bx-compass' ></i>
-                <span className="link_name">Explore</span>
-              </a>
-              <ul className="sub-menu blank">
-                <li><a className="link_name" href="#">Explore</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">
-                <i className='bx bx-history'></i>
-                <span className="link_name">History</span>
-              </a>
-              <ul className="sub-menu blank">
-                <li><a className="link_name" href="#">History</a></li>
-              </ul>
-            </li>
+           
             <li>
               <a href="#">
                 <i className='bx bx-cog' ></i>
