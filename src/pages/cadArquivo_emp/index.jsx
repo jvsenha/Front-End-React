@@ -2,7 +2,7 @@ import "./style.css"
 import Navbar from "../../components/Navbar"
 import Input from '../../components/Input'
 import Button from '../../components/Button';
-import { useState } from "react";
+
 
 const CadArquivo_Emp = () =>{
     
@@ -11,7 +11,7 @@ const CadArquivo_Emp = () =>{
 
         <>
 
-            <Navbar page="Cadastrar cliente" />
+            <Navbar page="Cadastrar arquivo" />
 
             < div className="Main">
                 <form className="Form" >

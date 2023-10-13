@@ -11,6 +11,7 @@ import {Cadcliente_Emp} from "./pages/CadCliente_emp"
 import {CadArquivo_Emp} from "./pages/cadArquivo_emp"
 import {ListCliente_emp} from "./pages/listCliente_emp"
 import {ListArquivos_emp} from "./pages/listArquivos_emp"
+import {AlterarCliente} from "./pages/alterarCliente"
 import './App.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/cadArquivo-emp" element={<CadArquivo_Emp />}></Route>
         <Route path="/listCliente-emp" element={<ListCliente_emp />}></Route>
         <Route path="/listArquivo-emp" element={<ListArquivos_emp />}></Route>
+        <Route path="/alterarCliente/:idUser" element={<AlterarCliente/>}></Route>
       </Routes> 
     </Router>
   );

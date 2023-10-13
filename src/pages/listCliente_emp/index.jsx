@@ -7,16 +7,45 @@ import { useEffect, useState } from "react"
 
 const ListCliente_emp = () => {
 
+
+
+
+
+
     //usueState cliente
     const [clientes, setClientes] = useState([]);
 
 
     //useEffect
     useEffect(() => {
-        fetch("http://localhost:8080/listar")
+        fetch("http://localhost:8080/cliente/listar")
             .then(retorno => retorno.json())
             .then(retorno_convert => setClientes(retorno_convert));
     }, []);
+
+    // REMOVER PRODUTO
+    const remover = (userId) => {
+        fetch(`http://localhost:8080/cliente/remover/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(retorno => retorno.json())
+            .then(retorno_convert => {
+                alert(retorno_convert.message);
+                fetch("http://localhost:8080/cliente/listar")
+                    .then(retorno => retorno.json())
+                    .then(retorno_convert => setClientes(retorno_convert));
+            });
+    }
+
+    //ALTERAR PRODUTOS
+    const alterar = (indice) =>{
+        setClientes(clientes[indice]);
+        
+    }
 
     return (
         <>
@@ -40,10 +69,10 @@ const ListCliente_emp = () => {
                     <hr />
                 </section>
                 <section className="table">
-                    <Table vetor={clientes} />
+                    <Table vetor={clientes} onRemover={remover} onAlterar={alterar} />
 
                 </section>
-        
+
 
             </section>
 

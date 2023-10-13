@@ -1,5 +1,4 @@
-import { Form, Link } from "react-router-dom";
-import { Container, Content, Main_content, FormLogin, Img } from "./style";
+import "./style.css";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
@@ -7,26 +6,25 @@ const LoginEmp = () => {
     return (
         <>
             <body>
-                <Container>
-                    <Content $dark>
-                    <Img  src={Logo} alt="" />
-
-                    </Content>
-                    <Content >
-                        <Main_content >
+                <section className="Container-emp">
+                    <section className="Content-emp dark-emp">
+                        <img src={Logo} alt="" />
+                    </section>
+                    <section className="Content-emp" >
+                        <div className="Main_content-emp" >
                             <h1>
-                                Fazer login - empresa
+                                Fazer login - Empresa
                             </h1>
-                            <FormLogin>
-                                <Input placeholder="Name" label="Name" classAdd="form__group field" />
-                                <Input placeholder="Senha" label="Senha" classAdd="form__group field" />
-                            </FormLogin>
+                            <form className="FormLogin-emp">
+                                <Input placeholder="Name" label="Name" />
+                                <Input placeholder="Senha" label="Senha" />
+                            </form>
 
-                            <Button nome="entrar" classname="Button" />
-                        </Main_content >
+                            <Button nome="entrar" classname="Button-emp" />
+                        </div >
 
-                    </Content>
-                </Container>
+                    </section>
+                </section>
 
             </body>
 

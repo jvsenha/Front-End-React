@@ -38,16 +38,7 @@ hr{
     margin: 0;
     padding: 0;
 }
-.table{
-    width: 100%;
-    height: auto;
-    position: absolute;
-    top: 10%;
-    left: 0;
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 1%;
-}
+
 .icon-filter-search,
 .icon-filter-search * {
   box-sizing: border-box;

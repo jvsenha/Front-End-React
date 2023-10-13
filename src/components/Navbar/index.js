@@ -44,7 +44,7 @@ const Navbar = ({page}) => {
           </div>
           <ul className="nav-links">
             <li>
-              <a href="#">
+              <a>
                 <i className='bx bx-grid-alt' ></i>
                 <Link to="/homeemp" className="link_name">Dashboard</Link>
               </a>
@@ -54,59 +54,59 @@ const Navbar = ({page}) => {
             </li>
             <li>
               <div className="iocn-link">
-                <a href="#">
+                <a>
                 <i className='bx bx-user' ></i>
                   <span className="link_name">Clientes</span>
                 </a>
                 <i className='bx bxs-chevron-down arrow' ></i>
               </div>
               <ul className="sub-menu">
-                <li><a className="link_name" href="#">Clientes</a></li>
+                <li><a className="link_name">Clientes</a></li>
                 <li><Link to="/listCliente-emp" >Lista de Clientes</Link></li>
                 <li><Link to="/cadCliente-emp" >Cadastrar Cliente </Link></li>
               </ul>
             </li>
             <li>
               <div className="iocn-link">
-                <a href="#">
+                <a>
                 <i className='bx bxs-folder-open'></i>
                   <span className="link_name">Arquivos</span>
                 </a>
                 <i className='bx bxs-chevron-down arrow' ></i>
               </div>
               <ul className="sub-menu">
-                <li><a className="link_name" href="#">Arquivos</a></li>
+                <li><a className="link_name">Arquivos</a></li>
                 <li><Link to="/listArquivo-emp" >Lista de Arquivo</Link></li>
                 <li><Link to="/cadArquivo-emp" >Cadastrar Arquivos </Link></li>
                
               </ul>
             </li>
             <li>
-              <a href="#">
-              <i class='bx bxs-trash-alt'></i>
+              <a>
+              <i className='bx bxs-trash-alt'></i>
                 <span className="link_name">Lixeira</span>
               </a>
               <ul className="sub-menu blank">
-                <li><a className="link_name" href="#">Lixeira</a></li>
+                <li><a className="link_name">Lixeira</a></li>
               </ul>
             </li>
             <li>
-            <a href="#">
-            <i class='bx bx-cloud-upload'></i>
+            <a>
+            <i className='bx bx-cloud-upload'></i>
               <span className="link_name">Backup</span>
             </a>
             <ul className="sub-menu blank">
-              <li><a className="link_name" href="#">Backup</a></li>
+              <li><a className="link_name">Backup</a></li>
             </ul>
           </li>
            
             <li>
-              <a href="#">
+              <a>
                 <i className='bx bx-cog' ></i>
                 <span className="link_name">Setting</span>
               </a>
               <ul className="sub-menu blank">
-                <li><a className="link_name" href="#">Setting</a></li>
+                <li><a className="link_name">Setting</a></li>
               </ul>
             </li>
             <li>

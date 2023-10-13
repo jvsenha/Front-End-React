@@ -1,0 +1,35 @@
+.Container {
+    width: 80%;
+    height: 80%;
+    flex-shrink: 0;
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
+}
+
+.Content {
+    width: 50%;
+    height: 100%;
+    background: #FFF;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark {
+    background: rgba(0, 0, 0, 0.89);
+    color: white;
+    float: right;
+}
+
+.Main_content {
+    width: 300px;
+    position: relative;
+    margin: 10% 10%;
+
+}
+
+
+.FormLogin {
+    margin-bottom: 3em;
+}
