@@ -1,139 +1,16 @@
-import React, { useEffect } from 'react';
+
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
 import "./style.css";
-import { Link } from 'react-router-dom';
 
-const Navbar = ({page}) => {
-    useEffect(() => {
-        const handleArrowClick = (e) => {
-          const arrowParent = e.target.parentElement.parentElement; // selecionando o elemento pai principal da seta
-          arrowParent.classList.toggle("showMenu");
-        };
-    
-        const handleSidebarClick = () => {
-          const sidebar = document.querySelector(".sidebar");
-          sidebar.classList.toggle("close");
-        };
-    
-        const arrow = document.querySelectorAll(".arrow");
-        for (let i = 0; i < arrow.length; i++) {
-          arrow[i].addEventListener("click", handleArrowClick);
-        }
-    
-        const sidebarBtn = document.querySelector(".bx-menu");
-        sidebarBtn.addEventListener("click", handleSidebarClick);
-    
-        // Remover os ouvintes de evento quando o componente é desmontado
-        return () => {
-          for (let i = 0; i < arrow.length; i++) {
-            arrow[i].removeEventListener("click", handleArrowClick);
-          }
-          sidebarBtn.removeEventListener("click", handleSidebarClick);
-        };
-      }, []); 
 
-    return (
-        <>
-        
-        <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet" />
-        
-        
-        <div className="sidebar close">
-          <div className="logo-details">
-            <span className="logo_name"> <img className='logo' src={Logo} alt="" /></span>
-          </div>
-          <ul className="nav-links">
-            <li>
-              <a>
-                <i className='bx bx-grid-alt' ></i>
-                <Link to="/homeemp" className="link_name">Dashboard</Link>
-              </a>
-              <ul className="sub-menu blank">
-                <li><Link to="/homeemp" className="link_name">Dashboard</Link></li>
-              </ul>
-            </li>
-            <li>
-              <div className="iocn-link">
-                <a>
-                <i className='bx bx-user' ></i>
-                  <span className="link_name">Clientes</span>
-                </a>
-                <i className='bx bxs-chevron-down arrow' ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><a className="link_name">Clientes</a></li>
-                <li><Link to="/listCliente-emp" >Lista de Clientes</Link></li>
-                <li><Link to="/cadCliente-emp" >Cadastrar Cliente </Link></li>
-              </ul>
-            </li>
-            <li>
-              <div className="iocn-link">
-                <a>
-                <i className='bx bxs-folder-open'></i>
-                  <span className="link_name">Arquivos</span>
-                </a>
-                <i className='bx bxs-chevron-down arrow' ></i>
-              </div>
-              <ul className="sub-menu">
-                <li><a className="link_name">Arquivos</a></li>
-                <li><Link to="/listArquivo-emp" >Lista de Arquivo</Link></li>
-                <li><Link to="/cadArquivo-emp" >Cadastrar Arquivos </Link></li>
-               
-              </ul>
-            </li>
-            <li>
-              <a>
-              <i className='bx bxs-trash-alt'></i>
-                <span className="link_name">Lixeira</span>
-              </a>
-              <ul className="sub-menu blank">
-                <li><a className="link_name">Lixeira</a></li>
-              </ul>
-            </li>
-            <li>
-            <a>
-            <i className='bx bx-cloud-upload'></i>
-              <span className="link_name">Backup</span>
-            </a>
-            <ul className="sub-menu blank">
-              <li><a className="link_name">Backup</a></li>
-            </ul>
-          </li>
-           
-            <li>
-              <a>
-                <i className='bx bx-cog' ></i>
-                <span className="link_name">Setting</span>
-              </a>
-              <ul className="sub-menu blank">
-                <li><a className="link_name">Setting</a></li>
-              </ul>
-            </li>
-            <li>
-          <div className="profile-details">
-            <div className="profile-content">
-              
-            </div>
-            <div className="name-job">
-              <div className="profile_name">Prem Shahi</div>
-              <div className="job">Web Desginer</div>
-            </div>
-            <i className='bx bx-log-out' ></i>
-          </div>
-        </li>
-      </ul>
-        </div>
-        <section className="home-section">
-          <div className="home-content">
-            <i className='bx bx-menu' ></i>
-            <span className="text">{page}</span>
-          </div>
-        </section>
-        
-  
-    
-        </>
-    );
-}
+const Navbar = ({placeholder,label, eventoTeclado, name, obj}) => {
+  return (
+    <>
+   <nav className="nav">
+   <img className="img-nav" src={Logo} alt="" />
+   </nav>
+    </>
+  );
+};
 
 export default Navbar;

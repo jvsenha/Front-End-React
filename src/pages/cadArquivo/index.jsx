@@ -1,17 +1,17 @@
 import "./style.css"
-import Navbar from "../../components/Navbar"
+import Sidebar from "../../components/Sidebar"
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 
 
-const CadArquivo_Emp = () =>{
+const CadArquivoEmp = () =>{
     
     
     return (
 
         <>
 
-            <Navbar page="Cadastrar arquivo" />
+            <Sidebar page="Cadastrar arquivo" />
 
             < div className="Main">
                 <form className="Form" >
@@ -44,4 +44,4 @@ const CadArquivo_Emp = () =>{
 }
 
 
-export {CadArquivo_Emp};
+export {CadArquivoEmp};

@@ -16,8 +16,10 @@ body {
     width: 100vw;
     height: 100vh;
     display: flex;
-
     align-items: center;
-
+    justify-content: center;
+}
+#root{
+    display: flex;
     justify-content: center;
 }

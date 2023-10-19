@@ -1,9 +1,9 @@
 import "./style.css"
-import Navbar from "../../components/Navbar"
+import Sidebar from "../../components/Sidebar"
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import { useState } from "react";
-const Cadcliente_Emp = () => {
+const CadClienteEmp = () => {
     //Objeto cliente
     const cliente = {
         idCliente: 0,
@@ -23,12 +23,14 @@ const Cadcliente_Emp = () => {
 
     // dados dos formularios
     const cadastrar = () => {
+        const token = localStorage.getItem('token');
         fetch('http://localhost:8080/auth/cadastrar', {
             method: 'POST',
             body: JSON.stringify(objCliente),
             headers: {
                 'Content-type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
             .then(retorno => retorno.json())
@@ -53,7 +55,7 @@ const Cadcliente_Emp = () => {
     return (
         <>
 
-            <Navbar page="Cadastrar cliente" />
+            <Sidebar page="Cadastrar cliente" />
 
             < div className="Main">
                 <form className="Form">
@@ -86,4 +88,4 @@ const Cadcliente_Emp = () => {
     )
 }
 
-export { Cadcliente_Emp };
+export { CadClienteEmp };

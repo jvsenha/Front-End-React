@@ -1,6 +1,6 @@
 import "./style.css"
-import Navbar from "../../components/Navbar"
-import Input from '../../components/Input'
+import Sidebar from "../../components/Sidebar";
+import Input from '../../components/Input';
 import Button from '../../components/Button';
 import LinkButton from '../../components/Link-Button';
 import { useEffect, useState } from "react";
@@ -17,7 +17,15 @@ const AlterarCliente = () => {
 
     // useEffect para carregar os dados do cliente
     useEffect(() => {
-        fetch(`http://localhost:8080/cliente/carregar/${idUser}`)
+        const token = localStorage.getItem('token');
+        fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then(retorno => retorno.json())
             .then(retorno_convert => {
                 // Define os estados com os valores obtidos da API
@@ -44,12 +52,15 @@ const AlterarCliente = () => {
             role: "USER"
         };
 
+
+        const token = localStorage.getItem('token');
         fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
             method: 'PUT',
             body: JSON.stringify(dadosAtualizados),
             headers: {
                 'Content-type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         })
 
@@ -66,7 +77,7 @@ const AlterarCliente = () => {
     return (
         <>
 
-            <Navbar page="Alterar cliente" />
+            <Sidebar page="Alterar cliente" />
 
             < div className="Main">
                 <form className="Form">
@@ -87,7 +98,7 @@ const AlterarCliente = () => {
                     </div>
                     <div className="button">
                         <Button nome="Alterar" classname="Alterar" funcao={alterar} />
-                        <LinkButton nome="Voltar" classname="Voltar" link="/listCliente-emp" />
+                        <LinkButton nome="Voltar" classname="Voltar" link="/listCliente" />
                     </div>
                 </form>
 

@@ -1,11 +1,14 @@
 import {Main } from "./style"
-import Navbar from "../../components/Navbar"
+import Sidebar from "../../components/Sidebar"
 
-const Home_Emp = () => {
+
+const HomeEmp = () => {
+    const token = localStorage.getItem('token');
+    
     return (
         <>
 
-            <Navbar page="Dashboard" />
+            <Sidebar page="Dashboard" />
             <Main>
 
             </Main>
@@ -13,4 +16,4 @@ const Home_Emp = () => {
     )
 }
 
-export { Home_Emp };
+export { HomeEmp };

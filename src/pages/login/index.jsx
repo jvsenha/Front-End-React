@@ -21,10 +21,11 @@ const Home = () => {
             }
         }).then(retorno => retorno.json())
             .then(retorno_convert => {
-                if (retorno_convert.mensagem !== undefined) {
-                    alert(retorno_convert.mensagem)
+                if (retorno_convert.message !== undefined) {
+                    alert(retorno_convert.message)
                 } else {
-                    window.location.assign("http://localhost:3000/homeemp")
+                    localStorage.setItem('token', retorno_convert.token);
+                    window.location.assign("http://localhost:3000/homeclt")
                 }
 
             })

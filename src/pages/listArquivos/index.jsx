@@ -1,56 +1,40 @@
-
-import Navbar from "../../components/Navbar"
+import Sidebar from "../../components/Sidebar";
 import Search from "../../components/Search"
 import Table from "../../components/Tabela"
 import "./style.css"
 import { useEffect, useState } from "react"
 
-const ListCliente_emp = () => {
-
-
-
-
-
+const ListArquivosEmp  = () => {
 
     //usueState cliente
-    const [clientes, setClientes] = useState([]);
-
+    const [arquivos, setArquivos] = useState([]);
 
     //useEffect
     useEffect(() => {
-        fetch("http://localhost:8080/cliente/listar")
+        // Recupere o token do localStorage
+        const token = localStorage.getItem('token');
+    
+        // Verifique se o token existe antes de fazer a requisição
+        if (token) {
+            fetch("http://localhost:8080/listar", {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             .then(retorno => retorno.json())
-            .then(retorno_convert => setClientes(retorno_convert));
+            .then(retorno_convert => setArquivos(retorno_convert));
+        } else {
+            // Lidere com o caso em que o token não está disponível (por exemplo, redirecione o usuário para fazer login)
+        }
     }, []);
-
-    // REMOVER PRODUTO
-    const remover = (userId) => {
-        fetch(`http://localhost:8080/cliente/remover/${userId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                alert(retorno_convert.message);
-                fetch("http://localhost:8080/cliente/listar")
-                    .then(retorno => retorno.json())
-                    .then(retorno_convert => setClientes(retorno_convert));
-            });
-    }
-
-    //ALTERAR PRODUTOS
-    const alterar = (indice) =>{
-        setClientes(clientes[indice]);
-        
-    }
 
     return (
         <>
 
-            <Navbar page="Lista de cliente" />
+            <Sidebar page="Lista de Arquivos" />
             < section className="Main">
                 <section className="header">
                     <h1>Clientes</h1>
@@ -69,10 +53,10 @@ const ListCliente_emp = () => {
                     <hr />
                 </section>
                 <section className="table">
-                    <Table vetor={clientes} onRemover={remover} onAlterar={alterar} />
+                    <Table vetor={arquivos} />
 
                 </section>
-
+        
 
             </section>
 
@@ -81,5 +65,5 @@ const ListCliente_emp = () => {
     )
 }
 
-export { ListCliente_emp }
+export { ListArquivosEmp }
 

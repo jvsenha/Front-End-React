@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-const Table = ({ vetor, onRemover, onAlterar }) => {
+const Table = ({ vetor, onRemover }) => {
     const [openMenus, setOpenMenus] = useState({}); // Estado para controlar os menus abertos
 
     const openMenu = (id) => {
@@ -39,25 +39,25 @@ const Table = ({ vetor, onRemover, onAlterar }) => {
                 <div className="tbl-content">
                     <table cellPadding="0" cellSpacing="0" border="0">
                         <tbody>
-                            {vetor.map((obj, indice) => (
-                                <tr key={indice}>
-                                    <td>{obj.idUser}</td>
-                                    <td>{obj.login}</td>
-                                    <td>{obj.nomeUser}</td>
-                                    <td>{obj.emailCliente}</td>
+                            {vetor.map((cliente) => (
+                                <tr key={cliente.nomeUser}>
+                                    <td>{cliente.idUser}</td>
+                                    <td>{cliente.login}</td>
+                                    <td>{cliente.nomeUser}</td>
+                                    <td>{cliente.emailCliente}</td>
                                     <td>
                                     <i class='bx bx-link'></i>
                                     </td>
                                     <td>
                                         <div className="options"
-                                            onMouseOver={() => openMenu(obj.idUser)} // Abrir o menu quando o mouse passar sobre o ícone
-                                            onMouseOut={() => closeMenu(obj.idUser)}>
+                                            onMouseOver={() => openMenu(cliente.idUser)} // Abrir o menu quando o mouse passar sobre o ícone
+                                            onMouseOut={() => closeMenu(cliente.idUser)}>
                                             <span className="options-trigger" >
-                                                {openMenus[obj.idUser] ? <i className="bx bx-x"></i> : <i className="bx bx-dots-horizontal-rounded"></i>}
+                                                {openMenus[cliente.idUser] ? <i className="bx bx-x"></i> : <i className="bx bx-dots-horizontal-rounded"></i>}
                                             </span>
-                                            <ul className={`menu-options ${openMenus[obj.idUser] ? 'show' : ''}`}>
-                                                <li onClick={() => onRemover(obj.idUser)} className='link-li'>Deletar</li>
-                                                <li><Link to={`/alterarCliente/${obj.idUser}`} className='link-li'>Alterar</Link></li>
+                                            <ul className={`menu-options ${openMenus[cliente.idUser] ? 'show' : ''}`}>
+                                                <li onClick={() => onRemover(cliente.idUser)} className='link-li'>Deletar</li>
+                                                <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
                                             </ul>
                                         </div>
 
