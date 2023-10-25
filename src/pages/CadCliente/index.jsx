@@ -12,7 +12,8 @@ const CadClienteEmp = () => {
         senhaUser: "",
         pastaCliente: "",
         emailCliente: "",
-        role: "USER"
+        role: "USER",
+        isEnabled:"true"
     }
     const [objCliente, setObjCliente] = useState(cliente);
 
@@ -60,14 +61,14 @@ const CadClienteEmp = () => {
             < div className="Main">
                 <form className="Form">
                     <div className="input-cad">
-                        <Input placeholder="Name" label="Name" name="nomeUser" eventoTeclado={digitar} obj={objCliente.nomeUser} />
+                        <Input placeholder="Nome do cliente" label="Nome do cliente" name="nomeUser" eventoTeclado={digitar} obj={objCliente.nomeUser} />
                     </div>
                     <div className="input-cad">
                         <Input className="input-cad" placeholder="Email" name="emailCliente" label="Email" eventoTeclado={digitar} obj={objCliente.emailCliente} />
 
                     </div>
                     <div className="input-cad">
-                        <Input className="input-cad" placeholder="Nome de Usuario" name="login" label="Nome de Usuario" eventoTeclado={digitar} obj={objCliente.login} />
+                        <Input className="input-cad" placeholder="Login" name="login" label="Login" eventoTeclado={digitar} obj={objCliente.login} />
 
                     </div>
                     <div className="input-cad">

@@ -12,23 +12,44 @@ const Home = () => {
     const [objCredeciais, setObjCredeciais] = useState(Credeciais);
 
     const logar = () => {
-        fetch('http://localhost:8080/auth/login', {
-            method: 'POST',
-            body: JSON.stringify(objCredeciais),
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(retorno => retorno.json())
-            .then(retorno_convert => {
-                if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message)
-                } else {
-                    localStorage.setItem('token', retorno_convert.token);
-                    window.location.assign("http://localhost:3000/homeclt")
+        const token = localStorage.getItem('token');
+        if (token === null) {
+            fetch('http://localhost:8080/auth/login', {
+                method: 'POST',
+                body: JSON.stringify(objCredeciais),
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
                 }
-
             })
+                .then(retorno => retorno.json())
+                .then(retorno_convert => {
+                    if (retorno_convert.message !== undefined) {
+                        alert(retorno_convert.message);
+                    } else {
+                        // Armazene o token no localStorage
+                        localStorage.setItem('token', retorno_convert.token);
+                        window.location.assign("http://localhost:3000/homeclt");
+                    }
+                });
+        } else {
+            fetch('http://localhost:8080/auth/validarToken', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(retorno => retorno.json()).then(retorno_convert => {
+                    if (retorno_convert.message !== undefined) {
+                        alert(retorno_convert.message);
+                    } else {
+                        window.location.assign("http://localhost:3000/homeclt")
+                    }
+                });
+        }
+
     }
 
     const digitar = (e) => {

@@ -13,6 +13,9 @@ const HomeCliente = () => {
                     Arquivo
                 </h1>
                 <Search />
+                <form>
+                    
+                </form>
             </section>
          
         </>

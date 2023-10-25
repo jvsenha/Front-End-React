@@ -3,7 +3,7 @@ import Sidebar from "../../components/Sidebar"
 
 
 const HomeEmp = () => {
-    const token = localStorage.getItem('token');
+    
     
     return (
         <>

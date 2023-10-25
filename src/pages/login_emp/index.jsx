@@ -3,7 +3,7 @@ import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
 import { useState } from "react";
-import { token } from "stylis";
+
 const LoginEmp = () => {
     const Credeciais = {
         login: "",
@@ -12,24 +12,44 @@ const LoginEmp = () => {
     const [objCredeciais, setObjCredeciais] = useState(Credeciais);
 
     const logar = () => {
-        fetch('http://localhost:8080/auth/loginemp', {
-            method: 'POST',
-            body: JSON.stringify(objCredeciais),
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        .then(retorno => retorno.json())
-        .then(retorno_convert => {
-            if (retorno_convert.message !== undefined) {
-                alert(retorno_convert.message);
-            } else {
-                // Armazene o token no localStorage
-                localStorage.setItem('token', retorno_convert.token);
-                window.location.assign("http://localhost:3000/homeemp");
-            }
-        });
+        const token = localStorage.getItem('token');
+        if (token === null) {
+            fetch('http://localhost:8080/auth/loginemp', {
+                method: 'POST',
+                body: JSON.stringify(objCredeciais),
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+                .then(retorno => retorno.json())
+                .then(retorno_convert => {
+                    if (retorno_convert.message !== undefined) {
+                        alert(retorno_convert.message);
+                    } else {
+                        // Armazene o token no localStorage
+                        localStorage.setItem('token', retorno_convert.token);
+                        window.location.assign("http://localhost:3000/homeemp");
+                    }
+                });
+        } else {
+            fetch('http://localhost:8080/auth/validarToken', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(retorno => retorno.json()).then(retorno_convert => {
+                    if (retorno_convert.message !== undefined) {
+                        alert(retorno_convert.message);
+                    } else {
+                        window.location.assign("http://localhost:3000/homeemp")
+                    }
+                });
+        }
+
     }
 
     const digitar = (e) => {

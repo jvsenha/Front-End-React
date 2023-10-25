@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-const Table = ({ vetor, onRemover }) => {
-    const [openMenus, setOpenMenus] = useState({}); // Estado para controlar os menus abertos
-
-    const openMenu = (id) => {
-        setOpenMenus((prevOpenMenus) => ({
-            ...prevOpenMenus,
-            [id]: true, // Abrir o menu quando o mouse passar sobre o ícone
+const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
+    const [statusClientes, setStatusClientes] = useState({});
+    const [clientes, setClientes] = useState([]);
+    const openMenu = (userId) => {
+        setStatusClientes((prevStatus) => ({
+            ...prevStatus,
+            [userId]: 'show',
         }));
     };
 
-    const closeMenu = (id) => {
-        setOpenMenus((prevOpenMenus) => ({
-            ...prevOpenMenus,
-            [id]: false, // Fechar o menu quando o mouse sair do ícone
+    const closeMenu = (userId) => {
+        setStatusClientes((prevStatus) => ({
+            ...prevStatus,
+            [userId]: 'hidden',
         }));
     };
 
@@ -46,21 +46,29 @@ const Table = ({ vetor, onRemover }) => {
                                     <td>{cliente.nomeUser}</td>
                                     <td>{cliente.emailCliente}</td>
                                     <td>
-                                    <i class='bx bx-link'></i>
+                                        <Link to={`/cadArquivo/${cliente.idUser}`}><i class='bx bx-link'></i></Link>
                                     </td>
                                     <td>
                                         <div className="options"
-                                            onMouseOver={() => openMenu(cliente.idUser)} // Abrir o menu quando o mouse passar sobre o ícone
+                                            onMouseOver={() => openMenu(cliente.idUser)}
                                             onMouseOut={() => closeMenu(cliente.idUser)}>
-                                            <span className="options-trigger" >
-                                                {openMenus[cliente.idUser] ? <i className="bx bx-x"></i> : <i className="bx bx-dots-horizontal-rounded"></i>}
+                                            <span className="options-trigger">
+                                                {statusClientes[cliente.idUser] === 'show' ? <i className="bx bx-x"></i> : <i className="bx bx-dots-horizontal-rounded"></i>}
                                             </span>
-                                            <ul className={`menu-options ${openMenus[cliente.idUser] ? 'show' : ''}`}>
+                                            <ul className={`menu-options ${statusClientes[cliente.idUser] === 'show' ? 'show' : ''}`}>
                                                 <li onClick={() => onRemover(cliente.idUser)} className='link-li'>Deletar</li>
                                                 <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
+                                                {cliente.isEnabled === 'Ativar' ? (
+                                                    <li onClick={() => onAtivar(cliente.idUser, 'Ativar')} className="link-li">
+                                                        Ativar
+                                                    </li>
+                                                ) : (
+                                                    <li onClick={() => onInativar(cliente.idUser, 'Inativar')} className="link-li">
+                                                        Inativar
+                                                    </li>
+                                                )}
                                             </ul>
                                         </div>
-
                                     </td>
                                 </tr>
                             ))}
@@ -72,4 +80,4 @@ const Table = ({ vetor, onRemover }) => {
     );
 };
 
-export default Table;
+export default Tabela;
