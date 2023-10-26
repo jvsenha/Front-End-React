@@ -4,7 +4,7 @@ import "./style.css";
 import { Link } from 'react-router-dom';
 
 const Side = ({ page }) => {
-  const token = localStorage.getItem('token');
+  
   useEffect(() => {
     const handleArrowClick = (e) => {
       const arrowParent = e.target.parentElement.parentElement; // selecionando o elemento pai principal da seta

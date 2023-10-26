@@ -25,9 +25,6 @@
     border-radius: var(--border-radius);
     transition: border-radius 0.5s ease;
     background: var(--input-bg,#000000);
-    position: absolute;
-    top: 0;
-    right: 0;
     margin: .5em  1em;
   }
   /* styling of Input */

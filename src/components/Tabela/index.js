@@ -4,7 +4,7 @@ import './style.css';
 
 const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
     const [statusClientes, setStatusClientes] = useState({});
-    const [clientes, setClientes] = useState([]);
+    
     const openMenu = (userId) => {
         setStatusClientes((prevStatus) => ({
             ...prevStatus,
@@ -21,7 +21,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
 
     return (
         <>
-            <section className="section-table">
+            
                 <div className="tbl-header">
                     <table cellPadding="0" cellSpacing="0" border="0">
                         <thead>
@@ -75,7 +75,6 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                         </tbody>
                     </table>
                 </div>
-            </section>
         </>
     );
 };

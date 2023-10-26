@@ -7,9 +7,22 @@
     display: flex;
     width: 90%;
     height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 }
 
 .Title {
     padding: 1%;
+    margin:  0 0 0 1%;
+    font-size: 40px;
     font-weight: 300;
+}
+
+.section-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between
 }

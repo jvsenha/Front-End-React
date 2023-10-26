@@ -1,0 +1,22 @@
+
+
+.table-cliente {
+  width: 100%;
+  table-layout: fixed;
+}
+
+
+.table-cliente  th:nth-last-child(-n + 2) {
+  width: auto;
+}
+
+.table-cliente th:nth-child(-n + 1) {
+  width: auto;
+}
+.table-cliente  td:nth-last-child(-n + 2) {
+  width: auto;
+}
+
+.table-cliente td:nth-child(-n + 1) {
+  width: auto;
+}

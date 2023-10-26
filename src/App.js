@@ -41,7 +41,7 @@ function App() {
         }
       });
     }
-  }, []);
+  }, [token]);
 
   return (
     <Router>

@@ -24,13 +24,7 @@ th {
 
 }
 
-th:nth-last-child(-n + 2) {
-  width: 8%;
-}
 
-th:nth-child(-n + 1) {
-  width: 8%;
-}
 
 td {
   padding: 15px;

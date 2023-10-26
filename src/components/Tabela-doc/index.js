@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-const Tabela_doc = ({ vetor, onRemover }) => {
+const Tabledoc = ({ vetor, onRemover }) => {
     const [statusArquivos, setStatusArquivos] = useState({});
 
     const openMenu = (idDocumento) => {
@@ -76,4 +76,4 @@ const Tabela_doc = ({ vetor, onRemover }) => {
       </>
     );
   };
-export default Tabela_doc;
+export default Tabledoc;
