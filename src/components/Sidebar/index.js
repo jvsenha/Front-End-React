@@ -4,7 +4,7 @@ import "./style.css";
 import { Link } from 'react-router-dom';
 
 const Side = ({ page }) => {
-  
+
   useEffect(() => {
     const handleArrowClick = (e) => {
       const arrowParent = e.target.parentElement.parentElement; // selecionando o elemento pai principal da seta
@@ -35,7 +35,7 @@ const Side = ({ page }) => {
 
   const logout = () => {
     const token = localStorage.getItem('token');
-  
+
     fetch('http://localhost:8080/auth/logout', {
       method: 'POST',
       headers: {
@@ -55,7 +55,7 @@ const Side = ({ page }) => {
         alert(error.message);
       });
   }
-  
+
 
   return (
     <>
@@ -69,11 +69,13 @@ const Side = ({ page }) => {
         </div>
         <ul className="nav-links">
           <li>
-            <Link>
-              <i className='bx bx-grid-alt' ></i>
-              <Link to="/homeemp" className="link_name">Dashboard</Link>
-            </Link>
-            <ul className="sub-menu blank">
+            <div className="iocn-link">
+              <Link to="/homeemp" className="link_name">
+                <i className='bx bx-grid-alt' ></i>
+                <span className="link_name">Dashboard</span>
+              </Link>
+            </div>
+            <ul className="sub-menu">
               <li><Link to="/homeemp" className="link_name">Dashboard</Link></li>
             </ul>
           </li>

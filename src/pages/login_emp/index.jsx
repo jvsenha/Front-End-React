@@ -58,7 +58,7 @@ const LoginEmp = () => {
 
     return (
         <>
-            <body>
+             <section className="body-container">
                 <section className="Container-emp">
                     <section className="Content-emp dark-emp">
                         <img src={Logo} alt="" />
@@ -79,7 +79,7 @@ const LoginEmp = () => {
                     </section>
                 </section>
 
-            </body>
+            </section>
 
         </>
     );

@@ -46,7 +46,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                                     <td>{cliente.nomeUser}</td>
                                     <td>{cliente.emailCliente}</td>
                                     <td>
-                                        <Link to={`/cadArquivo/${cliente.idUser}`}><i class='bx bx-link'></i></Link>
+                                        <Link to={`/cadArquivo/${cliente.idUser}`}><i className='bx bx-link'></i></Link>
                                     </td>
                                     <td>
                                         <div className="options"
@@ -58,13 +58,13 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                                             <ul className={`menu-options ${statusClientes[cliente.idUser] === 'show' ? 'show' : ''}`}>
                                                 <li onClick={() => onRemover(cliente.idUser)} className='link-li'>Deletar</li>
                                                 <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
-                                                {cliente.isEnabled === 'Ativar' ? (
-                                                    <li onClick={() => onAtivar(cliente.idUser, 'Ativar')} className="link-li">
-                                                        Ativar
+                                                {cliente.isEnabled === 'Ativo' ? (
+                                                    <li onClick={() => onAtivar(cliente.idUser, 'Inativar')} className="link-li">
+                                                    Inativar
                                                     </li>
                                                 ) : (
-                                                    <li onClick={() => onInativar(cliente.idUser, 'Inativar')} className="link-li">
-                                                        Inativar
+                                                    <li onClick={() => onInativar(cliente.idUser, 'Ativar')} className="link-li">
+                                                        Ativar
                                                     </li>
                                                 )}
                                             </ul>

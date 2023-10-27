@@ -28,8 +28,8 @@ const Tabledoc = ({ vetor, onRemover }) => {
                 <tr>
                   <th>id</th>
                   <th>Usuário</th>
-                  <th>Nome do Documento</th>
-                  <th>Tamanho do Documento</th>
+                  <th>Nome </th>
+                  <th>Tamanho </th>
                   <th>Link</th>
                   <th> </th>
                 </tr>

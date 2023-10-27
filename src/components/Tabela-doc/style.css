@@ -1,5 +1,5 @@
 table {
-  width: 90%;
+  width: 100%;
 
   table-layout: fixed;
 }
@@ -21,7 +21,6 @@ th {
   font-size: 15px;
   color: #000000;
   text-transform: uppercase;
-
 }
 
 
@@ -36,13 +35,7 @@ td {
 
 }
 
-td:nth-last-child(-n + 2) {
-  width: 8%;
-}
 
-td:nth-child(-n + 1) {
-  width: 8%;
-}
 
 i {
   font-size: 35px;

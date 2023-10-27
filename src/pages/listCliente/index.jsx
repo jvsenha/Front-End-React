@@ -24,13 +24,14 @@ const ListClienteEmp = () => {
                     const data = await response.json();
                     const updatedClientes = data.map((cliente) => {
                         const isEnabled = cliente.enabled;
-                        statusRef.current = !isEnabled ? 'Ativar' : 'Inativar';
+                        const status = isEnabled ? 'Ativo' : 'Inativo'; // Altera a lógica aqui
+
                         return {
                             idUser: cliente.idUser,
                             login: cliente.login,
                             nomeUser: cliente.nomeUser,
                             emailCliente: cliente.emailCliente,
-                            isEnabled: statusRef,
+                            isEnabled: status, // Atribui o valor 'status' a isEnabled
                         };
                     });
                     setClientes(updatedClientes);

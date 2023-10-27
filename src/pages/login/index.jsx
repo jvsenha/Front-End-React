@@ -59,7 +59,7 @@ const Home = () => {
 
 return (
     <>
-        <body>
+        <section className="body-container">
             <section className="Container">
                 <section className="Content" >
                     <div className="Main_content" >
@@ -81,7 +81,7 @@ return (
                 </section>
             </section>
 
-        </body>
+        </section>
 
     </>
 );

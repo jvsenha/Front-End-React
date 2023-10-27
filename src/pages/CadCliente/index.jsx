@@ -58,32 +58,32 @@ const CadClienteEmp = () => {
 
             <Sidebar page="Cadastrar cliente" />
 
-            < div className="Main">
+            <section className="Main-listC">
                 <form className="Form">
-                    <div className="input-cad">
+                    <div className="input-cadC">
                         <Input placeholder="Nome do cliente" label="Nome do cliente" name="nomeUser" eventoTeclado={digitar} obj={objCliente.nomeUser} />
                     </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Email" name="emailCliente" label="Email" eventoTeclado={digitar} obj={objCliente.emailCliente} />
+                    <div className="input-cadC">
+                        <Input className="input-cadC" placeholder="Email" name="emailCliente" label="Email" eventoTeclado={digitar} obj={objCliente.emailCliente} />
 
                     </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Login" name="login" label="Login" eventoTeclado={digitar} obj={objCliente.login} />
+                    <div className="input-cadC">
+                        <Input className="input-cadC" placeholder="Login" name="login" label="Login" eventoTeclado={digitar} obj={objCliente.login} />
 
                     </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Senha" name="senhaUser" label="Senha" eventoTeclado={digitar} obj={objCliente.senhaUser} />
+                    <div className="input-cadC">
+                        <Input className="input-cadC" placeholder="Senha" name="senhaUser" label="Senha" eventoTeclado={digitar} obj={objCliente.senhaUser} />
 
                     </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Pasta" label="Pasta" name="pastaCliente" eventoTeclado={digitar} obj={objCliente.pastaCliente} />
+                    <div className="input-cadC">
+                        <Input className="input-cadC" placeholder="Pasta" label="Pasta" name="pastaCliente" eventoTeclado={digitar} obj={objCliente.pastaCliente} />
                     </div>
                     <div className="button">
                         <Button nome="Cadastrar" classname="Cadastrar" funcao={cadastrar} />
                     </div>
                 </form>
 
-            </div>
+            </section>
 
         </>
     )
