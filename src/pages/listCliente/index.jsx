@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Search from '../../components/Search';
 import Tabela from '../../components/Tabela'; // Substituí "Tabela" por "Table" no import
-import './style.css';
+import '../../assets/style.css';
 
 const ListClienteEmp = () => {
     const [clientes, setClientes] = useState([]);
@@ -121,7 +121,7 @@ const ListClienteEmp = () => {
                 <Sidebar page="Lista de cliente" />
                 <section className="Main-listC">
                     <section className="header-listC">
-                    <h1 className="Title-emp">
+                    <h1 className="Title">
                         Clientes
                     </h1>
                        

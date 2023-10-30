@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../assets/style.css";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
@@ -61,12 +61,12 @@ const LoginEmp = () => {
              <section className="body-container">
                 <section className="Container-emp">
                     <section className="Content-emp dark-emp">
-                        <img src={Logo} alt="" />
+                        <img className="img-login" src={Logo} alt="" />
                     </section>
                     <section className="Content-emp" >
                         <div className="Main_content" >
                             <h1>
-                                Fazer login
+                                Fazer login - empresa
                             </h1>
                             <form className="FormLogin">
                                 <Input className="input-cad" placeholder="Nome de Usuario" name="login" label="Nome de Usuario" eventoTeclado={digitar} />

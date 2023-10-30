@@ -21,9 +21,9 @@ const Tabledoc = ({ vetor, onRemover }) => {
   
     return (
       <>
-        <section className="section-table">
+       
+      <table className='table-do' cellPadding="0" cellSpacing="0" border="0">
           <div className="tbl-header">
-            <table cellPadding="0" cellSpacing="0" border="0">
               <thead>
                 <tr>
                   <th>id</th>
@@ -34,10 +34,8 @@ const Tabledoc = ({ vetor, onRemover }) => {
                   <th> </th>
                 </tr>
               </thead>
-            </table>
           </div>
           <div className="tbl-content">
-            <table cellPadding="0" cellSpacing="0" border="0">
               <tbody>
                 {vetor.map((arquivo) => (
                   <tr key={arquivo.idDocumento}>
@@ -51,17 +49,17 @@ const Tabledoc = ({ vetor, onRemover }) => {
                       </Link>
                     </td>
                     <td>
-                      <div className="options"
+                      <div className="options-doc"
                         onMouseOver={() => openMenu(arquivo.idDocumento)}
                         onMouseOut={() => closeMenu(arquivo.idDocumento)}>
-                        <span className="options-trigger">
+                        <span className="options-doc-trigger">
                           {statusArquivos[arquivo.idDocumento] === 'show' ? (
                             <i className="bx bx-x"></i>
                           ) : (
                             <i className="bx bx-dots-horizontal-rounded"></i>
                           )}
                         </span>
-                        <ul className={`menu-options ${statusArquivos[arquivo.idDocumento] === 'show' ? 'show' : ''}`}>
+                        <ul className={`menu-options-doc ${statusArquivos[arquivo.idDocumento] === 'show' ? 'show' : ''}`}>
                           <li onClick={() => onRemover(arquivo.idDocumento)} className='link-li'>Deletar</li>
                           <li><Link  className='link-li'>Download </Link></li>
                         </ul>
@@ -70,9 +68,9 @@ const Tabledoc = ({ vetor, onRemover }) => {
                   </tr>
                 ))}
               </tbody>
-            </table>
-          </div>
-        </section>
+              </div>
+              </table>
+       
       </>
     );
   };

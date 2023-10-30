@@ -1,7 +1,7 @@
 import Sidebar from "../../components/Sidebar";
 import Search from "../../components/Search"
 import Tabledoc from "../../components/Tabela-doc"
-import "./style.css"
+import "../../assets/style.css"
 import { useEffect, useState, useMemo } from "react"
 
 const ListArquivosEmp = () => {
@@ -81,9 +81,10 @@ const ListArquivosEmp = () => {
         <>
             <section className='listcliente'>
                 <Sidebar page="Lista de Arquivos" />
+                
                 <section className="Main-listC">
                     <section className="header-listC">
-                    <h1 className="Title-emp">
+                    <h1 className="Title">
                         Arquivo
                     </h1>
                      

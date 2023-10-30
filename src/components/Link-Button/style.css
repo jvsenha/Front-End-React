@@ -1,10 +1,10 @@
-.cta {
+.cta-link {
     border: none;
     background: none;
-
+ margin-top: 1em;
   }
   
-  .cta span {
+  .cta-link span {
     padding-bottom: 7px;
     letter-spacing: 4px;
     font-size: 14px;
@@ -12,16 +12,16 @@
     text-transform: uppercase;
   }
   
-  .cta svg {
+  .cta-link svg {
     transform: translateX(-8px);
     transition: all 0.3s ease;
   }
   
-  .cta:hover svg {
+  .cta-link:hover svg {
     transform: translateX(0);
   }
   
-  .cta:active svg {
+  .cta-link:active svg {
     transform: scale(0.9);
   }
   
@@ -44,7 +44,7 @@
     transition: transform 0.25s ease-out;
   }
   
-  .cta:hover .hover-underline-animation:after {
+  .cta-link:hover .hover-underline-animation:after {
     transform: scaleX(1);
     transform-origin: bottom left;
   }

@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../assets/style.css";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
@@ -76,7 +76,7 @@ return (
 
                 </section>
                 <section className="Content dark">
-                    <img src={Logo} alt="" />
+                    <img  className="img-login" src={Logo} alt="" />
 
                 </section>
             </section>

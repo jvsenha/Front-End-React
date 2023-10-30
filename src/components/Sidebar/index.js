@@ -143,7 +143,7 @@ const Side = ({ page }) => {
                 <div className="profile_name">Prem Shahi</div>
                 <div className="job">Web Desginer</div>
               </div>
-              <button onClick={logout}>
+              <button className='button-side' onClick={logout}>
                 <i className='bx bx-log-out' ></i>
               </button>
             </div>

@@ -26,4 +26,6 @@
     align-items: center;
     position: relative;
     right: -40%;
+    background: transparent;
+    border: 0;
 }
