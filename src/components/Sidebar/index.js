@@ -89,7 +89,8 @@ const Side = ({ page }) => {
             </div>
             <ul className="sub-menu">
               <li><Link className="link_name">Clientes</Link></li>
-              <li><Link to="/listCliente" >Lista de Clientes</Link></li>
+              <li><Link to="/listCliente" >Clientes Ativos</Link></li>
+              <li><Link to="/listClienteInativos" >Clientes Inativos</Link></li>
               <li><Link to="/cadCliente" >Cadastrar Cliente </Link></li>
             </ul>
           </li>
@@ -104,15 +105,6 @@ const Side = ({ page }) => {
             <ul className="sub-menu">
               <li><Link className="link_name">Arquivos</Link></li>
               <li><Link to="/listArquivo" >Lista de Arquivo</Link></li>
-            </ul>
-          </li>
-          <li>
-            <Link >
-              <i className='bx bxs-trash-alt'></i>
-              <span className="link_name">Lixeira</span>
-            </Link>
-            <ul className="sub-menu blank">
-              <li><Link className="link_name">Lixeira</Link></li>
             </ul>
           </li>
           <li>

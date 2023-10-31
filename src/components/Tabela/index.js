@@ -22,8 +22,8 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
     return (
         <>
 
-            <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
-                <div className="tbl-header">
+        <div className="tbl-header">
+        <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -34,8 +34,10 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                             <th> </th>
                         </tr>
                     </thead>
+                    </table>
                 </div>
                 <div className="tbl-content">
+                <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
                     <tbody>
                         {vetor.map((cliente) => (
                             <tr key={cliente.nomeUser}>
@@ -71,8 +73,8 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                             </tr>
                         ))}
                     </tbody>
+                    </table>
                 </div>
-            </table>
         </>
     );
 };

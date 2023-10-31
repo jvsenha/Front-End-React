@@ -22,8 +22,8 @@ const Tabledoc = ({ vetor, onRemover }) => {
     return (
       <>
        
+      <div className="tbl-header">
       <table className='table-do' cellPadding="0" cellSpacing="0" border="0">
-          <div className="tbl-header">
               <thead>
                 <tr>
                   <th>id</th>
@@ -34,8 +34,10 @@ const Tabledoc = ({ vetor, onRemover }) => {
                   <th> </th>
                 </tr>
               </thead>
+              </table>
           </div>
           <div className="tbl-content">
+          <table className='table-do' cellPadding="0" cellSpacing="0" border="0">
               <tbody>
                 {vetor.map((arquivo) => (
                   <tr key={arquivo.idDocumento}>
@@ -68,8 +70,8 @@ const Tabledoc = ({ vetor, onRemover }) => {
                   </tr>
                 ))}
               </tbody>
-              </div>
               </table>
+              </div>
        
       </>
     );
