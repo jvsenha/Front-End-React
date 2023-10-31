@@ -42,8 +42,28 @@ const LoginEmp = () => {
                 }
             })
                 .then(retorno => retorno.json()).then(retorno_convert => {
-                    if (retorno_convert.message !== undefined) {
-                        alert(retorno_convert.message);
+                    const authority = retorno_convert.map(obj => obj.authority);
+                    const authorities = authority.join();
+                    if (authorities !== 'ROLE_EMP') {
+                        localStorage.removeItem("token");
+                        fetch('http://localhost:8080/auth/loginemp', {
+                            method: 'POST',
+                            body: JSON.stringify(objCredeciais),
+                            headers: {
+                                'Content-type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        })
+                            .then(retorno => retorno.json())
+                            .then(retorno_convert => {
+                                if (retorno_convert.message !== undefined) {
+                                    alert(retorno_convert.message);
+                                } else {
+                                    // Armazene o token no localStorage
+                                    localStorage.setItem('token', retorno_convert.token);
+                                    window.location.assign("http://localhost:3000/homeemp");
+                                }
+                            });
                     } else {
                         window.location.assign("http://localhost:3000/homeemp")
                     }
@@ -58,7 +78,7 @@ const LoginEmp = () => {
 
     return (
         <>
-             <section className="body-container">
+            <section className="body-container">
                 <section className="Container-emp">
                     <section className="Content-emp dark-emp">
                         <img className="img-login" src={Logo} alt="" />
