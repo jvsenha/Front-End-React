@@ -37,29 +37,30 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                     </table>
                 </div>
                 <div className="tbl-content">
-                <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
-                    <tbody>
-                        {vetor.map((cliente) => (
-                            <tr key={cliente.nomeUser}>
-                                <td>{cliente.idUser}</td>
-                                <td>{cliente.login}</td>
-                                <td>{cliente.nomeUser}</td>
-                                <td>{cliente.emailCliente}</td>
-                                <td>
-                                    <Link to={`/cadArquivo/${cliente.idUser}`}><i className='bx bx-link'></i></Link>
-                                </td>
-                                <td>
-                                    <div className="options"
-                                        onMouseOver={() => openMenu(cliente.idUser)}
-                                        onMouseOut={() => closeMenu(cliente.idUser)}>
-                                        <span className="options-trigger">
-                                            {statusClientes[cliente.idUser] === 'show' ? <i className="bx bx-x"></i> : <i className="bx bx-dots-horizontal-rounded"></i>}
-                                        </span>
-                                        <ul className={`menu-options ${statusClientes[cliente.idUser] === 'show' ? 'show' : ''}`}>
-                                            <li onClick={() => onRemover(cliente.idUser)} className='link-li'>Deletar</li>
-                                            <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
-                                            {cliente.isEnabled === 'Ativo' ? (
-                                                <li onClick={() => onAtivar(cliente.idUser, 'Inativar')} className="link-li">
+                    <table cellPadding="0" cellSpacing="0" border="0">
+                        <tbody>
+                            {vetor.map((cliente) => (
+                                <tr key={cliente.nomeUser}>
+                                    <td>{cliente.idUser}</td>
+                                    <td>{cliente.login}</td>
+                                    <td>{cliente.nomeUser}</td>
+                                    <td>{cliente.emailCliente}</td>
+                                    <td>
+                                        <Link to={`/cadArquivo/${cliente.pastaCliente}`}><i className='bx bx-link'></i></Link>
+                                    </td>
+                                    <td>
+                                        <div className="options"
+                                            onMouseOver={() => openMenu(cliente.idUser)}
+                                            onMouseOut={() => closeMenu(cliente.idUser)}>
+                                            <span className="options-trigger">
+                                                {statusClientes[cliente.idUser] === 'show' ? <i className="bx bx-x"></i> : <i className="bx bx-dots-horizontal-rounded"></i>}
+                                            </span>
+                                            <ul className={`menu-options ${statusClientes[cliente.idUser] === 'show' ? 'show' : ''}`}>
+                                                <li onClick={() => onRemover(cliente.idUser)} className='link-li'>Deletar</li>
+                                                <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
+                                                {cliente.isEnabled === 'Ativo' ? (
+                                                    <li onClick={() => onAtivar(cliente.idUser, 'Inativar')} className="link-li">
+
                                                     Inativar
                                                 </li>
                                             ) : (

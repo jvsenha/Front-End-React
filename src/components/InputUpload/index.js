@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css'
-const InputUpload = ({ placeholder, label, eventoTeclado, name, obj }) => {
+const InputUpload = ({ onChange, funcao }) => {
   const [fileCount, setFileCount] = useState(0);
 
   const handleFileChange = (e) => {
@@ -9,10 +9,10 @@ const InputUpload = ({ placeholder, label, eventoTeclado, name, obj }) => {
   };
 
   return (
-    <form action="upload.php" className='form-file' method="POST">
-      <input className='form-input' type="file" multiple onChange={handleFileChange} />
+    <form className='form-file'>
+      <input className='form-input' type="file" onChange={onChange} />
       <p className='form-p'>{fileCount} Arquivo(s) selecionados</p>
-      <button  className='form-button' type="submit">Upload</button>
+      <button  onClick={funcao} className='form-button' type="submit">Upload</button>
     </form>
   );
 };

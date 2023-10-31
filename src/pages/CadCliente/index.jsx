@@ -13,7 +13,7 @@ const CadClienteEmp = () => {
         pastaCliente: "",
         emailCliente: "",
         role: "USER",
-        isEnabled:"true"
+        isEnabled: "true"
     }
     const [objCliente, setObjCliente] = useState(cliente);
 
@@ -22,34 +22,59 @@ const CadClienteEmp = () => {
         setObjCliente(cliente)
     }
 
+
     // dados dos formularios
-    const cadastrar = () => {
+    const cadastrar = async () => {
         const token = localStorage.getItem('token');
-        fetch('http://localhost:8080/auth/cadastrar', {
-            method: 'POST',
-            body: JSON.stringify(objCliente),
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message)
-                } else {
-                    alert('cliente Cadastrado com sucesso!!')
-                    limparform();
+        try {
+            const responseCliente = await fetch('http://localhost:8080/auth/cadastrar', {
+                method: 'POST',
+                body: JSON.stringify(objCliente),
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
+            });
 
+            const retorno_convert = await responseCliente.json();
 
-            })
+            if (retorno_convert.message !== undefined) {
+                alert(retorno_convert.message);
+            } else {
+                try {
+                    const response = await fetch('http://localhost:8000/cadastrarPastaNoDrive', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            pastaCliente: objCliente.pastaCliente
+                        })
+                    });
+
+                    if (response.ok) {
+                        const pastaId = await response.text();
+                        setObjCliente({ ...objCliente, pastaCliente: pastaId });
+                        alert('Pasta criada no Google Drive com sucesso!');
+                    } else {
+                        alert('Erro ao criar a pasta no Google Drive.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao criar a pasta no Google Drive:', error);
+                }
+                alert('Cliente Cadastrado com sucesso!!');
+                limparform();
+            }
+        } catch (error) {
+            console.error('Erro durante o cadastro:', error);
+        }
     }
 
     const digitar = (e) => {
         setObjCliente({ ...objCliente, [e.target.name]: e.target.value });
     }
+
 
 
     //cadastrar produto

@@ -54,7 +54,7 @@ function App() {
           <>
             <Route path="/homeemp" element={<HomeEmp />} />
             <Route path="/cadCliente" element={<CadClienteEmp />} />
-            <Route path="/cadArquivo/:idUser" element={<CadArquivoEmp />} />
+            <Route path="/cadArquivo/:pastaCliente" element={<CadArquivoEmp />} />
             <Route path="/listCliente" element={<ListClienteEmp />} />
             <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
             <Route path="/listArquivo" element={<ListArquivosEmp />} />

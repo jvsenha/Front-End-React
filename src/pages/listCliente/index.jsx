@@ -31,6 +31,7 @@ const ListClienteEmp = () => {
                             login: cliente.login,
                             nomeUser: cliente.nomeUser,
                             emailCliente: cliente.emailCliente,
+                            pastaCliente: cliente.pastaCliente,
                             isEnabled: status, // Atribui o valor 'status' a isEnabled
                         };
                     });
