@@ -122,7 +122,15 @@ app.post('/cadastrarPastaNoDrive', async (req, res) => {
   }
 });
 
-
+function formatFileSize(bytes) {
+  if (bytes < 1024) {
+    return bytes + ' bytes';
+  } else if (bytes < 1048576) {
+    return (bytes / 1024).toFixed(2) + ' KB';
+  } else {
+    return (bytes / 1048576).toFixed(2) + ' MB';
+  }
+}
 
 
 const storage = multer.memoryStorage();
@@ -169,12 +177,13 @@ app.post('/upload/:pastaCliente', upload.single('file'), async (req, res) => {
       const fileName = response.data.name;
       const fileSize = response.data.size;
       const webViewLink = response.data.webViewLink;
+      const formattedFileSize = formatFileSize(response.size);
 
       res.json({
         message: 'Arquivo carregado com sucesso',
         fileId,
         fileName,
-        fileSize,
+        fileSize : formattedFileSize,
         webViewLink,
       });
 

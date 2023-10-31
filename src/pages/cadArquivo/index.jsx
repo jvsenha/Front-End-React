@@ -10,7 +10,7 @@ const CadArquivoEmp = () => {
     const { pastaCliente } = useParams();
     console.log(pastaCliente);
     const [file, setFile] = useState(0);
-    const [uploaded, setUploaded] = useState(false);
+    const [setUploaded] = useState(false);
 
     const handleFileSelect = (e) => {
         setFile(e.target.files[0]);
