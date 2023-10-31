@@ -17,35 +17,3 @@ body {
   justify-content: center;
 }
 
-.Form {
-  margin: 3em;
-  display: flex;
-  flex: wrap 1;
-  flex-flow: row wrap;
-  justify-items: start;
-  align-items: center;
-  flex-basis: 100%;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
-  flex-direction: row-reverse;
-}
-
-.input{
-  margin: 0 0 0 2%;
-  width: 35%;
-  height: auto;
-  flex: auto;
-}
-.input div{
-  width: 100%;
-}
-
-
-.button{
-  margin: 0 0 0 2%;
-  width: 35%;
-  height: auto;
-  flex: auto;
-}
-

@@ -11,6 +11,7 @@ import { HomeCliente } from "./pages/home_cliente";
 import { CadClienteEmp } from "./pages/CadCliente";
 import { CadArquivoEmp } from "./pages/cadArquivo";
 import { ListClienteEmp } from "./pages/listCliente";
+import { ListCltInativosEmp } from "./pages/listClienteinativos";
 import { ListArquivosEmp } from "./pages/listArquivos";
 import { AlterarCliente } from "./pages/alterarCliente";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -55,6 +56,7 @@ function App() {
             <Route path="/cadCliente" element={<CadClienteEmp />} />
             <Route path="/cadArquivo/:pastaCliente" element={<CadArquivoEmp />} />
             <Route path="/listCliente" element={<ListClienteEmp />} />
+            <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
             <Route path="/listArquivo" element={<ListArquivosEmp />} />
             <Route path="/alterarCliente/:idUser" element={<AlterarCliente />} />
           </>

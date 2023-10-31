@@ -1,4 +1,4 @@
-import "./style.css"
+import "../../assets/style.css"
 import Sidebar from "../../components/Sidebar"
 import Input from '../../components/Input'
 import Button from '../../components/Button';
@@ -83,8 +83,8 @@ const CadClienteEmp = () => {
 
             <Sidebar page="Cadastrar cliente" />
 
-            <section className="Main-listC">
-                <form className="Form">
+            <section className="Main-cadC">
+                <form className="Form-cadC">
                     <div className="input-cadC">
                         <Input placeholder="Nome do cliente" label="Nome do cliente" name="nomeUser" eventoTeclado={digitar} obj={objCliente.nomeUser} />
                     </div>

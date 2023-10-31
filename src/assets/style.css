@@ -1,0 +1,295 @@
+.body-container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-wrap: break-word;
+}
+.Container {
+    width: 80%;
+    height: 80%;
+    flex-shrink: 0;
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
+}
+
+.Content {
+    width: 50%;
+    height: 100%;
+    background: #FFF;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark {
+    background: rgba(0, 0, 0, 0.89);
+    color: white;
+    float: right;
+}
+
+.Main_content {
+    width: 300px;
+    position: relative;
+    margin: 10% 10%;
+
+}
+
+
+.FormLogin {
+    margin-bottom: 3em;
+}
+.Container-emp{
+    width: 80%;
+    height: 80%;
+    flex-shrink: 0;
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
+}
+
+.Content-emp{
+    width: 50%;
+    height: 100%;
+    background: #FFF;
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dark-emp{
+    background: rgba(0, 0, 0, 0.89);
+    color: white;
+    float: left;
+}
+
+.img-login{
+    width: 47%;
+}
+.Main-cadC {
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgb(0 0 0 / 25%);
+    border: 0.2px solid #FFF;
+    position: absolute;
+    top: 16%;
+    display: flex;
+    width: auto;
+    height: 80%;
+    margin: 0 2em 0 6em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+  }
+
+  .Main {
+    height: 80%;
+    flex-shrink: 0;
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
+    border: .2px solid #FFF;
+    position: absolute;
+    top: 5em;
+    left: 7.5%;
+    right: 2em;
+    display: flex;
+    justify-content: center;
+}
+  
+  
+  .Form-cadC{
+    margin: 3em;
+    display: flex;
+    flex: wrap 1;
+    width: 70%;
+    flex-flow: row wrap;
+    align-items: center;
+    flex-basis: 100%;
+    align-content: center;
+  }
+  
+  .input-cadC{
+    margin: 0 0 2% 2%;
+    width: 35%;
+    height: 20%;
+    flex: auto;
+  }
+  .input-cadC div{
+    width: 100%;
+  }
+  
+  
+  .button{
+    margin: 0 0 0 2%;
+    width: 35%;
+    height: auto;
+    flex: auto;
+  }
+
+
+.Form {
+    margin: 3em;
+    display: flex;
+    flex-flow: row wrap;
+    justify-items: start;
+    align-items: center;
+    flex-basis: 100%;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  .input{
+    margin: 0 0 2% 2%;
+    width: 35%;
+    height: auto;
+    flex: auto;
+  }
+  .input div{
+    width: 100%;
+  }
+  
+  
+  
+
+.input-cad{
+  margin: 0 0 5% 2%;
+  width: 35%;
+  height: 20%;
+  flex: auto;
+}
+.input-cad div{
+  width: 100%;
+}
+
+
+.button Button{
+  margin-right: 4em;
+}
+
+.button svg{
+  display: none;
+}
+
+
+.main {
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
+    border: .2px solid #FFF;
+    position: absolute;
+    top: 16%;
+    display: flex;
+    width: 90%;
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.Title {
+    padding: 1%;
+    margin:  0 0 0 1%;
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.section-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between
+}
+.listcliente{
+    width: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Main-listC{
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgb(0 0 0 / 25%);
+    border: 0.2px solid #FFF;
+    position: absolute;
+    top: 16%;
+    display: flex;
+    width: 70%;
+    height: auto;
+    margin: 0 1em 0 6em;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header-listC{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: space-between
+}
+
+
+.table{
+    overflow-x: auto;
+}
+  @media (max-width: 770px) {
+    .input-cad {
+        margin: 0 0 0 2%;
+        width: 70%;
+        height: 20%;
+        flex: auto;
+    }
+    
+    .Form {
+        flex-flow: column wrap;
+        margin: 1em;
+    }
+  .input-cadC {
+    margin: 0 0 2% 2%;
+    width: 70%;
+    height: 15%;
+    flex: auto;
+  }
+  
+  .Form-cadC {
+    margin: 1em 0;   
+     flex-flow: column;
+    height: 90%;
+    justify-content: center;
+  }
+  .Main-cadC {
+    background: #FFF;
+    box-shadow: 0px 0px 11px 0px rgb(0 0 0 / 25%);
+    border: 0.2px solid #FFF;
+    position: absolute;
+    top: 16%;
+    display: flex;
+    width: 70%;
+    height: auto;
+    margin: 0 1em 0 6em;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .button {
+    width: 70%;
+}
+} 
+@media (max-width: 480px) {
+    .dark-emp{
+        display: none;
+    }
+    .dark{
+        display: none;
+    }
+    .Content-emp{
+        width: 100%;
+    }
+    .Content{
+        width: 100%;
+    }
+}

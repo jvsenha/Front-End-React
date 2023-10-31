@@ -4,7 +4,7 @@ import './style.css';
 
 const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
     const [statusClientes, setStatusClientes] = useState({});
-    
+
     const openMenu = (userId) => {
         setStatusClientes((prevStatus) => ({
             ...prevStatus,
@@ -21,19 +21,19 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
 
     return (
         <>
-            
-                <div className="tbl-header">
-                    <table cellPadding="0" cellSpacing="0" border="0">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>Usuario</th>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Pasta</th>
-                                <th> </th>
-                            </tr>
-                        </thead>
+
+        <div className="tbl-header">
+        <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Usuario</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Pasta</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
                     </table>
                 </div>
                 <div className="tbl-content">
@@ -60,19 +60,20 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                                                 <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
                                                 {cliente.isEnabled === 'Ativo' ? (
                                                     <li onClick={() => onAtivar(cliente.idUser, 'Inativar')} className="link-li">
+
                                                     Inativar
-                                                    </li>
-                                                ) : (
-                                                    <li onClick={() => onInativar(cliente.idUser, 'Ativar')} className="link-li">
-                                                        Ativar
-                                                    </li>
-                                                )}
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
+                                                </li>
+                                            ) : (
+                                                <li onClick={() => onInativar(cliente.idUser, 'Ativar')} className="link-li">
+                                                    Ativar
+                                                </li>
+                                            )}
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                     </table>
                 </div>
         </>

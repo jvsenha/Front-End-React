@@ -1,4 +1,4 @@
-import "./style.css";
+import "../../assets/style.css";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
@@ -42,8 +42,28 @@ const LoginEmp = () => {
                 }
             })
                 .then(retorno => retorno.json()).then(retorno_convert => {
-                    if (retorno_convert.message !== undefined) {
-                        alert(retorno_convert.message);
+                    const authority = retorno_convert.map(obj => obj.authority);
+                    const authorities = authority.join();
+                    if (authorities !== 'ROLE_EMP') {
+                        localStorage.removeItem("token");
+                        fetch('http://localhost:8080/auth/loginemp', {
+                            method: 'POST',
+                            body: JSON.stringify(objCredeciais),
+                            headers: {
+                                'Content-type': 'application/json',
+                                'Accept': 'application/json'
+                            }
+                        })
+                            .then(retorno => retorno.json())
+                            .then(retorno_convert => {
+                                if (retorno_convert.message !== undefined) {
+                                    alert(retorno_convert.message);
+                                } else {
+                                    // Armazene o token no localStorage
+                                    localStorage.setItem('token', retorno_convert.token);
+                                    window.location.assign("http://localhost:3000/homeemp");
+                                }
+                            });
                     } else {
                         window.location.assign("http://localhost:3000/homeemp")
                     }
@@ -58,15 +78,15 @@ const LoginEmp = () => {
 
     return (
         <>
-             <section className="body-container">
+            <section className="body-container">
                 <section className="Container-emp">
                     <section className="Content-emp dark-emp">
-                        <img src={Logo} alt="" />
+                        <img className="img-login" src={Logo} alt="" />
                     </section>
                     <section className="Content-emp" >
                         <div className="Main_content" >
                             <h1>
-                                Fazer login
+                                Fazer login - empresa
                             </h1>
                             <form className="FormLogin">
                                 <Input className="input-cad" placeholder="Nome de Usuario" name="login" label="Nome de Usuario" eventoTeclado={digitar} />

@@ -1,4 +1,4 @@
-import "./style.css"
+import "../../assets/style.css"
 import Sidebar from "../../components/Sidebar";
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -79,7 +79,7 @@ const AlterarCliente = () => {
 
             <Sidebar page="Alterar cliente" />
 
-            < div className="Main">
+            < div className="Main-cadC">
                 <form className="Form">
                     <div className="input-cad">
                         <Input placeholder="Name" label="Name" name="nomeUser" eventoTeclado={e => setNomeUser(e.target.value)} obj={nomeUser} />

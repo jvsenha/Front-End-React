@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Search from "../../components/Search";
 import TabelaCliente from "../../components/TabelaCliente";
-import "./style.css";
+import "../../assets/style.css"
 
 
 const HomeCliente = () => {
@@ -77,7 +77,7 @@ const HomeCliente = () => {
                     </h1>
                     <Search funcao={(ev) => setBusca(ev.target.value)} value={busca} />
                 </section>
-                <section className="section-table">
+                <section className="table">
                     <TabelaCliente vetor={ArquivosFiltrados} />
                 </section>
 

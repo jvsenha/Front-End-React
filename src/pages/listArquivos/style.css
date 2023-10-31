@@ -12,20 +12,7 @@ body {
 
 
 
-.icon-filter-search,
-.icon-filter-search * {
-  box-sizing: border-box;
-  width: 2em;
-  height: 1.5em;
-}
-
-
-.icon-filter-search {
-    flex-shrink: 0;
-}
-.search-bar form{
-position: absolute;
-top: 0;
-right: 0;
+.table{
+    overflow-x: auto;
 }
 

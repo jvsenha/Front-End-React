@@ -13,11 +13,12 @@
     --height-of-input: 40px;
     --border-height: 2px;
     --input-bg: #f3f3f3;
-    --border-color:  #FFCC00;
+    --border-color: #FFCC00;
     --border-radius: 30px;
     --after-border-radius: 1px;
     position: relative;
-    width: var(--width-of-input);
+    width: auto;
+    max-width: var(--width-of-input);
     height: var(--height-of-input);
     display: flex;
     align-items: center;
@@ -25,8 +26,8 @@
     border-radius: var(--border-radius);
     transition: border-radius 0.5s ease;
     background: var(--input-bg,#000000);
-    margin: .5em  1em;
-  }
+    margin: 0.5em 1em;
+}
   /* styling of Input */
   .input-search {
     font-size: 0.9rem;

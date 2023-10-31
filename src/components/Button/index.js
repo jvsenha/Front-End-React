@@ -1,4 +1,5 @@
 import "./style.css";
+import "../../assets/style.css";
 
 const Button = ({nome, funcao}) => {
     return (
