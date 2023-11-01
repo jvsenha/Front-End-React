@@ -10,11 +10,13 @@ const InputUpload = ({ onChange, onClick, Count}) => {
   };
 
   return (
+
     <form className=''>   
     <label className='arquivos' for="arquivo"><p className=''>{Count} Arquivo(s) selecionados</p></label>
     <input type="file" name="arquivo" id="arquivo"  onChange={onChange} />
       
       <Button nome="Upload"  funcao={onClick} />
+
     </form>
   );
 };

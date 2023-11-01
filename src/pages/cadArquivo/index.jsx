@@ -9,52 +9,49 @@ import { useParams } from 'react-router-dom';
 
 
 const CadArquivoEmp = () => {
-  const { pastaCliente } = useParams();
-  console.log(pastaCliente);
-  const [file, setFile] = useState(0);
-  const [setUploaded] = useState(false);
 
 
-  const Pasta = {
-    pastaCliente: "",
-  }
-  const [objPasta, setObjPasta] = useState(Pasta);
+  
 
+    const { pastaCliente } = useParams();
+    console.log(pastaCliente);
+    const [files, setFiles] = useState(0);
+    const [uploaded,setUploaded] = useState(false);
+const [fileCount, setFileCount] = useState(0);
 
-  const [fileCount, setFileCount] = useState(0);
-
-  const handleFileChange = (e) => {
+ const handleFileChange = (e) => {
     const selectedFiles = e.target.files;
     setFileCount(selectedFiles.length + " file(s) selected");
   };
 
-  const handleUpload = async () => {
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-
-      try {
-        const response = await fetch(`http://localhost:8000/upload/${pastaCliente}`, {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (response.ok) {
-          setUploaded(true);
-        } else {
-          console.error('Erro ao fazer o upload do arquivo.');
+    const handleUpload = async () => {
+      if (files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
         }
-      } catch (error) {
-        console.error('Erro ao fazer a solicitação:', error);
+       
+        try {
+          const response = await fetch(`http://localhost:8000/upload/${pastaCliente}`, {
+            method: 'POST',
+            body: formData,
+          });
+  
+          if (response.ok) {
+            setUploaded(true);
+          } else {
+            console.error('Erro ao fazer o upload dos arquivos.');
+          }
+        } catch (error) {
+          console.error('Erro ao fazer a solicitação:', error);
+        }
       }
-    }
-  };
-
+    };
+  
   const digitar = (e) => {
     setObjPasta({ ...objPasta, [e.target.name]: e.target.value });
   }
-  return (
+return (
 
     <>
 

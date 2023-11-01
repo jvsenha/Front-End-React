@@ -122,6 +122,52 @@ app.post('/cadastrarPastaNoDrive', async (req, res) => {
   }
 });
 
+async function criarSubPasta(pastaCliente, subPasta, oauth2Client) {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  const fileMetadata = {
+    name: subPasta,
+    mimeType: 'application/vnd.google-apps.folder',
+    parents: [pastaCliente], // Especifica a pasta pai
+  };
+
+  try {
+    const response = await drive.files.create({
+      resource: fileMetadata,
+      fields: 'id',
+    });
+    return response.data.id;
+  } catch (err) {
+    console.error('Erro ao criar a subpasta no Google Drive:', err.message);
+    return null;
+  }
+}
+
+// Rota para criar a subpasta no Google Drive
+app.post('/subPasta/:pastaCliente', async (req, res) => {
+  try {
+    const { pastaCliente } = req.body;
+    const { subPasta } = req.params;
+
+    if (!pastaCliente) {
+      res.status(400).send('O nome da subpasta não foi fornecido.');
+      return;
+    }
+
+    const subPastaId = await criarSubPasta(pastaCliente, subPasta, oauth2Client);
+
+    if (subPastaId) {
+      res.send(subPastaId);
+    } else {
+      res.status(500).send('Erro ao criar a subpasta no Google Drive.');
+    }
+  } catch (error) {
+    console.error('Erro ao criar a subpasta no Google Drive:', error);
+    res.status(500).send('Erro ao criar a subpasta no Google Drive.');
+  }
+});
+
+
 function formatFileSize(bytes) {
   if (bytes < 1024) {
     return bytes + ' bytes';
@@ -135,15 +181,15 @@ function formatFileSize(bytes) {
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-app.post('/upload/:pastaCliente', upload.single('file'), async (req, res) => {
-    const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
-    const folderName = req.params.pastaCliente;// Substitua 'YOUR_FOLDER_NAME' pelo nome da pasta de destino
-    
+app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  const folderName = req.params.pastaCliente;
+
   try {
     // Pesquise a pasta pelo nome
     const folderQuery = `name='${folderName}' and mimeType='application/vnd.google-apps.folder'`;
-    console.log(folderName)
     const folders = await drive.files.list({
       q: folderQuery,
       fields: 'files(id)',
@@ -152,55 +198,50 @@ app.post('/upload/:pastaCliente', upload.single('file'), async (req, res) => {
     if (folders.data.files.length > 0) {
       const folderId = folders.data.files[0].id;
 
-      const fileMetadata = {
-        name: req.file.originalname,
-        parents: [folderId], // Use o ID da pasta encontrada
-      };
+      // Loop através dos arquivos enviados
+      for (const file of req.files) {
+        const fileMetadata = {
+          name: file.originalname,
+          parents: [folderId],
+        };
 
-      // Crie um stream legível a partir do Buffer
-      const readableStream = new Readable();
-      readableStream.push(req.file.buffer);
-      readableStream.push(null);
+        // Crie um stream legível a partir do Buffer
+        const readableStream = new Readable();
+        readableStream.push(file.buffer);
+        readableStream.push(null);
 
-      const media = {
-        mimeType: req.file.mimetype,
-        body: readableStream, // Passe o stream para a API do Google Drive
-      };
+        const media = {
+          mimeType: file.mimetype,
+          body: readableStream,
+        };
 
-      const response = await drive.files.create({
-        resource: fileMetadata,
-        media: media,
-        fields: 'id,name,size,webViewLink', // Solicitar informações adicionais
-      });
+        const response = await drive.files.create({
+          resource: fileMetadata,
+          media: media,
+          fields: 'id,name,size,webViewLink',
+        });
 
-      const fileId = response.data.id;
-      const fileName = response.data.name;
-      const fileSize = response.data.size;
-      const webViewLink = response.data.webViewLink;
-      const formattedFileSize = formatFileSize(response.size);
+        const fileId = response.data.id;
+        const fileName = response.data.name;
+        const fileSize = response.data.size;
+        const webViewLink = response.data.webViewLink;
 
-      res.json({
-        message: 'Arquivo carregado com sucesso',
-        fileId,
-        fileName,
-        fileSize : formattedFileSize,
-        webViewLink,
-      });
+        console.log(`Arquivo ${fileName} carregado com sucesso. ID: ${fileId}`);
 
-      console.log(fileId);
-      console.log(fileName);
-      console.log(fileSize);
-      console.log(webViewLink);
+        // Aqui, você pode armazenar informações sobre os arquivos no banco de dados ou responder de acordo.
+      }
 
+      res.json({ message: 'Arquivos carregados com sucesso' });
     } else {
       console.error('Pasta não encontrada.');
       res.status(500).send('Pasta não encontrada.');
     }
   } catch (error) {
-    console.error('Erro ao carregar o arquivo:', error);
-    res.status(500).send('Erro ao carregar o arquivo.');
+    console.error('Erro ao carregar os arquivos:', error);
+    res.status(500).send('Erro ao carregar os arquivos.');
   }
 });
+
 
 
 
