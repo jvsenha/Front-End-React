@@ -9,7 +9,7 @@ const TabelaCliente = ({ vetor, onRemover }) => {
       <>
         
           <div className="tbl-header">
-            <table className='table-Home ' cellPadding="0" cellSpacing="0" border="0">
+            <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
               <thead>
                 <tr>
                   <th>id</th>
@@ -23,7 +23,7 @@ const TabelaCliente = ({ vetor, onRemover }) => {
             </table>
           </div>
           <div className="tbl-content">
-            <table className='table-Home' cellPadding="0" cellSpacing="0" border="0">
+            <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
               <tbody>
                 {vetor.map((arquivo) => (
                   <tr key={arquivo.idDocumento}>

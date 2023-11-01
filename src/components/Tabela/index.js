@@ -37,7 +37,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                     </table>
                 </div>
                 <div className="tbl-content">
-                    <table cellPadding="0" cellSpacing="0" border="0">
+                    <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
                         <tbody>
                             {vetor.map((cliente) => (
                                 <tr key={cliente.nomeUser}>

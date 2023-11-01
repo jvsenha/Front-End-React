@@ -69,7 +69,7 @@ const HomeCliente = () => {
     return (
         <>
             <Navbar></Navbar>
-            <section className="main">
+            <section className="main-cliente">
                 <section className="section-header">
 
                     <h1 className="Title">

@@ -1,6 +1,7 @@
+import Button from '../../components/Button';
 import React, { useState } from 'react';
 import './style.css'
-const InputUpload = ({ onChange, funcao }) => {
+const InputUpload = ({ onChange, onClick, Count}) => {
   const [fileCount, setFileCount] = useState(0);
 
   const handleFileChange = (e) => {
@@ -9,10 +10,13 @@ const InputUpload = ({ onChange, funcao }) => {
   };
 
   return (
-    <form className='form-file'>
-      <input className='form-input' name="files" type="file" onChange={onChange} multiple  />
-      <p className='form-p'>{fileCount} Arquivo(s) selecionados</p>
-      <button  onClick={funcao} className='form-button' type="submit">Upload</button>
+
+    <form className=''>   
+    <label className='arquivos' for="arquivo"><p className=''>{Count} Arquivo(s) selecionados</p></label>
+    <input type="file" name="arquivo" id="arquivo"  onChange={onChange} />
+      
+      <Button nome="Upload"  funcao={onClick} />
+
     </form>
   );
 };

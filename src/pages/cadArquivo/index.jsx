@@ -1,21 +1,28 @@
-import "./style.css"
+import "../../assets/style.css"
 import Sidebar from "../../components/Sidebar"
 import InputUpload from '../../components/InputUpload'
+import Input from '../../components/Input'
+import Button from '../../components/Button';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 
 
 const CadArquivoEmp = () => {
+
+
+  
+
     const { pastaCliente } = useParams();
     console.log(pastaCliente);
     const [files, setFiles] = useState(0);
     const [uploaded,setUploaded] = useState(false);
+const [fileCount, setFileCount] = useState(0);
 
-    const handleFileSelect = (e) => {
-        const selectedFiles = e.target.files;
-        setFiles(selectedFiles);
-    };
+ const handleFileChange = (e) => {
+    const selectedFiles = e.target.files;
+    setFileCount(selectedFiles.length + " file(s) selected");
+  };
 
     const handleUpload = async () => {
       if (files.length > 0) {
@@ -40,24 +47,40 @@ const CadArquivoEmp = () => {
         }
       }
     };
+  
+  const digitar = (e) => {
+    setObjPasta({ ...objPasta, [e.target.name]: e.target.value });
+  }
+return (
 
-    return (
+    <>
 
-        <>
+      <Sidebar page="Cadastrar arquivo" />
 
-            <Sidebar page="Cadastrar arquivo" />
+      < section className="main">
 
-            < div className="Main">
-                <form className="Form" >
+        <div className="upload">
+          <h1>
+            Upload de Arquivo
+          </h1>
+          <InputUpload Count={fileCount} onChange={handleFileChange} onClick={handleUpload} className="input" placeholder="Pasta" label="Pasta" />
+        </div>
 
-                    <div className="input">
-                        <InputUpload onChange={handleFileSelect} funcao={handleUpload} className="input" placeholder="Pasta" label="Pasta" />
-                    </div>
-                </form>
-            </div>
+        <div className="subpasta">
+          <h1 >
+            Criar subpasta
+          </h1>
+          <div className="input_subPasta">
+            <Input placeholder="Nome do cliente" label="Nome do cliente" name="nomeUser" eventoTeclado={digitar} obj={objPasta.pastaCliente} />
+          </div>
+          <div className="button">
+            <Button nome="Cadastrar" classname="Cadastrar"  />
+          </div>
+        </div>
+      </section>
 
-        </>
-    )
+    </>
+  )
 }
 
 
