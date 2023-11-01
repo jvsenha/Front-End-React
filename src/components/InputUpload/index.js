@@ -10,7 +10,7 @@ const InputUpload = ({ onChange, funcao }) => {
 
   return (
     <form className='form-file'>
-      <input className='form-input' type="file" onChange={onChange} />
+      <input className='form-input' name="files" type="file" onChange={onChange} multiple  />
       <p className='form-p'>{fileCount} Arquivo(s) selecionados</p>
       <button  onClick={funcao} className='form-button' type="submit">Upload</button>
     </form>

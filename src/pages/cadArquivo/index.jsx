@@ -9,35 +9,37 @@ import { useParams } from 'react-router-dom';
 const CadArquivoEmp = () => {
     const { pastaCliente } = useParams();
     console.log(pastaCliente);
-    const [file, setFile] = useState(0);
-    const [setUploaded] = useState(false);
+    const [files, setFiles] = useState(0);
+    const [uploaded,setUploaded] = useState(false);
 
     const handleFileSelect = (e) => {
-        setFile(e.target.files[0]);
+        const selectedFiles = e.target.files;
+        setFiles(selectedFiles);
     };
 
     const handleUpload = async () => {
-        if (file) {
-          const formData = new FormData();
-          formData.append('file', file);
-         
-    
-          try {
-            const response = await fetch(`http://localhost:8000/upload/${pastaCliente}`, {
-              method: 'POST',
-              body: formData,
-            });
-    
-            if (response.ok) {
-              setUploaded(true);
-            } else {
-              console.error('Erro ao fazer o upload do arquivo.');
-            }
-          } catch (error) {
-            console.error('Erro ao fazer a solicitação:', error);
-          }
+      if (files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
         }
-      };
+       
+        try {
+          const response = await fetch(`http://localhost:8000/upload/${pastaCliente}`, {
+            method: 'POST',
+            body: formData,
+          });
+  
+          if (response.ok) {
+            setUploaded(true);
+          } else {
+            console.error('Erro ao fazer o upload dos arquivos.');
+          }
+        } catch (error) {
+          console.error('Erro ao fazer a solicitação:', error);
+        }
+      }
+    };
 
     return (
 
