@@ -186,9 +186,11 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
   const folderName = req.params.pastaCliente;
+  
 
   try {
     // Pesquise a pasta pelo nome
+    const responses = [];
     const folderQuery = `name='${folderName}' and mimeType='application/vnd.google-apps.folder'`;
     const folders = await drive.files.list({
       q: folderQuery,
@@ -200,6 +202,7 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
 
       // Loop através dos arquivos enviados
       for (const file of req.files) {
+
         const fileMetadata = {
           name: file.originalname,
           parents: [folderId],
@@ -221,17 +224,26 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
           fields: 'id,name,size,webViewLink',
         });
 
+        
         const fileId = response.data.id;
         const fileName = response.data.name;
         const fileSize = response.data.size;
         const webViewLink = response.data.webViewLink;
 
-        console.log(`Arquivo ${fileName} carregado com sucesso. ID: ${fileId}`);
+        responses.push({
+          fileId,
+          fileName,
+          fileSize,
+          webViewLink,
+        });
+        console.log(`Arquivo ${fileName} `);
+        console.log(`ID: ${fileId}`);
+        console.log(`Tamanho:${fileSize}`);
+        console.log(`Link:${webViewLink}`);
 
         // Aqui, você pode armazenar informações sobre os arquivos no banco de dados ou responder de acordo.
       }
-
-      res.json({ message: 'Arquivos carregados com sucesso' });
+      res.json({ message: 'Arquivos carregados com sucesso', success: true, responses });
     } else {
       console.error('Pasta não encontrada.');
       res.status(500).send('Pasta não encontrada.');

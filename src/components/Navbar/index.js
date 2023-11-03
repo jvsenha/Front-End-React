@@ -16,7 +16,7 @@ const Navbar = ({placeholder,label, eventoTeclado, name, obj}) => {
       .then(response => {
         if (response.ok) {
           // Logout bem-sucedido
-          localStorage.removeItem("token");
+          localStorage.clear();
           window.location.href = 'http://localhost:3000/'; // Ou use o roteamento do React, se aplicável
         } else {
           throw new Error('Erro ao fazer logout.');

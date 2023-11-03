@@ -11,6 +11,9 @@ const LoginEmp = () => {
     }
     const [objCredeciais, setObjCredeciais] = useState(Credeciais);
 
+
+   
+
     const logar = () => {
         const token = localStorage.getItem('token');
         if (token === null) {
@@ -29,6 +32,7 @@ const LoginEmp = () => {
                     } else {
                         // Armazene o token no localStorage
                         localStorage.setItem('token', retorno_convert.token);
+                       
                         window.location.assign("http://localhost:3000/homeemp");
                     }
                 });
@@ -61,10 +65,12 @@ const LoginEmp = () => {
                                 } else {
                                     // Armazene o token no localStorage
                                     localStorage.setItem('token', retorno_convert.token);
+                                   
                                     window.location.assign("http://localhost:3000/homeemp");
                                 }
                             });
                     } else {
+                       
                         window.location.assign("http://localhost:3000/homeemp")
                     }
                 });

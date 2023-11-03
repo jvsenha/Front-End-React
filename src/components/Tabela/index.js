@@ -46,7 +46,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                                     <td>{cliente.nomeUser}</td>
                                     <td>{cliente.emailCliente}</td>
                                     <td>
-                                        <Link to={`/cadArquivo/${cliente.pastaCliente}`}><i className='bx bx-link'></i></Link>
+                                        <Link to={`/cadArquivo/${cliente.pastaCliente}/${cliente.idUser}`}><i className='bx bx-link'></i></Link>
                                     </td>
                                     <td>
                                         <div className="options"

@@ -56,38 +56,12 @@ const ListClienteEmp = () => {
                 'Accept': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-        }) .then(retorno => retorno.json())
-        .then(retorno_convert => {
-            if(retorno_convert.message  !== undefined){
-                alert(retorno_convert.message);
-            }
-             alert('Mudança realizada!');
-            fetch("http://localhost:8080/cliente/listarAtivos", {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(retorno => retorno.json())
-                .then(retorno_convert => setClientes(retorno_convert));
-        });
-    };
-
-    // REMOVER CLIENTE
-    const remover = (userId) => {
-        fetch(`http://localhost:8080/cliente/remover/${userId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(retorno => retorno.json())
+        }).then(retorno => retorno.json())
             .then(retorno_convert => {
-                alert(retorno_convert.message);
+                if (retorno_convert.message !== undefined) {
+                    alert(retorno_convert.message);
+                }
+                alert('Mudança realizada!');
                 fetch("http://localhost:8080/cliente/listarAtivos", {
                     method: 'GET',
                     headers: {
@@ -99,6 +73,38 @@ const ListClienteEmp = () => {
                     .then(retorno => retorno.json())
                     .then(retorno_convert => setClientes(retorno_convert));
             });
+    };
+
+    // REMOVER CLIENTE
+    const remover = (userId) => {
+        const resultado = window.confirm("Você tem certeza que deseja continuar?");
+        if (resultado === true) {
+            fetch(`http://localhost:8080/cliente/remover/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(retorno => retorno.json())
+                .then(retorno_convert => {
+                    alert(retorno_convert.message);
+                    fetch("http://localhost:8080/cliente/listarAtivos", {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(retorno => retorno.json())
+                        .then(retorno_convert => setClientes(retorno_convert));
+                });
+        } else {
+           alert("Ação cancelada!!");
+        }
+        
     }
 
     const [busca, setBusca] = useState('');

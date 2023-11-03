@@ -40,28 +40,33 @@ const ListArquivosEmp = () => {
     }, []);
 
     const remover = (idDocumento) => {
-        fetch(`http://localhost:8080/documentos/remover/${idDocumento}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                alert(retorno_convert.message);
-                fetch("http://localhost:8080/documentos/listar", {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                    .then(retorno => retorno.json())
-                    .then(retorno_convert => setArquivos(retorno_convert));
-            });
+        const resultado = window.confirm("Você tem certeza que deseja continuar?");
+        if (resultado === true) {
+            fetch(`http://localhost:8080/documentos/remover/${idDocumento}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(retorno => retorno.json())
+                .then(retorno_convert => {
+                    alert(retorno_convert.message);
+                    fetch("http://localhost:8080/documentos/listar", {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(retorno => retorno.json())
+                        .then(retorno_convert => setArquivos(retorno_convert));
+                });
+        } else {
+            alert("Ação cancelada!!");
+        }
     }
 
     const [busca, setBusca] = useState('');
@@ -81,13 +86,13 @@ const ListArquivosEmp = () => {
         <>
             <section className='listcliente'>
                 <Sidebar page="Lista de Arquivos" />
-                
+
                 <section className="Main-listC">
                     <section className="header-listC">
-                    <h1 className="Title">
-                        Arquivo
-                    </h1>
-                     
+                        <h1 className="Title">
+                            Arquivo
+                        </h1>
+
                         <Search funcao={(ev) => setBusca(ev.target.value)} value={busca} />
 
                     </section>

@@ -46,23 +46,23 @@ const ListCltInativosEmp = () => {
 
     const mudarStatus = (userId) => {
         const Ativar = { enabled: 'true' };
-    
 
-            fetch(`http://localhost:8080/cliente/updateUser/${userId}`, {
-                method: 'PUT',
-                body: JSON.stringify(Ativar),
-                headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
+
+        fetch(`http://localhost:8080/cliente/updateUser/${userId}`, {
+            method: 'PUT',
+            body: JSON.stringify(Ativar),
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        })
             .then(retorno => retorno.json())
             .then(retorno_convert => {
-                if(retorno_convert.message  !== undefined){
+                if (retorno_convert.message !== undefined) {
                     alert(retorno_convert.message);
                 }
-                 alert('Mudança realizada!');
+                alert('Mudança realizada!');
                 fetch("http://localhost:8080/cliente/listarInativos", {
                     method: 'GET',
                     headers: {
@@ -78,28 +78,33 @@ const ListCltInativosEmp = () => {
 
     // REMOVER CLIENTE
     const remover = (userId) => {
-        fetch(`http://localhost:8080/cliente/remover/${userId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                alert(retorno_convert.message);
-                fetch("http://localhost:8080/cliente/listarInativos", {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                    .then(retorno => retorno.json())
-                    .then(retorno_convert => setClientes(retorno_convert));
-            });
+        const resultado = window.confirm("Você tem certeza que deseja continuar?");
+        if (resultado === true) {
+            fetch(`http://localhost:8080/cliente/remover/${userId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(retorno => retorno.json())
+                .then(retorno_convert => {
+                    alert(retorno_convert.message);
+                    fetch("http://localhost:8080/cliente/listarInativos", {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(retorno => retorno.json())
+                        .then(retorno_convert => setClientes(retorno_convert));
+                });
+        } else {
+            alert("Ação cancelada!!");
+        }
     }
 
     const [busca, setBusca] = useState('');
@@ -121,12 +126,12 @@ const ListCltInativosEmp = () => {
                 <Sidebar page="Lista de cliente" />
                 <section className="Main-listC">
                     <section className="header-listC">
-                    <h1 className="Title">
-                        Clientes Inativos
-                    </h1>
-                       
+                        <h1 className="Title">
+                            Clientes Inativos
+                        </h1>
+
                         <Search funcao={(ev) => setBusca(ev.target.value)} value={busca} />
-                      
+
                     </section>
                     <section className="table">
                         <Tabela

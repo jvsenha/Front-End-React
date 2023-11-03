@@ -10,6 +10,11 @@ const Home = () => {
         senhaUser: "",
     }
     const [objCredeciais, setObjCredeciais] = useState(Credeciais);
+
+
+
+  
+    
     const logar = () => {
         const token = localStorage.getItem('token');
         if (token === null) {
@@ -29,6 +34,7 @@ const Home = () => {
                     } else {
                         // Armazene o token no localStorage
                         localStorage.setItem('token', retorno_convert.token);
+                    
                         window.location.assign("http://localhost:3000/homeclt");
                     }
                 });
@@ -62,6 +68,7 @@ const Home = () => {
                                 } else {
                                     // Armazene o token no localStorage
                                     localStorage.setItem('token', retorno_convert.token);
+                                
                                     window.location.assign("http://localhost:3000/homeclt");
                                 }
                             });

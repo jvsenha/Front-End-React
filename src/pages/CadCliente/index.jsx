@@ -27,44 +27,40 @@ const CadClienteEmp = () => {
     const cadastrar = async () => {
         const token = localStorage.getItem('token');
         try {
-            const responseCliente = await fetch('http://localhost:8080/auth/cadastrar', {
+            const response = await fetch('http://localhost:8000/cadastrarPastaNoDrive', {
                 method: 'POST',
-                body: JSON.stringify(objCliente),
                 headers: {
-                    'Content-type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pastaCliente: objCliente.pastaCliente
+                })
             });
 
-            const retorno_convert = await responseCliente.json();
-
-            if (retorno_convert.message !== undefined) {
-                alert(retorno_convert.message);
-            } else {
-                try {
-                    const response = await fetch('http://localhost:8000/cadastrarPastaNoDrive', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            pastaCliente: objCliente.pastaCliente
-                        })
-                    });
-
-                    if (response.ok) {
-                        const pastaId = await response.text();
-                        setObjCliente({ ...objCliente, pastaCliente: pastaId });
-                        alert('Pasta criada no Google Drive com sucesso!');
-                    } else {
-                        alert('Erro ao criar a pasta no Google Drive.');
+            if (response.ok) {
+                const pastaId = await response.text();
+                setObjCliente({ ...objCliente, pastaCliente: pastaId });
+                const responseCliente = await fetch('http://localhost:8080/auth/cadastrar', {
+                    method: 'POST',
+                    body: JSON.stringify(objCliente),
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     }
-                } catch (error) {
-                    console.error('Erro ao criar a pasta no Google Drive:', error);
+                });
+    
+                const retorno_convert = await responseCliente.json();
+    
+                if (retorno_convert.message !== undefined) {
+                    alert(retorno_convert.message);
+                } else {
+                    
+                    alert('Cliente Cadastrado com sucesso!!');
+                    limparform();
                 }
-                alert('Cliente Cadastrado com sucesso!!');
-                limparform();
+            } else {
+                alert('Erro ao criar a pasta no Google Drive.');
             }
         } catch (error) {
             console.error('Erro durante o cadastro:', error);
