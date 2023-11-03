@@ -43,6 +43,7 @@ app.get("/auth/google", (req, res) => {
         ],
     });
     res.redirect(url);
+    console.log(url)
 });
 
 app.get("/google/redirect", async (req, res) => {
@@ -51,14 +52,14 @@ app.get("/google/redirect", async (req, res) => {
         const { tokens } = await oauth2Client.getToken(code);
         oauth2Client.setCredentials(tokens);
         fs.writeFileSync("creds.json", JSON.stringify(tokens));
-        res.send("Sucess");
+        res.redirect("http://localhost:3000/homeemp");
     } catch (error) {
         console.error("Erro ao obter tokens de acesso:", error);
         res.status(500).send("Erro ao obter tokens de acesso.");
     }
 });
 
-//const TOKEN_PATH = 'creds.json'; //Path para armazenar o token de acesso
+const TOKEN_PATH = 'creds.json'; //Path para armazenar o token de acesso
 
 
 /*async function autenticar() {

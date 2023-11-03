@@ -34,6 +34,17 @@ const CadArquivoEmp = () => {
         formData.append('files', files[i]);
       }
 
+      const handleAuthWithGoogle = () => {
+        const response = fetch('http://localhost:8000/check-auth');
+    if (response.ok) {
+      const data = response.json();
+      setToken(data.token);
+    } else {
+      window.location.href = 'http://localhost:8000/auth/google';
+    }
+      };
+
+
       try {
         const response = await fetch(`http://localhost:8000/upload/${pastaCliente}`, {
           method: 'POST',
@@ -42,8 +53,9 @@ const CadArquivoEmp = () => {
 
         if (response.ok) {
           setUploaded(true);
+          alert('upload dos arquivo realizados.');
         } else {
-          console.error('Erro ao fazer o upload dos arquivos.');
+          alert('Erro ao fazer o upload dos arquivos.');
         }
       } catch (error) {
         console.error('Erro ao fazer a solicitação:', error);
@@ -77,19 +89,6 @@ const CadArquivoEmp = () => {
 const digitar = (e) => {
   setObjPasta({ ...objPasta, [e.target.name]: e.target.value });
 }; 
-useEffect(() => {
-  async function checkAuthentication() {
-    const response = await fetch('http://localhost:8000/check-auth');
-    if (response.ok) {
-      const data = await response.json();
-      setToken(data.token);
-    } else {
-      // Se o usuário não estiver autenticado, redirecione para autenticação
-      window.location.href = 'http://localhost:8000/auth/google';
-    }
-  }
-  checkAuthentication();
-}, []);
 
 return (
   <>
