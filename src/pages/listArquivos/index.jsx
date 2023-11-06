@@ -42,6 +42,9 @@ const ListArquivosEmp = () => {
     const remover = (idDocumento) => {
         const resultado = window.confirm("Você tem certeza que deseja continuar?");
         if (resultado === true) {
+            console.log(`Tentando excluir arquivo com fileId: ${idDocumento}`);
+    
+            // Primeiro, tente excluir o documento do banco de dados
             fetch(`http://localhost:8080/documentos/remover/${idDocumento}`, {
                 method: 'DELETE',
                 headers: {
@@ -52,22 +55,37 @@ const ListArquivosEmp = () => {
             })
                 .then(retorno => retorno.json())
                 .then(retorno_convert => {
-                    alert(retorno_convert.message);
-                    fetch("http://localhost:8080/documentos/listar", {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Accept': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        }
-                    })
-                        .then(retorno => retorno.json())
-                        .then(retorno_convert => setArquivos(retorno_convert));
+                    
+                        // Se a exclusão do banco de dados for bem-sucedida, prossiga para excluir o arquivo do Google Drive
+                        fetch(`http://localhost:8000/deletar/${idDocumento}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-type': 'application/json',
+                                'Accept': 'application/json',
+                            }
+                        })
+                            .then(retorno => retorno.json())
+                            .then(retorno_convert => {
+                                alert(retorno_convert.message);
+                                // Atualize a lista de arquivos após a exclusão bem-sucedida
+                                setArquivos(retorno_convert.arquivos);
+                            })
+                            .catch(error => {
+                                console.error('Erro ao excluir arquivo do Google Drive:', error);
+                                // Trate o erro, se necessário
+                            });
+                    
+                })
+                .catch(error => {
+                    console.error('Erro ao excluir arquivo do banco de dados:', error);
+                    // Trate o erro, se necessário
                 });
         } else {
             alert("Ação cancelada!!");
         }
-    } 
+    };
+    
+    
 
     const [busca, setBusca] = useState('');
 
@@ -81,57 +99,37 @@ const ListArquivosEmp = () => {
         );
     }, [busca, arquivos]);
 
-    const excluirDrive = async (fileId) => {
-        const token = localStorage.getItem('token');
-      
+    const downloadFile = async (fileId, nomeDocumento) => {
         try {
-          const response = await fetch(`http://localhost:8000/deletar/${fileId}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+            const response = await fetch(`http://localhost:8000/download/${fileId}/${nomeDocumento}`, {
+                method: 'GET',
+            });
+
+
+            if (response.ok) {
+                // Aqui você pode tratar a resposta, como salvar o arquivo ou exibir uma mensagem ao usuário
+                // No exemplo abaixo, estamos salvando o arquivo com o nome fornecido pelo servidor
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nomeDocumento; // Use o nome do arquivo fornecido
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                console.error('Erro ao baixar o arquivo:', response.statusText);
+                // Aqui você pode tratar o erro, como exibir uma mensagem de erro ao usuário
             }
-          });
-      
-          if (response.ok) {
-            alert('Pasta excluída com sucesso do Google Drive');
-          } else {
-            console.error('Erro ao excluir a pasta do Google Drive.');
-          }
         } catch (error) {
-          console.error('Erro durante a exclusão da pasta no Google Drive:', error);
+            console.error('Erro ao baixar o arquivo:', error);
+            // Trate erros de rede ou exceções aqui, se necessário
         }
-      }
-      const downloadFile = async (fileId, nomeDocumento) => {
-        try {
-          const response = await fetch(`http://localhost:8000/download/${fileId}/${nomeDocumento}`, {
-            method: 'GET',
-          });
+    };
 
-          if (response.ok) {
-            // Aqui você pode tratar a resposta, como salvar o arquivo ou exibir uma mensagem ao usuário
-            // No exemplo abaixo, estamos salvando o arquivo com o nome fornecido pelo servidor
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = nomeDocumento; // Use o nome do arquivo fornecido
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-          } else {
-            console.error('Erro ao baixar o arquivo:', response.statusText);
-            // Aqui você pode tratar o erro, como exibir uma mensagem de erro ao usuário
-          }
-        } catch (error) {
-          console.error('Erro ao baixar o arquivo:', error);
-          // Trate erros de rede ou exceções aqui, se necessário
-        }
-      };
-      
-      
 
-    
+
+
 
 
     return (

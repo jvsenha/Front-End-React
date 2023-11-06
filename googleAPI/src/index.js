@@ -17,7 +17,7 @@ const app = express();
 
 const corsOptions = {
     origin: '*', // A origem permitida (substitua pelo seu próprio domínio)
-    methods: 'GET,POST', // Métodos permitidos
+    methods: 'GET,POST,DELETE', // Métodos permitidos
   };
   app.use(cors(corsOptions));
 
@@ -331,11 +331,12 @@ async function deletar(fileId, oauth2Client) {
   }
 }
 
+
 // Rota para excluir arquivo ou pasta no Google Drive
 app.delete('/deletar/:fileId', async (req, res) => {
   try {
     const { fileId } = req.params;
-    
+    console.log(fileId);
 
     if (!fileId) {
       res.status(400).send('O ID do arquivo ou pasta não foi fornecido.');
@@ -343,7 +344,7 @@ app.delete('/deletar/:fileId', async (req, res) => {
     }
 
     await deletar(fileId, oauth2Client);
-    res.send('Arquivo ou pasta excluído com sucesso');
+    console.log('Arquivo ou pasta excluído com sucesso');
   } catch (error) {
     console.error('Erro ao excluir arquivo ou pasta no Google Drive:', error);
     res.status(500).send('Erro ao excluir arquivo ou pasta no Google Drive.');
