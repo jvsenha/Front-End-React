@@ -350,6 +350,67 @@ app.delete('/deletar/:fileId', async (req, res) => {
   }
 });
 
+app.get('/download/:fileId/:nomeDocumento', (req, res) => {
+  const fileId = req.params.fileId; // Obtém o ID do arquivo a ser baixado
+  const nomeDocumento = req.params.nomeDocumento; // Obtém o nome do arquivo a ser baixado
+
+  // Crie uma instância da biblioteca googleapis para interagir com a API do Google Drive
+  const drive = google.drive({ version: 'v3', auth: oauth2Client }); // Certifique-se de que 'oauth2Client' esteja configurado corretamente
+
+  // Use a função files.get para obter informações sobre o arquivo, incluindo o seu conteúdo
+  drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' }, (err, response) => {
+    if (err) {
+      console.error('Erro ao obter o arquivo do Google Drive:', err);
+      res.status(500).send('Erro ao obter o arquivo do Google Drive.');
+      return;
+    }
+
+    // Verifique se a resposta possui dados
+    if (!response.data) {
+      console.error('Nenhum dado encontrado.');
+      res.status(404).send('Nenhum dado encontrado.');
+      return;
+    }
+
+    // Determine o tipo de conteúdo com base na extensão do nome do arquivo
+    const extensao = nomeDocumento.split('.').pop();
+    let tipoConteudo = 'application/octet-stream'; // Tipo de conteúdo padrão
+
+    // Mapeie extensões comuns para tipos de conteúdo
+    const tiposDeConteudoPorExtensao = {
+      pdf: 'application/pdf',
+      doc: 'application/msword',
+      docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      xls: 'application/vnd.ms-excel',
+      xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      gif: 'image/gif',
+    };
+if (extensao in tiposDeConteudoPorExtensao) {
+      tipoConteudo = tiposDeConteudoPorExtensao[extensao];
+    }
+
+    // Configurar o cabeçalho de resposta para o tipo de conteúdo do arquivo
+    res.setHeader('Content-Type', tipoConteudo);
+
+    // Configurar o cabeçalho de resposta para permitir o download do arquivo com o nome desejado
+    res.setHeader('Content-Disposition', `attachment; filename="${nomeDocumento}"`);
+
+    // Enviar o conteúdo do arquivo como resposta
+    response.data
+      .pipe(res)
+      .on('finish', () => {
+        console.log(`Arquivo ${nomeDocumento} enviado com sucesso.`);
+      })
+      .on('error', (err) => {
+        console.error('Erro ao enviar o arquivo:', err);
+        res.status(500).send('Erro ao enviar o arquivo.');
+      });
+  });
+});
+
   
 app.listen(PORT, () => {
     console.log("Server started on port 8000");

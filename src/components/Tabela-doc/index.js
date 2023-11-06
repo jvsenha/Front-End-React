@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-const Tabledoc = ({ vetor, onRemover }) => {
+const Tabledoc = ({ vetor, onRemover,  onDownload }) => {
     const [statusArquivos, setStatusArquivos] = useState({});
 
     const openMenu = (idDocumento) => {
@@ -63,7 +63,7 @@ const Tabledoc = ({ vetor, onRemover }) => {
                         </span>
                         <ul className={`menu-options-doc ${statusArquivos[arquivo.idDocumento] === 'show' ? 'show' : ''}`}>
                           <li onClick={() => onRemover(arquivo.idDocumento)} className='link-li'>Deletar</li>
-                          <li><Link  className='link-li'>Download </Link></li>
+                          <li onClick={() => onDownload(arquivo.idDocumento,arquivo.nomeDocumento)} className='link-li'>Download</li>
                         </ul>
                       </div>
                     </td>

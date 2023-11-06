@@ -51,6 +51,7 @@ const CadArquivoEmp = () => {
         
             // Crie um novo objeto 'arquivo' com as informações da primeira resposta
             const novoArquivo = {
+              idDocumento: primeiraResposta.fileId,
               nomeDocumento: primeiraResposta.fileName,
               tamanhoDocumento: primeiraResposta.fileSize,
               linkDocumento: primeiraResposta.webViewLink,

@@ -102,6 +102,33 @@ const ListArquivosEmp = () => {
           console.error('Erro durante a exclusão da pasta no Google Drive:', error);
         }
       }
+      const downloadFile = async (fileId, nomeDocumento) => {
+        try {
+          const response = await fetch(`http://localhost:8000/download/${fileId}/${nomeDocumento}`, {
+            method: 'GET',
+          });
+
+          if (response.ok) {
+            // Aqui você pode tratar a resposta, como salvar o arquivo ou exibir uma mensagem ao usuário
+            // No exemplo abaixo, estamos salvando o arquivo com o nome fornecido pelo servidor
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nomeDocumento; // Use o nome do arquivo fornecido
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } else {
+            console.error('Erro ao baixar o arquivo:', response.statusText);
+            // Aqui você pode tratar o erro, como exibir uma mensagem de erro ao usuário
+          }
+        } catch (error) {
+          console.error('Erro ao baixar o arquivo:', error);
+          // Trate erros de rede ou exceções aqui, se necessário
+        }
+      };
+      
       
 
     
@@ -123,7 +150,8 @@ const ListArquivosEmp = () => {
                     </section>
                     <section className="table">
                         <Tabledoc vetor={ArquivosFiltrados}
-                            onRemover={remover && excluirDrive} />
+                            onRemover={remover}
+                            onDownload={downloadFile} />
 
                     </section>
 
