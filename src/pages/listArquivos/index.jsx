@@ -67,7 +67,7 @@ const ListArquivosEmp = () => {
         } else {
             alert("Ação cancelada!!");
         }
-    }
+    } 
 
     const [busca, setBusca] = useState('');
 
@@ -80,6 +80,31 @@ const ListArquivosEmp = () => {
 
         );
     }, [busca, arquivos]);
+
+    const excluirDrive = async (fileId) => {
+        const token = localStorage.getItem('token');
+      
+        try {
+          const response = await fetch(`http://localhost:8000/deletar/${fileId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+      
+          if (response.ok) {
+            alert('Pasta excluída com sucesso do Google Drive');
+          } else {
+            console.error('Erro ao excluir a pasta do Google Drive.');
+          }
+        } catch (error) {
+          console.error('Erro durante a exclusão da pasta no Google Drive:', error);
+        }
+      }
+      
+
+    
 
 
     return (
@@ -98,7 +123,7 @@ const ListArquivosEmp = () => {
                     </section>
                     <section className="table">
                         <Tabledoc vetor={ArquivosFiltrados}
-                            onRemover={remover} />
+                            onRemover={remover && excluirDrive} />
 
                     </section>
 

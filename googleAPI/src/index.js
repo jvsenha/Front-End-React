@@ -10,6 +10,8 @@ import credentials from '../credentials.json' assert { type: 'json' };
 import { OAuth2Client } from 'google-auth-library';
 import bodyParser from 'body-parser';
 
+
+
 const app = express();
 
 
@@ -254,8 +256,99 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
   }
 });
 
+// Rota para listar o conteúdo de uma pasta no Google Drive
+app.get('/listarPasta', async (req, res) => {
+  try {
+    const { pastaCliente } = req.query; // Obter o nome da pasta a partir dos parâmetros de consulta (query parameters)
 
+    if (!pastaCliente) {
+      res.status(400).send('O nome da pasta não foi fornecido.');
+      return;
+    }
 
+    const pastaId = await pastaNome(pastaCliente, oauth2Client);
+
+    if (!pastaId) {
+      res.status(404).send('Pasta não encontrada no Google Drive.');
+      return;
+    }
+
+    const arquivos = await listarArquivos(pastaId, oauth2Client);
+
+    res.json(arquivos);
+  } catch (error) {
+    console.error('Erro ao listar o conteúdo da pasta no Google Drive:', error);
+    res.status(500).send('Erro ao listar o conteúdo da pasta no Google Drive.');
+  }
+});
+
+// Função para obter o ID de uma pasta por nome
+async function pastaNome(nomePasta, oauth2Client) {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  try {
+    const response = await drive.files.list({
+      q: `name='${nomePasta}' and mimeType='application/vnd.google-apps.folder'`,
+      fields: 'files(id)',
+    });
+
+    if (response.data.files.length > 0) {
+      return response.data.files[0].id;
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error('Erro ao obter o ID da pasta no Google Drive:', err.message);
+    return null;
+  }
+}
+
+// Função para listar arquivos dentro de uma pasta
+async function listarArquivos(pastaId, oauth2Client) {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  try {
+    const response = await drive.files.list({
+      q: `'${pastaId}' in parents`,
+      fields: 'files(id, name, mimeType)',
+    });
+
+    return response.data.files;
+  } catch (err) {
+    console.error('Erro ao listar arquivos na pasta no Google Drive:', err.message);
+    return [];
+  }
+}
+
+async function deletar(fileId, oauth2Client) {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  try {
+    await drive.files.delete({ fileId });
+    console.log('Arquivo ou pasta excluído com sucesso');
+  } catch (err) {
+    console.error('Erro ao excluir arquivo ou pasta:', err.message);
+  }
+}
+
+// Rota para excluir arquivo ou pasta no Google Drive
+app.delete('/deletar/:fileId', async (req, res) => {
+  try {
+    const { fileId } = req.params;
+    
+
+    if (!fileId) {
+      res.status(400).send('O ID do arquivo ou pasta não foi fornecido.');
+      return;
+    }
+
+    await deletar(fileId, oauth2Client);
+    res.send('Arquivo ou pasta excluído com sucesso');
+  } catch (error) {
+    console.error('Erro ao excluir arquivo ou pasta no Google Drive:', error);
+    res.status(500).send('Erro ao excluir arquivo ou pasta no Google Drive.');
+  }
+});
 
   
 app.listen(PORT, () => {
