@@ -98,7 +98,8 @@ const Side = ({ page }) => {
           <span className="logo_name"> <img className='logo' src={Logo} alt="" /></span>
         </div>
         <ul className="nav-links">
-          <li>
+         
+        <li>
             <div className="iocn-link">
               <Link to="/homeemp" className="link_name">
                 <i className='bx bx-grid-alt' ></i>
@@ -109,10 +110,11 @@ const Side = ({ page }) => {
               <li><Link to="/homeemp" className="link_name">Dashboard</Link></li>
             </ul>
           </li>
+
           <li>
             <div className="iocn-link">
               <Link>
-                <i className='bx bx-user' ></i>
+              <i class='bx bx-list-check'></i>
                 <span className="link_name">Clientes</span>
               </Link>
               <i className='bx bxs-chevron-down arrow' ></i>
@@ -121,32 +123,22 @@ const Side = ({ page }) => {
               <li><Link className="link_name">Clientes</Link></li>
               <li><Link to="/listCliente" >Clientes Ativos</Link></li>
               <li><Link to="/listClienteInativos" >Clientes Inativos</Link></li>
-              <li><Link to="/cadCliente" >Cadastrar Cliente </Link></li>
+       
             </ul>
           </li>
+        
+         
+
           <li>
-            <div className="iocn-link">
-              <Link>
-                <i className='bx bxs-folder-open'></i>
-                <span className="link_name">Arquivos</span>
-              </Link>
-              <i className='bx bxs-chevron-down arrow' ></i>
-            </div>
-            <ul className="sub-menu">
-              <li><Link className="link_name">Arquivos</Link></li>
-              <li><Link to="/listArquivo" >Lista de Arquivo</Link></li>
-            </ul>
-          </li>
-          <li>
-            <Link>
-              <i className='bx bx-cloud-upload'></i>
-              <span className="link_name">Backup</span>
+          <Link to="/cadCliente">
+          <i className='bx bx-user' ></i>
+              <span className="link_name">Cadastrar Cliente </span>
             </Link>
             <ul className="sub-menu blank">
-              <li><Link className="link_name">Backup</Link></li>
+            <li><Link to="/cadCliente" className="link_name" >Cadastrar Cliente </Link></li>
             </ul>
           </li>
-
+          
           <li>
           <Link to={`/configuracoesAdm/${idUser}`}>
               <i className='bx bx-cog' ></i>
@@ -156,10 +148,11 @@ const Side = ({ page }) => {
               <li><Link className="link_name">Configurações</Link></li>
             </ul>
           </li>
+
+
           <li>
             <div className="profile-details">
               <div className="profile-content">
-
               </div>
               <div className="name-job">
               <div className="profile_name">{nome}</div>
@@ -172,6 +165,7 @@ const Side = ({ page }) => {
           </li>
         </ul>
       </div>
+
       <section className="home-section">
         <div className="home-content">
           <i className='bx bx-menu' ></i>

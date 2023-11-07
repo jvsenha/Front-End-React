@@ -9,11 +9,9 @@ import { LoginEmp } from "./pages/login_emp";
 import { HomeEmp } from "./pages/home_emp";
 import { HomeCliente } from "./pages/home_cliente";
 import { CadClienteEmp } from "./pages/CadCliente";
-import { CadArquivoEmp } from "./pages/cadArquivo";
 import { ConfiguracoesAdm } from "./pages/ConfiguracoesAdm";
 import { ListClienteEmp } from "./pages/listCliente";
 import { ListCltInativosEmp } from "./pages/listClienteinativos";
-import { ListArquivosEmp } from "./pages/listArquivos";
 import { AlterarCliente } from "./pages/alterarCliente";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import './App.css';
@@ -55,10 +53,8 @@ function App() {
           <>
             <Route path="/homeemp" element={<HomeEmp />} />
             <Route path="/cadCliente" element={<CadClienteEmp />} />
-            <Route path="/cadArquivo/:pastaCliente/:idUser" element={<CadArquivoEmp />} />
             <Route path="/listCliente" element={<ListClienteEmp />} />
             <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
-            <Route path="/listArquivo" element={<ListArquivosEmp />} />
             <Route path="/alterarCliente/:idUser" element={<AlterarCliente />} />
             <Route path="/configuracoesAdm/:idUser" element={<ConfiguracoesAdm />} />
           </>

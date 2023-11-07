@@ -4,6 +4,8 @@ import Input from '../../components/Input'
 import Button from '../../components/Button';
 import { useState } from "react";
 const CadClienteEmp = () => {
+
+
     //Objeto cliente
     const cliente = {
         idCliente: 0,
@@ -27,20 +29,7 @@ const CadClienteEmp = () => {
     const cadastrar = async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('http://localhost:8000/cadastrarPastaNoDrive', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pastaCliente: objCliente.pastaCliente
-                })
-            });
-
-            if (response.ok) {
-                const pastaId = await response.text();
-                setObjCliente({ ...objCliente, pastaCliente: pastaId });
-                const responseCliente = await fetch('http://localhost:8080/auth/cadastrar', {
+            const responseCliente = await fetch('http://localhost:8080/auth/cadastrar', {
                     method: 'POST',
                     body: JSON.stringify(objCliente),
                     headers: {
@@ -49,19 +38,15 @@ const CadClienteEmp = () => {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-    
+
                 const retorno_convert = await responseCliente.json();
-    
+
                 if (retorno_convert.message !== undefined) {
                     alert(retorno_convert.message);
                 } else {
-                    
                     alert('Cliente Cadastrado com sucesso!!');
                     limparform();
                 }
-            } else {
-                alert('Erro ao criar a pasta no Google Drive.');
-            }
         } catch (error) {
             console.error('Erro durante o cadastro:', error);
         }
