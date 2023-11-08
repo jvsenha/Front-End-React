@@ -1,3 +1,7 @@
+.nome{
+  text-wrap: nowrap;
+  color: #ffffff;
+}
 .card-reset {
     max-width: 320px;
     display: flex;
@@ -9,6 +13,7 @@
     padding: 1rem;
     color: rgb(107, 114, 128);
     box-shadow: 0px 87px 78px -39px rgb(0 0 0 / 40%);
+    margin: 4% 0;
 }
   
 .icon-card {
@@ -58,7 +63,7 @@
     gap: 0.5rem;
   }
   
-  .download, .notnow {
+  .Alterar, .Cancelar {
     width: 100%;
     display: inline-flex;
     justify-content: center;
@@ -72,20 +77,20 @@
     border: 1px solid rgba(253, 253, 253, 0.363);
   }
   
-  .download:hover {
+  .Alterar:hover {
     background-color: #000000;
     color: white;
 }
-.download {
+.Alterar {
     background-color: #FFCC00;
     font-weight: 600;
 }
   
-.notnow {
+.Cancelar {
     background-color: #ffffff;
     font-weight: 500;
 }
-.notnow:hover {
+.Cancelar:hover {
     background-color: #000000;
     color: white;
 }

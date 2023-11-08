@@ -15,7 +15,8 @@ const CadClienteEmp = () => {
         pastaCliente: "",
         emailCliente: "",
         role: "USER",
-        isEnabled: "true"
+        isEnabled: "true",
+        reset: "false"
     }
     const [objCliente, setObjCliente] = useState(cliente);
 
