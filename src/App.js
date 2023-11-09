@@ -10,6 +10,9 @@ import { HomeEmp } from "./pages/home_emp";
 import { HomeCliente } from "./pages/home_cliente";
 import { CadClienteEmp } from "./pages/CadCliente";
 import { ConfiguracoesAdm } from "./pages/ConfiguracoesAdm";
+import { ConfiguracoesCliente } from "./pages/configuracoesCliente";
+import { ForgotPassword } from "./pages/ForgotPassword";
+import { AlterarSenha } from "./pages/AlterarSenha";
 import { ListClienteEmp } from "./pages/listCliente";
 import { ListCltInativosEmp } from "./pages/listClienteinativos";
 import { AlterarCliente } from "./pages/alterarCliente";
@@ -46,8 +49,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/empresa" element={<LoginEmp />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/empresa" element={<LoginEmp />} />
+      <Route path="/forgotPassword" element={<ForgotPassword />} />
 
         {UserRole === "ROLE_EMP" && (
           <>
@@ -57,11 +61,15 @@ function App() {
             <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
             <Route path="/alterarCliente/:idUser" element={<AlterarCliente />} />
             <Route path="/configuracoesAdm/:idUser" element={<ConfiguracoesAdm />} />
-          </>
-        )}
-
-        {UserRole === "ROLE_USER" && (
-          <Route path="/homeclt" element={<HomeCliente />} />
+            </>
+            )}
+            
+            {UserRole === "ROLE_USER" && (
+              <>
+              <Route path="/homeclt" element={<HomeCliente />} />
+              <Route path="/configuracoesCliente/:idUser" element={<ConfiguracoesCliente />} />
+              <Route path="/alterarSenha/" element={<AlterarSenha />} />
+              </>
         )}
 
         {/* Rota de página não encontrada */}

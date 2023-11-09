@@ -7,36 +7,36 @@ import ListaReset from "../../components/ListaReset"
 const HomeEmp = () => {
     const [clientes, setClientes] = useState([]);
     const token = localStorage.getItem('token');
+    const fetchReset = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/cliente/listarReset', {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
 
+            if (response.ok) {
+                const data = await response.json();
+                const updatedReset= data.map((cliente) => {
+                    return {
+                        idUser: cliente.idUser,
+                        login: cliente.login,
+                        nomeUser: cliente.nomeUser,
+                        reset: cliente.reset
+                    };
+                });
+                setClientes(updatedReset);
+            }
+        } catch (error) {
+            console.error('Erro ao buscar clientes', error);
+        }
+    };
     
   useEffect(() => {
-        const fetchReset = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/cliente/listarReset', {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-  
-                if (response.ok) {
-                    const data = await response.json();
-                    const updatedReset= data.map((cliente) => {
-                        return {
-                            idUser: cliente.idUser,
-                            login: cliente.login,
-                            nomeUser: cliente.nomeUser,
-                            reset: cliente.reset
-                        };
-                    });
-                    setClientes(updatedReset);
-                }
-            } catch (error) {
-                console.error('Erro ao buscar clientes', error);
-            }
-        };
+       
   
         fetchReset();
     }, [token]);
@@ -62,6 +62,7 @@ const HomeEmp = () => {
                     alert(retorno_convert.message);
                 } else {
                     alert('senha redefinida com sucesso!!');
+                    fetchReset();
                 }
                 });
         } catch (error) {

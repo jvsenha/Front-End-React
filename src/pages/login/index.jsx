@@ -2,7 +2,9 @@ import "../../assets/style.css";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
+import LinkButton from '../../components/Link-Button';
 import { useState } from "react";
+import { Link } from "react-router-dom";
 const Home = () => {
 
     const Credeciais = {
@@ -100,6 +102,9 @@ const Home = () => {
                             </form>
 
                             <Button nome="Entrar" classname="Button" funcao={logar} />
+                            <div>
+                            <LinkButton nome="Esqueci a senha" classname="Voltar" link="/forgotPassword" />
+                            </div>
                         </div >
 
                     </section>

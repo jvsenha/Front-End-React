@@ -14,9 +14,27 @@
   background: #FFF;
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
 }
+.Container-senha {
+  width: 80%;
+  height: 80%;
+  flex-shrink: 0;
+  background: #FFF;
+  box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.25);
+  position: absolute;
+  top: 15%;
+}
 
 .Content {
   width: 50%;
+  height: 100%;
+  background: #FFF;
+  float: left;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Content_reset {
+  width: 100%;
   height: 100%;
   background: #FFF;
   float: left;
@@ -36,6 +54,22 @@
   position: relative;
   margin: 10% 10%;
 
+}
+
+.Main_content_reset{
+  width: 100%;
+  position: relative;
+  margin: 10% 10%;
+  
+}
+.Main_content_reset h1{
+  font-size: x-large;
+  margin-bottom: 1em;
+  color: #DBAF00;
+}
+.Main_content_reset p{
+  color: #373636;
+  margin-bottom: 2em;
 }
 
 
@@ -84,6 +118,24 @@
   width: auto;
   height: 80%;
   margin: 0 2em 0 6em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+.Main-cadC-reset{
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background: #ffffff;
+  -webkit-box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
+  box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
+  border: 0.3px solid#cecece11;
+  position: absolute;
+  top: 16%;
+  display: flex;
+  width: auto;
+  height: 80%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -157,6 +209,16 @@
 
 
 .Form {
+  margin: 3em;
+  display: flex;
+  flex-flow: row wrap;
+  justify-items: start;
+  align-items: center;
+  flex-basis: 100%;
+  justify-content: center;
+  align-content: center;
+}
+.Form-clt{
   margin: 3em;
   display: flex;
   flex-flow: row wrap;
@@ -475,6 +537,11 @@ overflow-y: auto;
     flex-flow: column wrap;
     margin: 1em;
   }
+  .Form-clt{
+    flex-flow: column wrap;
+    width: 100%;
+    margin: 1em;
+  }
 
   .input-cadC {
     margin: 0 0 2% 2%;
@@ -496,8 +563,15 @@ overflow-y: auto;
     top: 16%;
     display: flex;
     width: 70%;
-    height: auto;
     margin: 0 1em 0 6em;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .Main-cadC-reset {
+    position: absolute;
+    top: 16%;
+    display: flex;
+    width: 70%;
     flex-direction: column;
     justify-content: center;
   }
@@ -578,6 +652,9 @@ overflow-y: auto;
   }
 
   .Content {
+    width: 100%;
+  }
+  .Content_reset {
     width: 100%;
   }
 }
