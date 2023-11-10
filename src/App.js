@@ -68,7 +68,7 @@ function App() {
               <>
               <Route path="/homeclt" element={<HomeCliente />} />
               <Route path="/configuracoesCliente/:idUser" element={<ConfiguracoesCliente />} />
-              <Route path="/alterarSenha/" element={<AlterarSenha />} />
+              <Route path="/alterarSenha/:idUser" element={<AlterarSenha />} />
               </>
         )}
 

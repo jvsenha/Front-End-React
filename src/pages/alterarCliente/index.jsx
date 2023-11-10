@@ -3,6 +3,8 @@ import Sidebar from "../../components/Sidebar";
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import LinkButton from '../../components/Link-Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
@@ -63,13 +65,30 @@ const AlterarCliente = () => {
                 'Authorization': `Bearer ${token}`
             }
         })
-
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
-                }
-            });
+        .then(response => {
+            if (response.status === 422) {
+              // Se o status for 422 (Unprocessable Entity), exibe toast.error com a mensagem do backend
+              return response.json().then(data => {
+                toast.error(data.message);
+              });
+            } else if (response.status === 200) {
+              // Se o status for 200, a operação foi bem-sucedida
+              toast.success('Operação realizada com sucesso!');
+              return response.json();
+            } else {
+              // Trate outros status de resposta conforme necessário
+              console.error(`Erro na requisição: ${response.status} ${response.statusText}`);
+              // Se desejar, exiba um toast.error genérico para outros status
+              toast.error('Erro na requisição');
+            }
+          })
+          .catch(error => {
+            // Captura qualquer erro ocorrido durante a requisição
+            console.error(error);
+            // Exibe toast.error com a mensagem de erro
+            toast.error(`Erro na requisição: ${error.message}`);
+          });
+         
     }
 
 
@@ -78,7 +97,7 @@ const AlterarCliente = () => {
         <>
 
             <Sidebar page="Alterar cliente" />
-
+            <ToastContainer />
             < div className="Main-cadC">
                 <form className="Form">
                     <div className="input-cad">

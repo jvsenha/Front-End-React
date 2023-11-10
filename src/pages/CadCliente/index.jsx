@@ -3,6 +3,8 @@ import Sidebar from "../../components/Sidebar"
 import Input from '../../components/Input'
 import Button from '../../components/Button';
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CadClienteEmp = () => {
 
 
@@ -43,9 +45,9 @@ const CadClienteEmp = () => {
                 const retorno_convert = await responseCliente.json();
 
                 if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
+                    toast.error(retorno_convert.message);
                 } else {
-                    alert('Cliente Cadastrado com sucesso!!');
+                    toast.success('Cliente Cadastrado com sucesso!!');
                     limparform();
                 }
         } catch (error) {
@@ -64,7 +66,7 @@ const CadClienteEmp = () => {
         <>
 
             <Sidebar page="Cadastrar cliente" />
-
+            <ToastContainer />
             <section className="Main-cadC">
                 <form className="Form-cadC">
                     <div className="input-cadC">

@@ -61,6 +61,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-gap: 0.5rem;
     gap: 0.5rem;
+    align-items: center;
+  }
+  .actions button {
+    cursor: pointer;
   }
   
   .Alterar, .Cancelar {
