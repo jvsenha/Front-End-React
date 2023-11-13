@@ -58,8 +58,14 @@
     color: #FFCC00;
    
 }
-.dropdown-content-hover a,
-p {
+.dropdown-content-hover a  {
+    user-select: none;
+    text-align: initial;
+    text-decoration: none;
+    color: white;
+    padding-top: 5px;
+}
+.dropdown-content-hover p {
     user-select: none;
     text-align: initial;
     text-decoration: none;

@@ -2,7 +2,8 @@ import "../../assets/style.css"
 import Sidebar from "../../components/Sidebar";
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import LinkButton from '../../components/Link-Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
@@ -64,13 +65,23 @@ const ConfiguracoesAdm = () => {
             }
         })
 
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
-                    window.location.reload()
-                }
-            });
+        .then(retorno => {
+            if (retorno.status === 200) {
+                return retorno.json();
+            } else {
+                return retorno.json().then(errorData => {
+                    throw new Error(errorData.message || 'Erro desconhecido ao atualizar o cliente.');
+                });
+            }
+        })
+        .then(retorno_convert => {
+            if (retorno_convert.message !== undefined) {
+                toast.success(retorno_convert.message);
+            }
+        })
+        .catch(error => {
+            toast.error(error.message);
+        });
     }
 
     const voltar = () => {
@@ -82,7 +93,7 @@ const ConfiguracoesAdm = () => {
         <>
 
             <Sidebar page="Configurações" />
-
+            <ToastContainer />
             < div className="Main-cadC">
                 <form className="Form">
                     <div className="input-cad">

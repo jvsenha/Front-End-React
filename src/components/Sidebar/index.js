@@ -114,7 +114,7 @@ const Side = ({ page }) => {
           <li>
             <div className="iocn-link">
               <Link>
-              <i class='bx bx-list-check'></i>
+              <i className='bx bx-list-check'></i>
                 <span className="link_name">Clientes</span>
               </Link>
               <i className='bx bxs-chevron-down arrow' ></i>

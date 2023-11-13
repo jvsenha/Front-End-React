@@ -2,6 +2,8 @@ import "../../assets/style.css"
 import Navbar from "../../components/Navbar";
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
@@ -39,38 +41,47 @@ const ConfiguracoesCliente = () => {
     }, [idUser]); // Certifique-se de definir idUser antes de usar neste useEffect
 
     // Função para lidar com a submissão do formulário
-    const alterar = () => {
+  const alterar = () => {
+    // Lógica para enviar os dados atualizados para o servidor
+    const dadosAtualizados = {
+        idUser: idUser,
+        nomeUser,
+        emailCliente,
+        login,
+        senhaUser,
+        pastaCliente,
+        role: "USER"
+    };
 
-        // Lógica para enviar os dados atualizados para o servidor
-        const dadosAtualizados = {
-            idUser: idUser,
-            nomeUser,
-            emailCliente,
-            login,
-            senhaUser,
-            pastaCliente,
-            role: "USER"
-        };
-
-
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
-            method: 'PUT',
-            body: JSON.stringify(dadosAtualizados),
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
-                }
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
+        method: 'PUT',
+        body: JSON.stringify(dadosAtualizados),
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(retorno => {
+        if (retorno.status === 200) {
+            return retorno.json();
+        } else {
+            return retorno.json().then(errorData => {
+                throw new Error(errorData.message || 'Erro desconhecido ao atualizar o cliente.');
             });
-    }
+        }
+    })
+    .then(retorno_convert => {
+        if (retorno_convert.message !== undefined) {
+            toast.success(retorno_convert.message);
+        }
+    })
+    .catch(error => {
+        toast.error(error.message);
+    });
+};
+
 
     const voltar = () => {
         // Usando window.history.back() ou window.history.go(-1) para voltar
@@ -82,7 +93,7 @@ const ConfiguracoesCliente = () => {
 
             <Navbar></Navbar>
 
-          
+            <ToastContainer />
             < div className="Main-cadC-reset">
                 <form className="Form-clt">
                     <div className="input-cad">

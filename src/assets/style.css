@@ -457,9 +457,7 @@ overflow-y: auto;
     }
 }
 
-@media (max-width: 770px) {
-  
-}
+
 @media (max-width: 770px) {
 
   .main-reset {
@@ -562,6 +560,7 @@ overflow-y: auto;
     top: 16%;
     display: flex;
     width: 70%;
+    height: auto;
     margin: 0 1em 0 6em;
     flex-direction: column;
     justify-content: center;

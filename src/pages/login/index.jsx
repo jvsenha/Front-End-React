@@ -4,7 +4,9 @@ import Button from '../../components/Button';
 import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
 import LinkButton from '../../components/Link-Button';
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import { Navigate, useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 const Home = () => {
 
     const Credeciais = {
@@ -13,6 +15,7 @@ const Home = () => {
     }
     const [objCredeciais, setObjCredeciais] = useState(Credeciais);
 
+    const navigate = useNavigate();
 
 
   
@@ -32,7 +35,7 @@ const Home = () => {
                 .then(retorno => retorno.json())
                 .then(retorno_convert => {
                     if (retorno_convert.message !== undefined) {
-                        alert(retorno_convert.message);
+                        toast.error(retorno_convert.message);
                     } else {
                         // Armazene o token no localStorage
                         localStorage.setItem('token', retorno_convert.token);
@@ -66,7 +69,7 @@ const Home = () => {
                             .then(retorno => retorno.json())
                             .then(retorno_convert => {
                                 if (retorno_convert.message !== undefined) {
-                                    alert(retorno_convert.message);
+                                    toast.error(retorno_convert.message);
                                 } else {
                                     // Armazene o token no localStorage
                                     localStorage.setItem('token', retorno_convert.token);
@@ -90,6 +93,7 @@ const Home = () => {
     return (
         <>
             <section className="body-container">
+            <ToastContainer />
                 <section className="Container">
                     <section className="Content" >
                         <div className="Main_content" >
@@ -122,4 +126,3 @@ const Home = () => {
 
 export { Home };
 
-// <Link to="/login"> Fazer login</Link> 

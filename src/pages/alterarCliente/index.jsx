@@ -18,34 +18,44 @@ const AlterarCliente = () => {
     const [pastaCliente, setPastaCliente] = useState("");
 
     // useEffect para carregar os dados do cliente
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
+    const carregarCliente = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar cliente: ${response.status}`);
             }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                // Define os estados com os valores obtidos da API
-                setNomeUser(retorno_convert.nomeUser);
-                setEmailCliente(retorno_convert.emailCliente);
-                setLogin(retorno_convert.login);
-                setSenhaUser(retorno_convert.senhaUser);
-                setPastaCliente(retorno_convert.pastaCliente);
-            })
-            .catch(error => console.error('Error fetching cliente:', error));
-    }, [idUser]); // Certifique-se de definir idUser antes de usar neste useEffect
+    
+            const retorno_convert = await response.json();
+    
+            // Define os estados com os valores obtidos da API
+            setNomeUser(retorno_convert.nomeUser);
+            setEmailCliente(retorno_convert.emailCliente);
+            setLogin(retorno_convert.login);
+            setSenhaUser(retorno_convert.senhaUser);
+            setPastaCliente(retorno_convert.pastaCliente);
+        } catch (error) {
+            console.error('Error fetching cliente:', error.message);
+        }
+    };
+    
+    // Uso do useEffect
+    useEffect(() => {
+        carregarCliente();
+    }, []);
 
     // Função para lidar com a submissão do formulário
     const alterar = () => {
-
-        // Lógica para enviar os dados atualizados para o servidor
         const dadosAtualizados = {
-            idUser: idUser,
+            idUser,
             nomeUser,
             emailCliente,
             login,
@@ -53,7 +63,6 @@ const AlterarCliente = () => {
             pastaCliente,
             role: "USER"
         };
-
 
         const token = localStorage.getItem('token');
         fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
@@ -67,28 +76,23 @@ const AlterarCliente = () => {
         })
         .then(response => {
             if (response.status === 422) {
-              // Se o status for 422 (Unprocessable Entity), exibe toast.error com a mensagem do backend
-              return response.json().then(data => {
-                toast.error(data.message);
-              });
+                return response.json().then(data => {
+                    toast.error(data.message);
+                    carregarCliente();
+                });
             } else if (response.status === 200) {
-              // Se o status for 200, a operação foi bem-sucedida
-              toast.success('Operação realizada com sucesso!');
-              return response.json();
+                toast.success('Operação realizada com sucesso!');
+                return response.json();
             } else {
-              // Trate outros status de resposta conforme necessário
-              console.error(`Erro na requisição: ${response.status} ${response.statusText}`);
-              // Se desejar, exiba um toast.error genérico para outros status
-              toast.error('Erro na requisição');
+                console.error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                toast.error('Erro na requisição');
+                // Pode adicionar tratamento para outros status aqui, se necessário
             }
-          })
-          .catch(error => {
-            // Captura qualquer erro ocorrido durante a requisição
-            console.error(error);
-            // Exibe toast.error com a mensagem de erro
+        })
+        .catch(error => {
+            console.error(`Erro na requisição: ${error.message}`);
             toast.error(`Erro na requisição: ${error.message}`);
-          });
-         
+        });
     }
 
 

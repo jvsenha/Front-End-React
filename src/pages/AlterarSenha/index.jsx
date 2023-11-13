@@ -1,5 +1,7 @@
 import React from 'react';
 import '../../assets/style.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 import { useParams } from 'react-router-dom';
 import Input from '../../components/Input'
@@ -30,12 +32,14 @@ const AlterarSenha = () => {
             .then(retorno => retorno.json())
             .then(retorno_convert => {
                 if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
+                    toast.success(retorno_convert.message, {
+                        autoClose: 3000, // Tempo em milissegundos (3 segundos neste exemplo)
+                      });
                     window.location.assign("http://localhost:3000/homeclt")
                 }
             });
     }else{
-        alert("as senhas devem ser iguais");
+        toast.error("as senhas devem ser iguais");
     }
 
 
@@ -48,10 +52,10 @@ const AlterarSenha = () => {
 return (
     <>
         <Navbar />
+        <ToastContainer />
         <section className="body-container">
             <section className="Container-senha ">
                 <section className="Content_reset" >
-
                     <div className="Main_content_reset" >
                         <h1>Alterar Senha</h1>
                         <p>Escreva a nova senha e a confirme, as duas devem ser idênticas </p>

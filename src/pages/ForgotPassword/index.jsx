@@ -1,5 +1,7 @@
 import React from 'react';
 import '../../assets/style.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
@@ -25,9 +27,9 @@ const ForgotPassword = () => {
                     console.log(objLogin);
                     
                 if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
+                    toast.error(retorno_convert.message);
                 } else {
-                    alert('Aguarde a empresa analisar seu pedido');
+                    toast.success('Aguarde a empresa analisar seu pedido');
                  
                     window.location.assign("http://localhost:3000/");
                 }
@@ -43,6 +45,7 @@ const ForgotPassword = () => {
     return (
         <>
             <section className="body-container">
+            <ToastContainer />
                 <section className="Container">
                     <section className="Content_reset" >
                         <div className="Main_content_reset" >
