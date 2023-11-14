@@ -1,0 +1,12 @@
+p{
+    color: black;
+}
+
+button{
+    background-color: white;
+    border: 1px solid rgb(216, 216, 216);
+    border-radius: 3px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}

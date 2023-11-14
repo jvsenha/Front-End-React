@@ -9,18 +9,21 @@ import { LoginEmp } from "./pages/login_emp";
 import { HomeEmp } from "./pages/home_emp";
 import { HomeCliente } from "./pages/home_cliente";
 import { CadClienteEmp } from "./pages/CadCliente";
-import { CadArquivoEmp } from "./pages/cadArquivo";
 import { ConfiguracoesAdm } from "./pages/ConfiguracoesAdm";
+import { ConfiguracoesCliente } from "./pages/configuracoesCliente";
+import { ForgotPassword } from "./pages/ForgotPassword";
+import { AlterarSenha } from "./pages/AlterarSenha";
 import { ListClienteEmp } from "./pages/listCliente";
 import { ListCltInativosEmp } from "./pages/listClienteinativos";
-import { ListArquivosEmp } from "./pages/listArquivos";
 import { AlterarCliente } from "./pages/alterarCliente";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { Loading } from "./pages/Loading"
 import './App.css';
 import { useEffect, useState } from "react";
 
 function App() {
   const [UserRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -41,31 +44,42 @@ function App() {
           const authorities = retorno_convert.map(obj => obj.authority);
           setUserRole(authorities[0]);
         }
-      });
+      })
+      .finally(() => setLoading(false)); // Set loading to false after authentication check
+    } else {
+      setLoading(false); // No token, set loading to false
     }
   }, [token]);
+
+  // Show loading spinner or some indication while checking authentication
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/empresa" element={<LoginEmp />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
 
         {UserRole === "ROLE_EMP" && (
           <>
             <Route path="/homeemp" element={<HomeEmp />} />
             <Route path="/cadCliente" element={<CadClienteEmp />} />
-            <Route path="/cadArquivo/:pastaCliente/:idUser" element={<CadArquivoEmp />} />
             <Route path="/listCliente" element={<ListClienteEmp />} />
             <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
-            <Route path="/listArquivo" element={<ListArquivosEmp />} />
             <Route path="/alterarCliente/:idUser" element={<AlterarCliente />} />
             <Route path="/configuracoesAdm/:idUser" element={<ConfiguracoesAdm />} />
           </>
         )}
 
         {UserRole === "ROLE_USER" && (
-          <Route path="/homeclt" element={<HomeCliente />} />
+          <>
+            <Route path="/homeclt" element={<HomeCliente />} />
+            <Route path="/configuracoesCliente/:idUser" element={<ConfiguracoesCliente />} />
+            <Route path="/alterarSenha/:idUser" element={<AlterarSenha />} />
+          </>
         )}
 
         {/* Rota de página não encontrada */}

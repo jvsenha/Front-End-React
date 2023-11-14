@@ -3,6 +3,8 @@ import Sidebar from "../../components/Sidebar";
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import LinkButton from '../../components/Link-Button';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
@@ -16,34 +18,44 @@ const AlterarCliente = () => {
     const [pastaCliente, setPastaCliente] = useState("");
 
     // useEffect para carregar os dados do cliente
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
+    const carregarCliente = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Erro ao carregar cliente: ${response.status}`);
             }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                // Define os estados com os valores obtidos da API
-                setNomeUser(retorno_convert.nomeUser);
-                setEmailCliente(retorno_convert.emailCliente);
-                setLogin(retorno_convert.login);
-                setSenhaUser(retorno_convert.senhaUser);
-                setPastaCliente(retorno_convert.pastaCliente);
-            })
-            .catch(error => console.error('Error fetching cliente:', error));
-    }, [idUser]); // Certifique-se de definir idUser antes de usar neste useEffect
+    
+            const retorno_convert = await response.json();
+    
+            // Define os estados com os valores obtidos da API
+            setNomeUser(retorno_convert.nomeUser);
+            setEmailCliente(retorno_convert.emailCliente);
+            setLogin(retorno_convert.login);
+            setSenhaUser(retorno_convert.senhaUser);
+            setPastaCliente(retorno_convert.pastaCliente);
+        } catch (error) {
+            console.error('Error fetching cliente:', error.message);
+        }
+    };
+    
+    // Uso do useEffect
+    useEffect(() => {
+        carregarCliente();
+    }, []);
 
     // Função para lidar com a submissão do formulário
     const alterar = () => {
-
-        // Lógica para enviar os dados atualizados para o servidor
         const dadosAtualizados = {
-            idUser: idUser,
+            idUser,
             nomeUser,
             emailCliente,
             login,
@@ -51,7 +63,6 @@ const AlterarCliente = () => {
             pastaCliente,
             role: "USER"
         };
-
 
         const token = localStorage.getItem('token');
         fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
@@ -63,13 +74,25 @@ const AlterarCliente = () => {
                 'Authorization': `Bearer ${token}`
             }
         })
-
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                if (retorno_convert.message !== undefined) {
-                    alert(retorno_convert.message);
-                }
-            });
+        .then(response => {
+            if (response.status === 422) {
+                return response.json().then(data => {
+                    toast.error(data.message);
+                    carregarCliente();
+                });
+            } else if (response.status === 200) {
+                toast.success('Operação realizada com sucesso!');
+                return response.json();
+            } else {
+                console.error(`Erro na requisição: ${response.status} ${response.statusText}`);
+                toast.error('Erro na requisição');
+                // Pode adicionar tratamento para outros status aqui, se necessário
+            }
+        })
+        .catch(error => {
+            console.error(`Erro na requisição: ${error.message}`);
+            toast.error(`Erro na requisição: ${error.message}`);
+        });
     }
 
 
@@ -78,7 +101,7 @@ const AlterarCliente = () => {
         <>
 
             <Sidebar page="Alterar cliente" />
-
+            <ToastContainer />
             < div className="Main-cadC">
                 <form className="Form">
                     <div className="input-cad">
