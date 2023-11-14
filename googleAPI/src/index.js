@@ -256,33 +256,23 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
   }
 });
 
-// Rota para listar o conteúdo de uma pasta no Google Drive
-app.get('/listarPasta', async (req, res) => {
+// Função para listar arquivos dentro de uma pasta
+async function listarArquivos(pastaId, oauth2Client) {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
   try {
-    const { pastaCliente } = req.query; // Obter o nome da pasta a partir dos parâmetros de consulta (query parameters)
+    const response = await drive.files.list({
+      q: `'${pastaId}' in parents`,
+      fields: 'files(id, name, fileSize, webViewLink)',
+    });
 
-    if (!pastaCliente) {
-      res.status(400).send('O nome da pasta não foi fornecido.');
-      return;
-    }
-
-    const pastaId = await pastaNome(pastaCliente, oauth2Client);
-
-    if (!pastaId) {
-      res.status(404).send('Pasta não encontrada no Google Drive.');
-      return;
-    }
-
-    const arquivos = await listarArquivos(pastaId, oauth2Client);
-
-    res.json(arquivos);
-  } catch (error) {
-    console.error('Erro ao listar o conteúdo da pasta no Google Drive:', error);
-    res.status(500).send('Erro ao listar o conteúdo da pasta no Google Drive.');
+    return response.data.files;
+  } catch (err) {
+    console.error('Erro ao listar arquivos na pasta no Google Drive:', err.message);
+    return [];
   }
-});
+}
 
-// Função para obter o ID de uma pasta por nome
 async function pastaNome(nomePasta, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
@@ -303,22 +293,49 @@ async function pastaNome(nomePasta, oauth2Client) {
   }
 }
 
-// Função para listar arquivos dentro de uma pasta
-async function listarArquivos(pastaId, oauth2Client) {
-  const drive = google.drive({ version: 'v3', auth: oauth2Client });
-
+// Rota para listar o conteúdo de uma pasta no Google Drive
+app.get('/listarArquivos/:pastaCliente', async (req, res) => {
   try {
-    const response = await drive.files.list({
-      q: `'${pastaId}' in parents`,
-      fields: 'files(id, name, mimeType)',
-    });
+    const { pastaCliente } = req.params;
 
-    return response.data.files;
-  } catch (err) {
-    console.error('Erro ao listar arquivos na pasta no Google Drive:', err.message);
-    return [];
+    if (!pastaCliente) {
+      res.status(400).send('O nome da pasta não foi fornecido.');
+      return;
+    }
+
+    const pastaId = await pastaNome(pastaCliente, oauth2Client);
+
+    if (!pastaId) {
+      res.status(404).send('Pasta não encontrada no Google Drive.');
+      return;
+    }
+
+    const arquivos = await listarArquivos(pastaId, oauth2Client);
+
+    res.json(arquivos);
+
+    const fileId = response.data.id;
+        const fileName = response.data.name;
+        const fileSize = response.data.size;
+        const webViewLink = response.data.webViewLink;
+
+        responses.push({
+          fileId,
+          fileName,
+          fileSize,
+          webViewLink,
+        });
+  } catch (error) {
+    console.error('Erro ao listar o conteúdo da pasta no Google Drive:', error);
+    res.status(500).send('Erro ao listar o conteúdo da pasta no Google Drive.');
   }
-}
+});
+
+
+// Função para obter o ID de uma pasta por nome
+
+
+
 
 async function deletar(fileId, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
