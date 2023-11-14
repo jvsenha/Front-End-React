@@ -50,8 +50,8 @@ app.get("/auth/google", (req, res) => {
 app.get("/google/redirect", async (req, res) => {
     try {
         const { code } = req.query;
-        const { tokens } = await oauth2Client.getToken(code);
-        oauth2Client.setCredentials(tokens);
+        const { tokens: authTokens } = await oauth2Client.getToken(code);
+        oauth2Client.setCredentials(authTokens);        
         fs.writeFileSync("creds.json", JSON.stringify(tokens));
         res.send("Sucess");
     } catch (error) {
@@ -263,15 +263,27 @@ async function listarArquivos(pastaId, oauth2Client) {
   try {
     const response = await drive.files.list({
       q: `'${pastaId}' in parents`,
-      fields: 'files(id, name, fileSize, webViewLink)',
+      fields: 'files(id, name, webViewLink, size)', // Substitua 'fileSize' por 'size'
     });
 
-    return response.data.files;
+    const arquivos = response.data.files;
+
+    console.log('Arquivos na pasta:');
+    arquivos.forEach((arquivo) => {
+      console.log('ID:', arquivo.id);
+      console.log('Nome:', arquivo.name);
+      console.log('Tamanho:', arquivo.size);
+      console.log('Link:', arquivo.webViewLink);
+      console.log('----------------------');
+    });
+
+    return arquivos;
   } catch (err) {
     console.error('Erro ao listar arquivos na pasta no Google Drive:', err.message);
     return [];
   }
 }
+
 
 async function pastaNome(nomePasta, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
@@ -285,11 +297,13 @@ async function pastaNome(nomePasta, oauth2Client) {
     if (response.data.files.length > 0) {
       return response.data.files[0].id;
     } else {
-      return null;
+      // Corrigido para retornar um objeto com a propriedade id como null
+      return { id: null };
     }
   } catch (err) {
     console.error('Erro ao obter o ID da pasta no Google Drive:', err.message);
-    return null;
+    // Corrigido para retornar um objeto com a propriedade id como null
+    return { id: null };
   }
 }
 
@@ -312,19 +326,9 @@ app.get('/listarArquivos/:pastaCliente', async (req, res) => {
 
     const arquivos = await listarArquivos(pastaId, oauth2Client);
 
+    // Corrigido para enviar a resposta correta
     res.json(arquivos);
-
-    const fileId = response.data.id;
-        const fileName = response.data.name;
-        const fileSize = response.data.size;
-        const webViewLink = response.data.webViewLink;
-
-        responses.push({
-          fileId,
-          fileName,
-          fileSize,
-          webViewLink,
-        });
+    console.log(arquivos)
   } catch (error) {
     console.error('Erro ao listar o conteúdo da pasta no Google Drive:', error);
     res.status(500).send('Erro ao listar o conteúdo da pasta no Google Drive.');

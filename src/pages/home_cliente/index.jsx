@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
-import Search from "../../components/Search";
 import TabelaCliente from "../../components/TabelaCliente";
 import "../../assets/style.css";
 
@@ -24,8 +23,8 @@ const HomeCliente = () => {
 
         if (responseDadosUser.ok) {
           const dadosUser = await responseDadosUser.json();
-          const pastaCliente = dadosUser.pastaCliente; // Supondo que o nome da pasta esteja em "nomePasta"
-          
+          const pastaCliente = dadosUser.pastaCliente;
+
           // Realiza chamada à API para listar arquivos usando o nome da pasta
           const responseListarArquivos = await fetch(`http://localhost:8000/listarArquivos/${pastaCliente}`, {
             method: 'GET',
@@ -36,25 +35,13 @@ const HomeCliente = () => {
 
           if (responseListarArquivos.ok) {
             const data = await responseListarArquivos.json();
-            const responseData = await response.json(); // Extrair os dados JSON da resposta
-          const fileResponses = responseData.responses;
-          if (fileResponses.length > 0) {
-            const primeiraResposta = fileResponses[0];
-        
-            // Crie um novo objeto 'arquivo' com as informações da primeira resposta
-            const novoArquivo = {
-              idDocumento: primeiraResposta.fileId,
-              nomeDocumento: primeiraResposta.fileName,
-              tamanhoDocumento: primeiraResposta.fileSize,
-              linkDocumento: primeiraResposta.webViewLink,
-            };
-        
-            setArquivos(novoArquivo);
+            const fileResponses = data; // Não precisa usar data.responses, pois o retorno já é o array de arquivos
+
+            // Atualiza o estado arquivos
+            setArquivos(fileResponses);
           } else {
-            console.error('Erro ao buscar documentos. Resposta HTTP não está OK.');
+            throw new Error('Erro ao obter dados do usuário.');
           }
-        } else {
-          throw new Error('Erro ao obter dados do usuário.');
         }
       } catch (error) {
         console.error('Erro ao buscar documentos', error);
@@ -65,8 +52,6 @@ const HomeCliente = () => {
       fetchData();
     }
   }, [token]);
-
-  
 
   return (
     <>
