@@ -421,7 +421,17 @@ overflow-y: auto;
   margin: 3% 0 5% 1%;
   font-size: 25px;
 }
-
+.div-button{
+  position: relative;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.div-button button{
+  margin: 0 0 2em 0;
+  padding: 0;
+}
 @media (max-width: 995px) {
   .main {
     display: flex;

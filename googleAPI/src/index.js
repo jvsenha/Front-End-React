@@ -1,3 +1,4 @@
+// Importação de módulos
 import dotenv from "dotenv";
 dotenv.config();
 import { google } from 'googleapis';
@@ -10,94 +11,106 @@ import credentials from '../credentials.json' assert { type: 'json' };
 import { OAuth2Client } from 'google-auth-library';
 import bodyParser from 'body-parser';
 
-
-
+// Configuração do servidor Express
 const app = express();
 
-
-const corsOptions = {
-    origin: '*', // A origem permitida (substitua pelo seu próprio domínio)
-    methods: 'GET,POST,DELETE', // Métodos permitidos
-  };
-  app.use(cors(corsOptions));
-
-  const oauth2Client = new OAuth2Client({
-    clientId: credentials.web.client_id,
-    clientSecret: credentials.web.client_secret,
-    redirectUri: credentials.web.redirect_uris[0],
-  });
-
-try {
-    const creds = fs.readFileSync("creds.json");
-    oauth2Client.setCredentials(JSON.parse(creds));
-} catch (err) {
-    console.log("No creds found");
-}
-
-const PORT = process.env.PORT || 8000;
-
-app.get("/auth/google", (req, res) => {
-    const url = oauth2Client.generateAuthUrl({
-        access_type: "offline",
-        scope: [
-            "https://www.googleapis.com/auth/userinfo.profile",
-            "https://www.googleapis.com/auth/drive"
-        ],
-    });
-    res.redirect(url);
-});
-
-app.get("/google/redirect", async (req, res) => {
-    try {
-        const { code } = req.query;
-        const { tokens: authTokens } = await oauth2Client.getToken(code);
-        oauth2Client.setCredentials(authTokens);        
-        fs.writeFileSync("creds.json", JSON.stringify(tokens));
-        res.send("Sucess");
-    } catch (error) {
-        console.error("Erro ao obter tokens de acesso:", error);
-        res.status(500).send("Erro ao obter tokens de acesso.");
-    }
-});
-
-//const TOKEN_PATH = 'creds.json'; //Path para armazenar o token de acesso
-
-
-/*async function autenticar() {
-  const credentials = require('../credentials.json');  //Substitua pelo caminho correto das suas credenciais
-  const { client_secret, client_id, redirect_uris } = credentials.installed;
-  const oauth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
-
-  // Verificar se já tem um token de acesso
-  try {
-    const token = fs.readFileSync(TOKEN_PATH);
-    oauth2Client.setCredentials(JSON.parse(token));
-    return oauth2Client;
-  } catch (err) {
-    return getNovoToken(oauth2Client);
-  }
-}*/
-
+// Configuração do middleware de análise de corpo da solicitação
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Porta do servidor
+const PORT = process.env.PORT || 8000;
+
+// Configuração de CORS
+const corsOptions = {
+  origin: '*', // A origem permitida (substitua pelo seu próprio domínio)
+  methods: 'GET,POST,DELETE', // Métodos permitidos
+};
+app.use(cors(corsOptions));
+
+// Configuração do cliente OAuth2
+const oauth2Client = new OAuth2Client({
+  clientId: credentials.web.client_id,
+  clientSecret: credentials.web.client_secret,
+  redirectUri: credentials.web.redirect_uris[0],
+});
+
+// Leitura das credenciais salvas, se existirem
+try {
+  const creds = fs.readFileSync("creds.json");
+  oauth2Client.setCredentials(JSON.parse(creds));
+} catch (err) {
+  console.log("No creds found");
+}
+
+
+// Rota para iniciar o processo de autorização com o Google
+app.get("/auth/google", (req, res) => {
+  const url = oauth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/drive"
+    ],
+  });
+  res.redirect(url);
+});
+
+// Rota para tratar o redirecionamento após a autorização do Google
+app.get("/google/redirect", async (req, res) => {
+  try {
+    const { code } = req.query;
+    const { tokens: authTokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(authTokens);
+    fs.writeFileSync("creds.json", JSON.stringify(authTokens));
+    res.send("Sucesso");
+  } catch (error) {
+    console.error("Erro ao obter tokens de acesso:", error);
+    res.status(500).send("Erro ao obter tokens de acesso.");
+  }
+});
+
+// Função para atualizar o token de acesso usando o token de atualização
+async function refreshAccessToken() {
+  const { refresh_token } = JSON.parse(fs.readFileSync("creds.json"));
+  const { tokens: authTokens } = await oauth2Client.refreshToken(refresh_token);
+  oauth2Client.setCredentials(authTokens);
+  fs.writeFileSync("creds.json", JSON.stringify(authTokens));
+}
+
+
+async function makeRequest() {
+  try {
+    // Tente fazer a solicitação
+  } catch (error) {
+    if (error.message === 'invalid_grant') {
+      // O token de acesso expirou, atualize-o
+      await refreshAccessToken();
+      // Tente a solicitação novamente
+    } else {
+      // Outro erro ocorreu, lidar com isso
+    }
+  }
+}
+
+// Função para criar uma pasta no Google Drive
 async function criarPastaNoDrive(pastaCliente, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
   const fileMetadata = {
-      name: pastaCliente,
-      mimeType: 'application/vnd.google-apps.folder',
+    name: pastaCliente,
+    mimeType: 'application/vnd.google-apps.folder',
   };
 
   try {
-      const response = await drive.files.create({
-          resource: fileMetadata,
-          fields: 'id',
-      });
-      return response.data.id;
+    const response = await drive.files.create({
+      resource: fileMetadata,
+      fields: 'id',
+    });
+    return response.data.id;
   } catch (err) {
-      console.error('Erro ao criar a pasta no Google Drive:', err.message);
-      return null;
+    console.error('Erro ao criar a pasta no Google Drive:', err.message);
+    return null;
   }
 }
 
@@ -124,6 +137,7 @@ app.post('/cadastrarPastaNoDrive', async (req, res) => {
   }
 });
 
+// Função para criar uma subpasta no Google Drive
 async function criarSubPasta(pastaCliente, subPasta, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
@@ -169,7 +183,7 @@ app.post('/subPasta/:pastaCliente', async (req, res) => {
   }
 });
 
-
+// Função para formatar o tamanho do arquivo
 function formatFileSize(bytes) {
   if (bytes < 1024) {
     return bytes + ' bytes';
@@ -180,18 +194,18 @@ function formatFileSize(bytes) {
   }
 }
 
-
+// Configuração do armazenamento para o multer
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+// Rota para upload de arquivos para uma pasta no Google Drive
 app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
   const folderName = req.params.pastaCliente;
-  
 
   try {
-    // Pesquise a pasta pelo nome
+    // Pesquisa a pasta pelo nome
     const responses = [];
     const folderQuery = `name='${folderName}' and mimeType='application/vnd.google-apps.folder'`;
     const folders = await drive.files.list({
@@ -210,7 +224,7 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
           parents: [folderId],
         };
 
-        // Crie um stream legível a partir do Buffer
+        // Cria um stream legível a partir do Buffer
         const readableStream = new Readable();
         readableStream.push(file.buffer);
         readableStream.push(null);
@@ -226,7 +240,6 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
           fields: 'id,name,size,webViewLink',
         });
 
-        
         const fileId = response.data.id;
         const fileName = response.data.name;
         const fileSize = response.data.size;
@@ -238,7 +251,8 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
           fileSize,
           webViewLink,
         });
-        console.log(`Arquivo ${fileName} `);
+
+        console.log(`Arquivo ${fileName}`);
         console.log(`ID: ${fileId}`);
         console.log(`Tamanho:${fileSize}`);
         console.log(`Link:${webViewLink}`);
@@ -256,14 +270,14 @@ app.post('/upload/:pastaCliente', upload.array('files', 5), async (req, res) => 
   }
 });
 
-// Função para listar arquivos dentro de uma pasta
+// Função para listar arquivos dentro de uma pasta no Google Drive
 async function listarArquivos(pastaId, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
   try {
     const response = await drive.files.list({
       q: `'${pastaId}' in parents`,
-      fields: 'files(id, name, webViewLink, size)', // Substitua 'fileSize' por 'size'
+      fields: 'files(id, name, webViewLink, size)',
     });
 
     const arquivos = response.data.files;
@@ -284,7 +298,7 @@ async function listarArquivos(pastaId, oauth2Client) {
   }
 }
 
-
+// Função para obter o ID de uma pasta por nome
 async function pastaNome(nomePasta, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
@@ -307,40 +321,47 @@ async function pastaNome(nomePasta, oauth2Client) {
   }
 }
 
+async function handleFileListing(req, res) {
+  const { pastaCliente } = req.params;
+
+  if (!pastaCliente) {
+    res.status(400).send('O nome da pasta não foi fornecido.');
+    return;
+  }
+
+  const pastaId = await pastaNome(pastaCliente, oauth2Client);
+
+  if (!pastaId) {
+    res.status(404).send('Pasta não encontrada no Google Drive.');
+    return;
+  }
+
+  const arquivos = await listarArquivos(pastaId, oauth2Client);
+
+  // Corrigido para enviar a resposta correta
+  res.json(arquivos);
+  console.log(arquivos);
+}
+
 // Rota para listar o conteúdo de uma pasta no Google Drive
 app.get('/listarArquivos/:pastaCliente', async (req, res) => {
   try {
-    const { pastaCliente } = req.params;
-
-    if (!pastaCliente) {
-      res.status(400).send('O nome da pasta não foi fornecido.');
-      return;
-    }
-
-    const pastaId = await pastaNome(pastaCliente, oauth2Client);
-
-    if (!pastaId) {
-      res.status(404).send('Pasta não encontrada no Google Drive.');
-      return;
-    }
-
-    const arquivos = await listarArquivos(pastaId, oauth2Client);
-
-    // Corrigido para enviar a resposta correta
-    res.json(arquivos);
-    console.log(arquivos)
+    await handleFileListing(req, res);
   } catch (error) {
-    console.error('Erro ao listar o conteúdo da pasta no Google Drive:', error);
-    res.status(500).send('Erro ao listar o conteúdo da pasta no Google Drive.');
+    if (error.message === 'invalid_grant') {
+      // O token de acesso expirou, atualize-o
+      await refreshAccessToken();
+      // Tente a solicitação novamente
+      await handleFileListing(req, res);
+    } else {
+      // Outro erro ocorreu, lidar com isso
+      console.error('Erro ao listar o conteúdo da pasta no Google Drive:', error);
+      res.status(500).send('Erro ao listar o conteúdo da pasta no Google Drive.');
+    }
   }
 });
 
-
-// Função para obter o ID de uma pasta por nome
-
-
-
-
+// Função para deletar arquivo ou pasta no Google Drive
 async function deletar(fileId, oauth2Client) {
   const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
@@ -351,7 +372,6 @@ async function deletar(fileId, oauth2Client) {
     console.error('Erro ao excluir arquivo ou pasta:', err.message);
   }
 }
-
 
 // Rota para excluir arquivo ou pasta no Google Drive
 app.delete('/deletar/:fileId', async (req, res) => {
@@ -372,14 +392,15 @@ app.delete('/deletar/:fileId', async (req, res) => {
   }
 });
 
+// Rota para download de arquivo do Google Drive
 app.get('/download/:fileId/:nomeDocumento', (req, res) => {
   const fileId = req.params.fileId; // Obtém o ID do arquivo a ser baixado
   const nomeDocumento = req.params.nomeDocumento; // Obtém o nome do arquivo a ser baixado
 
-  // Crie uma instância da biblioteca googleapis para interagir com a API do Google Drive
+  // Cria uma instância da biblioteca googleapis para interagir com a API do Google Drive
   const drive = google.drive({ version: 'v3', auth: oauth2Client }); // Certifique-se de que 'oauth2Client' esteja configurado corretamente
 
-  // Use a função files.get para obter informações sobre o arquivo, incluindo o seu conteúdo
+  // Usa a função files.get para obter informações sobre o arquivo, incluindo o seu conteúdo
   drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' }, (err, response) => {
     if (err) {
       console.error('Erro ao obter o arquivo do Google Drive:', err);
@@ -387,30 +408,30 @@ app.get('/download/:fileId/:nomeDocumento', (req, res) => {
       return;
     }
 
-    // Verifique se a resposta possui dados
+    // Verifica se a resposta possui dados
     if (!response.data) {
       console.error('Nenhum dado encontrado.');
       res.status(404).send('Nenhum dado encontrado.');
       return;
     }
 
-    // Determine o tipo de conteúdo com base na extensão do nome do arquivo
+    // Determina o tipo de conteúdo com base na extensão do nome do arquivo
     const extensao = nomeDocumento.split('.').pop();
     let tipoConteudo = 'application/octet-stream'; // Tipo de conteúdo padrão
 
-    // Mapeie extensões comuns para tipos de conteúdo
+    // Mapeia extensões comuns para tipos de conteúdo
     const tiposDeConteudoPorExtensao = {
       pdf: 'application/pdf',
       doc: 'application/msword',
       docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       xls: 'application/vnd.ms-excel',
-      xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      xlsx: 'application/vnd.openxmlformats',
       jpg: 'image/jpeg',
       jpeg: 'image/jpeg',
       png: 'image/png',
       gif: 'image/gif',
     };
-if (extensao in tiposDeConteudoPorExtensao) {
+    if (extensao in tiposDeConteudoPorExtensao) {
       tipoConteudo = tiposDeConteudoPorExtensao[extensao];
     }
 
@@ -433,7 +454,7 @@ if (extensao in tiposDeConteudoPorExtensao) {
   });
 });
 
-  
+
 app.listen(PORT, () => {
-    console.log("Server started on port 8000");
+  console.log("Server started on port 8000");
 });
