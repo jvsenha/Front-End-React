@@ -1,7 +1,7 @@
 import "./style.css";
 
 
-const ListaReset = ( {vetor, funcao}) => {
+const ListaReset = ( {vetor, funcao, onCancel}) => {
 
   return (
 <>
@@ -20,7 +20,7 @@ const ListaReset = ( {vetor, funcao}) => {
                     <button onClick={() => funcao(cliente.login)} class="Alterar">Alterar</button>
                 </div>
                 <div>
-                    <a href="#" class="Cancelar">Cancelar</a> 
+                <button onClick={() => onCancel(cliente.login)}  class="Cancelar">Rejeitar</button>
                 </div>
             </div>    
         </div>
