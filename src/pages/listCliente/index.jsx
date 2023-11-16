@@ -25,28 +25,54 @@ const ListClienteEmp = () => {
 
       if (response.ok) {
         const data = await response.json();
-        const updatedClientes = data.map((cliente) => {
-          const isEnabled = cliente.enabled;
-          const status = isEnabled ? 'Ativo' : 'Inativo';
 
-          return {
-            idUser: cliente.idUser,
-            login: cliente.login,
-            nomeUser: cliente.nomeUser,
-            emailCliente: cliente.emailCliente,
-            pastaCliente: cliente.pastaCliente,
-            isEnabled: status,
-          };
-        });
+        const updatedClientes = [];
+
+        for (const cliente of data) {
+          try {
+            let pastaId = ''; // Valor padrão caso não haja pasta cadastrada
+
+            // Verifica se o cliente possui uma pasta cadastrada antes de obter o ID
+            if (cliente.pastaCliente) {
+              const response = await fetch(`http://localhost:8000/obterIdPasta/${cliente.pastaCliente}`);
+              if (response.ok) {
+                const responseData = await response.json();
+                pastaId = responseData.pastaId;
+              } else {
+                console.error('Erro ao obter ID da pasta:', response.statusText);
+              }
+            }
+
+            const isEnabled = cliente.enabled;
+            const status = isEnabled ? 'Ativo' : 'Inativo';
+
+            updatedClientes.push({
+              idUser: cliente.idUser,
+              login: cliente.login,
+              nomeUser: cliente.nomeUser,
+              emailCliente: cliente.emailCliente,
+              pastaCliente: cliente.pastaCliente,
+              pastaId: pastaId, // Adicionando o ID da pasta ao objeto do cliente
+              isEnabled: status,
+            });
+          } catch (error) {
+            console.error('Erro ao processar cliente:', error);
+          }
+        }
+
         setClientes(updatedClientes);
       }
     } catch (error) {
       console.error('Erro ao buscar clientes', error);
     }
   };
+
   useEffect(() => {
     fetchClientes();
   }, [token]);
+
+ 
+
 
   const mudarStatus = (userId) => {
     const Inativar = { enabled: 'false' };
@@ -108,6 +134,26 @@ const ListClienteEmp = () => {
     );
   }, [busca, clientes]);
 
+  const handleAbrirPasta = (pastaId) => {
+    try {
+      if (pastaId) {
+        const urlDoDrive = `https://drive.google.com/drive/folders/${pastaId}`;
+        
+        // Abra a URL em uma nova janela
+        window.open(urlDoDrive, '_blank');
+        toast.success('Pasta do Google Drive aberta com sucesso!');
+      } else {
+        toast.error('ID da pasta não encontrado. Não é possível abrir a pasta.');
+      }
+    } catch (error) {
+      console.error('Erro ao abrir a pasta no Google Drive:', error);
+  
+      // Exibe uma notificação Toastify em caso de erro ao abrir a pasta
+      toast.error('Erro ao abrir a pasta no Google Drive');
+    }
+  };
+  
+
   return (
     <>
       <section className='listcliente'>
@@ -124,6 +170,7 @@ const ListClienteEmp = () => {
               onRemover={remover}
               onAtivar={(userId) => mudarStatus(userId, 'Ativar')}
               onInativar={(userId) => mudarStatus(userId, 'Inativar')}
+              onAbrirPasta={handleAbrirPasta}
             />
           </section>
         </section>
