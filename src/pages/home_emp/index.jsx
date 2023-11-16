@@ -5,6 +5,7 @@ import '../../assets/style.css';
 import Sidebar from "../../components/Sidebar";
 import ListaReset from "../../components/ListaReset";
 import WindowDelete from '../../components/WindowReset';
+import WindowCancel from '../../components/WindowCancel';
 
 const HomeEmp = () => {
     const [clientes, setClientes] = useState([]);
@@ -51,6 +52,16 @@ const HomeEmp = () => {
             />
         );
     };
+ 
+    const cancelReset = (login) => {
+        // Utilize o toast para confirmar a ação
+        toast.warn(
+            <WindowCancel
+                confirmAction={() => handleResetRejeitarAction(login)}
+                onCancel={() => toast.error("Ação cancelada!!")}
+            />
+        );
+    };
 
     const handleResetConfirmAction = (login) => {
         fetch('http://localhost:8080/reset/reset-password', {
@@ -78,20 +89,43 @@ const HomeEmp = () => {
             });
     };
 
+    const handleResetRejeitarAction = (login) => {
+        fetch('http://localhost:8080/reset/cancel-reset', {
+            method: 'POST',
+            body: JSON.stringify({
+                login: login
+            }),
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(retorno => retorno.json())
+            .then(retorno_convert => {
+                if (retorno_convert.message !== undefined) {
+                    toast.error(retorno_convert.message);
+                } else {
+                    toast.success('Redefinição rejeitada com sucesso!!');
+                    fetchReset();
+                }
+            })
+            .catch(error => {
+                console.error('Erro durante o reset de senha:', error);
+            });
+    };
+
     return (
         <>
             <Sidebar page="Dashboard" />
             <ToastContainer />
             <section className="section-reset">
                 <section className="main-reset">
-                    <div className='teste-div'>
-                        1
-                    </div>
                     <div className='solicitacao-div' >
                         <h1 className="Title">
                             Solicitações
                         </h1>
-                        <ListaReset vetor={clientes} funcao={resetSenha} />
+                        <ListaReset vetor={clientes} funcao={resetSenha} onCancel={cancelReset} />
                     </div>
                 </section>
             </section>
