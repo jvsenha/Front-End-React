@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-const TabelaCliente = ({ vetor }) => {
-  
+const TabelaCliente = ({ vetor, onDownload }) => {
   
   return (
     <>
@@ -32,7 +31,8 @@ const TabelaCliente = ({ vetor }) => {
                   </Link>
                 </td>
                 <td>
-                  <Link to={arquivo.webViewLink} target="_blank" rel="noopener noreferrer" className='Link-doc'>
+                <Link onClick={() => onDownload(arquivo.id,arquivo.name)} className='Link-doc'
+                  >
                     Download
                   </Link>
                 </td>

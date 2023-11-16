@@ -393,31 +393,20 @@ app.delete('/deletar/:fileId', async (req, res) => {
 });
 
 // Rota para download de arquivo do Google Drive
-app.get('/download/:fileId/:nomeDocumento', (req, res) => {
-  const fileId = req.params.fileId; // Obtém o ID do arquivo a ser baixado
-  const nomeDocumento = req.params.nomeDocumento; // Obtém o nome do arquivo a ser baixado
+app.get('/download/:fileId/:nomeDocumento', async (req, res) => {
+  try {
+    const fileId = req.params.fileId;
+    const nomeDocumento = req.params.nomeDocumento;
 
-  // Cria uma instância da biblioteca googleapis para interagir com a API do Google Drive
-  const drive = google.drive({ version: 'v3', auth: oauth2Client }); // Certifique-se de que 'oauth2Client' esteja configurado corretamente
+    // Cria uma instância da biblioteca googleapis para interagir com a API do Google Drive
+    const drive = google.drive({ version: 'v3', auth: oauth2Client });
 
-  // Usa a função files.get para obter informações sobre o arquivo, incluindo o seu conteúdo
-  drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' }, (err, response) => {
-    if (err) {
-      console.error('Erro ao obter o arquivo do Google Drive:', err);
-      res.status(500).send('Erro ao obter o arquivo do Google Drive.');
-      return;
-    }
-
-    // Verifica se a resposta possui dados
-    if (!response.data) {
-      console.error('Nenhum dado encontrado.');
-      res.status(404).send('Nenhum dado encontrado.');
-      return;
-    }
+    // Usa a função files.get para obter informações sobre o arquivo, incluindo o seu conteúdo
+    const file = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' });
 
     // Determina o tipo de conteúdo com base na extensão do nome do arquivo
     const extensao = nomeDocumento.split('.').pop();
-    let tipoConteudo = 'application/octet-stream'; // Tipo de conteúdo padrão
+    let tipoConteudo = 'application/octet-stream';
 
     // Mapeia extensões comuns para tipos de conteúdo
     const tiposDeConteudoPorExtensao = {
@@ -431,6 +420,7 @@ app.get('/download/:fileId/:nomeDocumento', (req, res) => {
       png: 'image/png',
       gif: 'image/gif',
     };
+
     if (extensao in tiposDeConteudoPorExtensao) {
       tipoConteudo = tiposDeConteudoPorExtensao[extensao];
     }
@@ -442,16 +432,19 @@ app.get('/download/:fileId/:nomeDocumento', (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename="${nomeDocumento}"`);
 
     // Enviar o conteúdo do arquivo como resposta
-    response.data
-      .pipe(res)
-      .on('finish', () => {
+    file.data
+      .on('end', () => {
         console.log(`Arquivo ${nomeDocumento} enviado com sucesso.`);
       })
       .on('error', (err) => {
         console.error('Erro ao enviar o arquivo:', err);
         res.status(500).send('Erro ao enviar o arquivo.');
-      });
-  });
+      })
+      .pipe(res);
+  } catch (error) {
+    console.error('Erro ao fazer o download do arquivo:', error);
+    res.status(500).send('Erro ao fazer o download do arquivo.');
+  }
 });
 
 
