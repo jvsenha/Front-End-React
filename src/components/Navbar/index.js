@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
+import Logo from "../../assets/Imagens/Primus_branca.png";
 import { Link } from 'react-router-dom';
 import "./style.css";
 

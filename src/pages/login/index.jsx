@@ -1,7 +1,7 @@
 import "../../assets/style.css";
 import Input from '../../components/Input'
 import Button from '../../components/Button';
-import Logo from "../../assets/Imagens/logotipo_grupo_engerb_base_site_branca.webp";
+import Logo from "../../assets/Imagens/Primus_branca.png";
 import LinkButton from '../../components/Link-Button';
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
