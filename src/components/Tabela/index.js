@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 
-const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
+const Tabela = ({ vetor, onRemover, onAtivar, onInativar, onAbrirPasta }) => {
     const [statusClientes, setStatusClientes] = useState({});
 
     const openMenu = (userId) => {
@@ -46,7 +46,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar }) => {
                                     <td>{cliente.nomeUser}</td>
                                     <td>{cliente.emailCliente}</td>
                                     <td>
-                                       <i className='bx bx-link'></i>
+                                       <i className='bx bx-link' onClick={() => onAbrirPasta(cliente.pastaId)}></i>
                                     </td>
                                     <td>
                                         <div className="options"

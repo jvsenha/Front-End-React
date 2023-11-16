@@ -447,6 +447,51 @@ app.get('/download/:fileId/:nomeDocumento', async (req, res) => {
   }
 });
 
+// Função para obter o ID de uma pasta por nome
+async function obterIdPastaPorNome(nomePasta, oauth2Client) {
+  const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+  try {
+    const response = await drive.files.list({
+      q: `name='${nomePasta}' and mimeType='application/vnd.google-apps.folder'`,
+      fields: 'files(id)',
+    });
+
+    if (response.data.files.length > 0) {
+      return response.data.files[0].id;
+    } else {
+      return null;
+    }
+  } catch (err) {
+    console.error('Erro ao obter o ID da pasta no Google Drive:', err.message);
+    return null;
+  }
+}
+
+// Rota para obter o ID da pasta por nome
+app.get('/obterIdPasta/:nomePasta', async (req, res) => {
+  try {
+    const { nomePasta } = req.params;
+
+    if (!nomePasta) {
+      res.status(400).send('O nome da pasta não foi fornecido.');
+      return;
+    }
+
+    const pastaId = await obterIdPastaPorNome(nomePasta, oauth2Client);
+
+    if (pastaId) {
+      res.json({ pastaId });
+    } else {
+      res.status(404).send('Pasta não encontrada no Google Drive.');
+    }
+  } catch (error) {
+    console.error('Erro ao obter o ID da pasta no Google Drive:', error);
+    res.status(500).send('Erro ao obter o ID da pasta no Google Drive.');
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log("Server started on port 8000");
