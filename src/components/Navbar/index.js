@@ -13,7 +13,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
   useEffect(() => {
     const fetchDados = async (token) => {
       try {
-        const response = await fetch("http://localhost:8080/auth/dadosUser", {
+        const response = await fetch("https://app.compreagua.com.br/auth/dadosUser", {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -42,7 +42,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
   const logout = () => {
     const token = localStorage.getItem('token');
 
-    fetch('http://localhost:8080/auth/logout', {
+    fetch('https://app.compreagua.com.br/auth/logout', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -52,7 +52,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
         if (response.ok) {
           // Logout bem-sucedido
           localStorage.clear();
-          window.location.href = 'http://localhost:3000/'; // Ou use o roteamento do React, se aplicável
+          window.location.href = 'https://compreagua.com.br/'; // Ou use o roteamento do React, se aplicável
         } else {
           throw new Error('Erro ao fazer logout.');
         }
@@ -88,7 +88,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
       <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet" />
 
       <nav className="nav">
-        <Link to={"http://localhost:3000/homeclt"}>
+        <Link to={"https://compreagua.com.br/homeclt"}>
           <img className="img-nav" src={Logo} alt="" />
         </Link>
         <div className="div_icons">

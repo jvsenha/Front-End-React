@@ -12,7 +12,7 @@ const HomeCliente = () => {
     const fetchData = async () => {
       try {
         // Busca dados do usuário para obter o nome da pasta
-        const responseDadosUser = await fetch('http://localhost:8080/auth/dadosUser', {
+        const responseDadosUser = await fetch('https://app.compreagua.com.br/auth/dadosUser', {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -26,7 +26,7 @@ const HomeCliente = () => {
           const pastaCliente = dadosUser.pastaCliente;
 
           // Realiza chamada à API para listar arquivos usando o nome da pasta
-          const responseListarArquivos = await fetch(`http://localhost:8000/listarArquivos/${pastaCliente}`, {
+          const responseListarArquivos = await fetch(`https://gapi.compreagua.com.br/listarArquivos/${pastaCliente}`, {
             method: 'GET',
             headers: {
               'Content-type': 'application/json',
@@ -56,7 +56,7 @@ const HomeCliente = () => {
   
   const downloadFile = async (fileId, nomeDocumento) => {
     try {
-        const response = await fetch(`http://localhost:8000/download/${fileId}/${nomeDocumento}`, {
+        const response = await fetch(`https://gapi.compreagua.com.br/download/${fileId}/${nomeDocumento}`, {
             method: 'GET',
         });
 

@@ -19,7 +19,7 @@ const ConfiguracoesAdm = () => {
     // useEffect para carregar os dados do cliente
     useEffect(() => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/empresa/carregar/${idUser}`, {
+        fetch(`https://app.compreagua.com.br/empresa/carregar/${idUser}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -55,7 +55,7 @@ const ConfiguracoesAdm = () => {
 
 
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/empresa/alterar/${idUser}`, {
+        fetch(`https://app.compreagua.com.br/empresa/alterar/${idUser}`, {
             method: 'PUT',
             body: JSON.stringify(dadosAtualizados),
             headers: {

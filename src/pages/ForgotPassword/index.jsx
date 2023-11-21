@@ -14,7 +14,7 @@ const ForgotPassword = () => {
 
     const resetSenha = () => {
         try {
-            fetch('http://localhost:8080/reset/forgot-password', {
+            fetch('https://app.compreagua.com.br/reset/forgot-password', {
                 method: 'POST',
                 body: JSON.stringify(objLogin),
                 headers: {
@@ -31,7 +31,7 @@ const ForgotPassword = () => {
                     } else {
                         toast.success('Aguarde a empresa analisar seu pedido');
 
-                        window.location.assign("http://localhost:3000/");
+                        window.location.assign("https://compreagua.com.br/");
                     }
                 });
         } catch (error) {

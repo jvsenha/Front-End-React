@@ -17,7 +17,7 @@ const LoginEmp = () => {
     const logar = () => {
         const token = localStorage.getItem('token');
         if (token === null) {
-            fetch('http://localhost:8080/auth/loginemp', {
+            fetch('https://app.compreagua.com.br/auth/loginemp', {
                 method: 'POST',
                 body: JSON.stringify(objCredeciais),
                 headers: {
@@ -33,11 +33,11 @@ const LoginEmp = () => {
                         // Armazene o token no localStorage
                         localStorage.setItem('token', retorno_convert.token);
                        
-                        window.location.assign("http://localhost:3000/homeemp");
+                        window.location.assign("https://compreagua.com.br/homeemp");
                     }
                 });
         } else {
-            fetch('http://localhost:8080/auth/validarToken', {
+            fetch('https://app.compreagua.com.br/auth/validarToken', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -50,7 +50,7 @@ const LoginEmp = () => {
                     const authorities = authority.join();
                     if (authorities !== 'ROLE_EMP') {
                         localStorage.removeItem("token");
-                        fetch('http://localhost:8080/auth/loginemp', {
+                        fetch('https://app.compreagua.com.br/auth/loginemp', {
                             method: 'POST',
                             body: JSON.stringify(objCredeciais),
                             headers: {
@@ -66,12 +66,12 @@ const LoginEmp = () => {
                                     // Armazene o token no localStorage
                                     localStorage.setItem('token', retorno_convert.token);
                                    
-                                    window.location.assign("http://localhost:3000/homeemp");
+                                    window.location.assign("https://compreagua.com.br/homeemp");
                                 }
                             });
                     } else {
                        
-                        window.location.assign("http://localhost:3000/homeemp")
+                        window.location.assign("https://compreagua.com.br/homeemp")
                     }
                 });
         }

@@ -19,7 +19,7 @@ const AlterarSenha = () => {
                 senhaUser,
             };
             const token = localStorage.getItem('token');
-            fetch(`http://localhost:8080/cliente/alterarsenha/${idUser}`, {
+            fetch(`https://app.compreagua.com.br/cliente/alterarsenha/${idUser}`, {
                 method: 'PUT',
                 body: JSON.stringify(dadosAtualizados),
                 headers: {
@@ -35,7 +35,7 @@ const AlterarSenha = () => {
                         toast.success(retorno_convert.message, {
                             autoClose: 3000, // Tempo em milissegundos (3 segundos neste exemplo)
                         });
-                        window.location.assign("http://localhost:3000/homeclt")
+                        window.location.assign("https://compreagua.com.br/homeclt")
                     }
                 });
         } else {

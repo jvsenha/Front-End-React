@@ -20,7 +20,7 @@ const ConfiguracoesCliente = () => {
     // useEffect para carregar os dados do cliente
     useEffect(() => {
         const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
+        fetch(`https://app.compreagua.com.br/cliente/carregar/${idUser}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -54,7 +54,7 @@ const ConfiguracoesCliente = () => {
     };
 
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
+    fetch(`https://app.compreagua.com.br/cliente/alterar/${idUser}`, {
         method: 'PUT',
         body: JSON.stringify(dadosAtualizados),
         headers: {
@@ -85,7 +85,7 @@ const ConfiguracoesCliente = () => {
 
     const voltar = () => {
         // Usando window.history.back() ou window.history.go(-1) para voltar
-        window.location.assign("http://localhost:3000/homeclt");
+        window.location.assign("https://compreagua.com.br/homeclt");
     };
 
     return (

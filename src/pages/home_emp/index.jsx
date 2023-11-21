@@ -13,7 +13,7 @@ const HomeEmp = () => {
 
     const fetchReset = async () => {
         try {
-            const response = await fetch('http://localhost:8080/cliente/listarReset', {
+            const response = await fetch('https://app.compreagua.com.br/cliente/listarReset', {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
@@ -64,7 +64,7 @@ const HomeEmp = () => {
     };
 
     const handleResetConfirmAction = (login) => {
-        fetch('http://localhost:8080/reset/reset-password', {
+        fetch('https://app.compreagua.com.br/reset/reset-password', {
             method: 'POST',
             body: JSON.stringify({
                 login: login
@@ -90,7 +90,7 @@ const HomeEmp = () => {
     };
 
     const handleResetRejeitarAction = (login) => {
-        fetch('http://localhost:8080/reset/cancel-reset', {
+        fetch('https://app.compreagua.com.br/reset/cancel-reset', {
             method: 'POST',
             body: JSON.stringify({
                 login: login

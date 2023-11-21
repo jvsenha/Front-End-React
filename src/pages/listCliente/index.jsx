@@ -14,7 +14,7 @@ const ListClienteEmp = () => {
 
   const fetchClientes = async () => {
     try {
-      const response = await fetch('http://localhost:8080/cliente/listarAtivos', {
+      const response = await fetch('https://app.compreagua.com.br/cliente/listarAtivos', {
         method: 'GET',
         headers: {
           'Content-type': 'application/json',
@@ -34,7 +34,7 @@ const ListClienteEmp = () => {
 
             // Verifica se o cliente possui uma pasta cadastrada antes de obter o ID
             if (cliente.pastaCliente) {
-              const response = await fetch(`http://localhost:8000/obterIdPasta/${cliente.pastaCliente}`);
+              const response = await fetch(`https://gapi.compreagua.com.br/obterIdPasta/${cliente.pastaCliente}`);
               if (response.ok) {
                 const responseData = await response.json();
                 pastaId = responseData.pastaId;
@@ -77,7 +77,7 @@ const ListClienteEmp = () => {
   const mudarStatus = (userId) => {
     const Inativar = { enabled: 'false' };
 
-    fetch(`http://localhost:8080/cliente/updateUser/${userId}`, {
+    fetch(`https://app.compreagua.com.br/cliente/updateUser/${userId}`, {
         method: 'PUT',
         body: JSON.stringify(Inativar),
         headers: {
@@ -108,7 +108,7 @@ const ListClienteEmp = () => {
   
   const handleConfirmAction = (userId) => {
     // Remova o cliente aqui se o usuário confirmar
-    fetch(`http://localhost:8080/cliente/remover/${userId}`, {
+    fetch(`https://app.compreagua.com.br/cliente/remover/${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-type': 'application/json',

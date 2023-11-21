@@ -13,7 +13,7 @@ const ListCltInativosEmp = () => {
     const statusRef = useRef(null);
     const fetchClientes = async () => {
         try {
-            const response = await fetch('http://localhost:8080/cliente/listarInativos', {
+            const response = await fetch('https://app.compreagua.com.br/cliente/listarInativos', {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
@@ -50,7 +50,7 @@ const ListCltInativosEmp = () => {
     const mudarStatus = (userId) => {
         const Ativar = { enabled: 'true' };
 
-        fetch(`http://localhost:8080/cliente/updateUser/${userId}`, {
+        fetch(`https://app.compreagua.com.br/cliente/updateUser/${userId}`, {
             method: 'PUT',
             body: JSON.stringify(Ativar),
             headers: {
@@ -82,7 +82,7 @@ const ListCltInativosEmp = () => {
       
       const handleConfirmAction = (userId) => {
         // Remova o cliente aqui se o usuário confirmar
-        fetch(`http://localhost:8080/cliente/remover/${userId}`, {
+        fetch(`https://app.compreagua.com.br/cliente/remover/${userId}`, {
           method: 'DELETE',
           headers: {
             'Content-type': 'application/json',
