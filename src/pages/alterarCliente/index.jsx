@@ -21,7 +21,7 @@ const AlterarCliente = () => {
     const carregarCliente = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`https://app.compreagua.com.br/cliente/carregar/${idUser}`, {
+            const response = await fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
@@ -65,7 +65,7 @@ const AlterarCliente = () => {
         };
 
         const token = localStorage.getItem('token');
-        fetch(`https://app.compreagua.com.br/cliente/alterar/${idUser}`, {
+        fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
             method: 'PUT',
             body: JSON.stringify(dadosAtualizados),
             headers: {

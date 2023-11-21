@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      fetch('https://app.compreagua.com.br/auth/validarToken', {
+      fetch('http://localhost:8080/auth/validarToken', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',

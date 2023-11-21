@@ -32,7 +32,7 @@ const CadClienteEmp = () => {
     const cadastrar = async () => {
         const token = localStorage.getItem('token');
         try {
-            const responseCliente = await fetch('https://app.compreagua.com.br/auth/cadastrar', {
+            const responseCliente = await fetch('http://localhost:8080/auth/cadastrar', {
                     method: 'POST',
                     body: JSON.stringify(objCliente),
                     headers: {

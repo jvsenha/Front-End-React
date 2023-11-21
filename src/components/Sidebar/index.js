@@ -12,7 +12,7 @@ const Side = ({ page }) => {
   useEffect(() => {
     const fetchDados = async (token) => {
       try {
-        const response = await fetch("https://app.compreagua.com.br/auth/dadosUser", {
+        const response = await fetch("http://localhost:8080/auth/dadosUser", {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -66,7 +66,7 @@ const Side = ({ page }) => {
   const logout = () => {
     const token = localStorage.getItem('token');
 
-    fetch('https://app.compreagua.com.br/auth/logout', {
+    fetch('http://localhost:8080/auth/logout', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -76,7 +76,7 @@ const Side = ({ page }) => {
         if (response.ok) {
           // Logout bem-sucedido
           localStorage.clear();
-          window.location.href = 'https://compreagua.com.br/'; // Ou use o roteamento do React, se aplicável
+          window.location.href = 'http://localhost:3000/'; // Ou use o roteamento do React, se aplicável
         } else {
           throw new Error('Erro ao fazer logout.');
         }
