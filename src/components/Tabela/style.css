@@ -49,6 +49,18 @@ i {
   color: #FFF;
 }
 
+.statusAtivo{
+padding: 4px 22px;
+background-color: #07bc0c;
+border-radius: 5px;
+}
+
+.statusInativo{
+padding: 4px 20px;
+background-color: #e74c3c;
+border-radius: 5px;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }

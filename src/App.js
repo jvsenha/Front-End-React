@@ -14,7 +14,6 @@ import { ConfiguracoesCliente } from "./pages/configuracoesCliente";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { AlterarSenha } from "./pages/AlterarSenha";
 import { ListClienteEmp } from "./pages/listCliente";
-import { ListCltInativosEmp } from "./pages/listClienteinativos";
 import { AlterarCliente } from "./pages/alterarCliente";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { Loading } from "./pages/Loading"
@@ -63,24 +62,15 @@ function App() {
         <Route path="/empresa" element={<LoginEmp />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
 
-        {UserRole === "ROLE_EMP" && (
-          <>
             <Route path="/homeemp" element={<HomeEmp />} />
             <Route path="/cadCliente" element={<CadClienteEmp />} />
             <Route path="/listCliente" element={<ListClienteEmp />} />
-            <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
             <Route path="/alterarCliente/:idUser" element={<AlterarCliente />} />
             <Route path="/configuracoesAdm/:idUser" element={<ConfiguracoesAdm />} />
-          </>
-        )}
 
-        {UserRole === "ROLE_USER" && (
-          <>
             <Route path="/homeclt" element={<HomeCliente />} />
             <Route path="/configuracoesCliente/:idUser" element={<ConfiguracoesCliente />} />
             <Route path="/alterarSenha/:idUser" element={<AlterarSenha />} />
-          </>
-        )}
 
         {/* Rota de página não encontrada */}
         <Route path="*" element={<NotFoundPage />} />

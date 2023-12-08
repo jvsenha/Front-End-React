@@ -14,8 +14,8 @@ const ForgotPassword = () => {
 
     const resetSenha = () => {
         try {
-            fetch('http://localhost:8080/reset/forgot-password', {
-                method: 'POST',
+            fetch('http://localhost:8000/api.php?action=forgot-password', {
+                method: 'PUT',
                 body: JSON.stringify(objLogin),
                 headers: {
                     'Content-type': 'application/json',
@@ -31,7 +31,7 @@ const ForgotPassword = () => {
                     } else {
                         toast.success('Aguarde a empresa analisar seu pedido');
 
-                        window.location.assign("http://localhost:3000/");
+                       
                     }
                 });
         } catch (error) {

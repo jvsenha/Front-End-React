@@ -13,12 +13,11 @@ const HomeEmp = () => {
 
     const fetchReset = async () => {
         try {
-            const response = await fetch('http://localhost:8080/cliente/listarReset', {
+            const response = await fetch('http://localhost:8000/api.php?action=listarReset', {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`,
                 },
             });
 
@@ -64,15 +63,14 @@ const HomeEmp = () => {
     };
 
     const handleResetConfirmAction = (login) => {
-        fetch('http://localhost:8080/reset/reset-password', {
-            method: 'POST',
+        fetch('http://localhost:8000/api.php?action=reset-password', {
+            method: 'PUT',
             body: JSON.stringify({
                 login: login
             }),
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
             }
         })
             .then(retorno => retorno.json())
@@ -90,15 +88,14 @@ const HomeEmp = () => {
     };
 
     const handleResetRejeitarAction = (login) => {
-        fetch('http://localhost:8080/reset/cancel-reset', {
-            method: 'POST',
+        fetch('http://localhost:8000/api.php?action=cancel-reset', {
+            method: 'PUT',
             body: JSON.stringify({
                 login: login
             }),
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
             }
         })
             .then(retorno => retorno.json())
