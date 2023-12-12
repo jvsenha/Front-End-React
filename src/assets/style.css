@@ -446,6 +446,27 @@ margin-top: 3em;
 display: none;
 
 }
+.div-senha{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+}
+.vision{
+  border: 0;
+  background: none;
+  padding-left: 30px;
+}
+.vision-cad{
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.vision-cad span{
+  color: black;
+  font-weight: bold;
+}
 @media (max-width: 995px) {
   .main {
     display: flex;

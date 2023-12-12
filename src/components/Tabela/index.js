@@ -40,7 +40,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar, onAbrirPasta }) => {
         <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
           <tbody>
             {vetor.map((cliente) => (
-              <tr key={cliente.nomeUser}>
+              <tr key={cliente.idUser}>
                 <td>{cliente.idUser}</td>
                 <td>{cliente.login}</td>
                 <td>{cliente.nomeUser}</td>

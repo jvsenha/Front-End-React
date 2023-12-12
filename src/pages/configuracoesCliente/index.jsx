@@ -8,79 +8,103 @@ import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
 const ConfiguracoesCliente = () => {
-    
     const { idUser } = useParams();
+
     // Estado para os campos do formulário
     const [nomeUser, setNomeUser] = useState("");
-    const [emailCliente, setEmailCliente] = useState("");
+    const [emailUser, setEmailUser] = useState("");
     const [login, setLogin] = useState("");
     const [senhaUser, setSenhaUser] = useState("");
     const [pastaCliente, setPastaCliente] = useState("");
-
+    const [role, setRole] = useState("");
+    const [isenabled, setIsenabled] = useState("");
+    const [reset, setReset] = useState("");
+  
     // useEffect para carregar os dados do cliente
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/cliente/carregar/${idUser}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
+      const carregarCliente = async () => {
+        try {
+          const idUserObj = {
+            id_user: idUser,
+          };
+  
+          const response = await fetch(
+            "http://localhost:8000/api.php?action=carregarCliente",
+            {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+                Accept: "application/json",
+              },
+              body: JSON.stringify(idUserObj),
             }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                // Define os estados com os valores obtidos da API
-                setNomeUser(retorno_convert.nomeUser);
-                setEmailCliente(retorno_convert.emailCliente);
-                setLogin(retorno_convert.login);
-                setSenhaUser(retorno_convert.senhaUser);
-                setPastaCliente(retorno_convert.pastaCliente);
-            })
-            .catch(error => console.error('Error fetching cliente:', error));
-    }, [idUser]); // Certifique-se de definir idUser antes de usar neste useEffect
-
+          );
+  
+          if (!response.ok) {
+            throw new Error(`Erro ao carregar cliente: ${response.status}`);
+          }
+  
+          const objClienteData = await response.json();
+  
+          // Atualize os estados com os valores obtidos da API
+          setNomeUser(objClienteData.nome_user);
+          setEmailUser(objClienteData.email_user);
+          setLogin(objClienteData.login);
+          setSenhaUser(objClienteData.senha_user);
+          setPastaCliente(objClienteData.pasta_cliente);
+          setRole(objClienteData.role);
+          setIsenabled(objClienteData.is_enabled);
+          setReset(objClienteData.reset);
+        } catch (error) {
+          console.error("Error fetching cliente:", error.message);
+        }
+      };
+  
+      carregarCliente();
+    }, [idUser]);
+  
     // Função para lidar com a submissão do formulário
-  const alterar = () => {
-    // Lógica para enviar os dados atualizados para o servidor
-    const dadosAtualizados = {
-        idUser: idUser,
-        nomeUser,
-        emailCliente,
-        login,
-        senhaUser,
-        pastaCliente,
-        role: "USER"
-    };
-
-    const token = localStorage.getItem('token');
-    fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
-        method: 'PUT',
-        body: JSON.stringify(dadosAtualizados),
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(retorno => {
-        if (retorno.status === 200) {
-            return retorno.json();
-        } else {
-            return retorno.json().then(errorData => {
-                throw new Error(errorData.message || 'Erro desconhecido ao atualizar o cliente.');
+    const alterar = () => {
+        // Lógica para enviar os dados atualizados para o servidor
+        const dadosAtualizados = {
+            id_user: idUser,
+            nome_user: nomeUser,
+            login: login,
+            senha_user: senhaUser,
+            role: role,
+            email_user: emailUser,
+            is_enabled: isenabled,
+            pastaCliente: pastaCliente,
+            reset: reset,
+        };
+    
+        fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
+            method: "PUT",
+            body: JSON.stringify(dadosAtualizados),
+            headers: {
+                "Content-type": "application/json",
+                Accept: "application/json",
+            },
+        })
+            .then((response) => {
+                if (response.status === 422) {
+                    return response.json().then((data) => {
+                        toast.error(`Erro: ${data.error}`);
+                    });
+                } else if (response.status === 200) {
+                    toast.success("Operação realizada com sucesso!");
+                } else {
+                    console.error(
+                        `Erro na requisição: ${response.status} ${response.statusText}`
+                    );
+                    toast.error("Erro na requisição");
+                }
+            })
+            .catch((error) => {
+                console.error(`Erro na: ${error.message}`);
+                toast.error(`Erro na: ${error.message}`);
             });
-        }
-    })
-    .then(retorno_convert => {
-        if (retorno_convert.message !== undefined) {
-            toast.success(retorno_convert.message);
-        }
-    })
-    .catch(error => {
-        toast.error(error.message);
-    });
-};
+    };
 
 
     const voltar = () => {
@@ -96,17 +120,35 @@ const ConfiguracoesCliente = () => {
             <ToastContainer />
             < div className="Main-cadC-reset">
                 <form className="Form-clt">
-                    <div className="input-cad">
-                        <Input placeholder="Nome" label="Nome" name="nomeUser" eventoTeclado={e => setNomeUser(e.target.value)} obj={nomeUser} />
-                    </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Email" name="emailCliente" label="Email" eventoTeclado={e => setEmailCliente(e.target.value)} obj={emailCliente} />
-
-                    </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Login" name="login" label="Nome de Usuario" eventoTeclado={e => setLogin(e.target.value)} obj={login} />
-
-                    </div>
+                <div className="input-cad">
+            <Input
+              placeholder="Nome do Usuário"
+              label="Nome do Usuário"
+              name="nomeUser"
+              eventoTeclado={(e) => setNomeUser(e.target.value)}
+              obj={nomeUser}
+            />
+          </div>
+          <div className="input-cad">
+            <Input
+              className="input-cad"
+              placeholder="E-mail"
+              name="emailUser"
+              label="E-mail"
+              eventoTeclado={(e) => setEmailUser(e.target.value)}
+              obj={emailUser}
+            />
+          </div>
+          <div className="input-cad">
+            <Input
+              className="input-cad"
+              placeholder="Login"
+              name="login"
+              label="Login"
+              eventoTeclado={(e) => setLogin(e.target.value)}
+              obj={login}
+            />
+          </div>
 
                     <div className="button">
                         <Button nome="Alterar" classname="Alterar" funcao={alterar} />
@@ -114,6 +156,7 @@ const ConfiguracoesCliente = () => {
                     </div>
                     
                 </form>
+            
 
             </div>
         </>

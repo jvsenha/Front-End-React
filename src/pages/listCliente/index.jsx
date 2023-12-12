@@ -119,18 +119,21 @@ const ListClienteEmp = () => {
   };
 
   const handleConfirmAction = (userId) => {
+    const idUserObj = {
+      id_user:userId
+  }
     // Remova o cliente aqui se o usuário confirmar
-    fetch(`http://localhost:8080/cliente/remover/${userId}`, {
+    fetch(`http://localhost:8000/api.php?action=deletarCliente`, {
       method: "DELETE",
+      body: JSON.stringify(idUserObj),
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`,
       },
     })
       .then((retorno) => retorno.json())
       .then((retorno_convert) => {
-        toast.error(retorno_convert.message);
+        toast.success(retorno_convert.message);
         fetchClientes();
       });
   };

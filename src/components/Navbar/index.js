@@ -4,40 +4,40 @@ import { Link } from 'react-router-dom';
 import "./style.css";
 
 const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
-  const token = localStorage.getItem('token');
-  const [nome, setNome] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [idUser, setIdUser] = useState(null);
-  const [reset, setReset] = useState(null);
+  // const token = localStorage.getItem('token');
+  // const [nome, setNome] = useState(null);
+  // const [username, setUsername] = useState(null);
+  // const [idUser, setIdUser] = useState(null);
+  const [reset, setReset] = useState();
 
-  useEffect(() => {
-    const fetchDados = async (token) => {
-      try {
-        const response = await fetch("http://localhost:8080/auth/dadosUser", {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        });
+  //useEffect(() => {
+  //   const fetchDados = async (token) => {
+  //     try {
+  //       const response = await fetch("http://localhost:8080/auth/dadosUser", {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //           'Accept': 'application/json',
+  //           'Authorization': `Bearer ${token}`
+  //         }
+  //       });
 
-        if (response.ok) {
-          const retorno_convert = await response.json();
-          setNome(retorno_convert.nomeUser);
-          setUsername(retorno_convert.login);
-          setIdUser(retorno_convert.idUser);
-          setReset(retorno_convert.reset);
-        } else {
-          throw new Error('Erro ao obter os dados do usuário.');
-        }
-      } catch (error) {
-        console.error('Erro ao fazer a solicitação:', error);
-      }
-    };
+  //       if (response.ok) {
+  //         const retorno_convert = await response.json();
+  //         setNome(retorno_convert.nomeUser);
+  //         setUsername(retorno_convert.login);
+  //         setIdUser(retorno_convert.idUser);
+  //         setReset(retorno_convert.reset);
+  //       } else {
+  //         throw new Error('Erro ao obter os dados do usuário.');
+  //       }
+  //     } catch (error) {
+  //       console.error('Erro ao fazer a solicitação:', error);
+  //     }
+  //   };
 
-    fetchDados(token);
-  }, [token]);
+  //   fetchDados(token);
+  // }, [token]);
 
   const logout = () => {
     const token = localStorage.getItem('token');
@@ -128,8 +128,8 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
           {isCogDropdownVisible && (
             <div className="dropdown-content">
               {/* Dropdown content here */}
-              <Link to={`/configuracoesCliente/${idUser}`} onClick={() => handleDropdownItemClick('Configurações')}>Configurações</Link>
-              <Link to={`/alterarSenha/${idUser}`} onClick={() => handleDropdownItemClick('Alterar a Senha')}>Alterar a Senha</Link>
+              <Link to={`/configuracoesCliente/30`} onClick={() => handleDropdownItemClick('Configurações')}>Configurações</Link> 
+            <Link to={`/alterarSenha/30`} onClick={() => handleDropdownItemClick('Alterar a Senha')}>Alterar a Senha</Link> 
               {/* Add more links as needed */}
             </div>
           )}

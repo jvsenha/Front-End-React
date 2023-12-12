@@ -2,105 +2,113 @@ import "../../assets/style.css";
 import Sidebar from "../../components/Sidebar";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import LinkButton from "../../components/Link-Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const AlterarCliente = () => {
   const { idUser } = useParams();
 
-  // Estado para armazenar os dados do cliente
-  const [clienteData, setClienteData] = useState({
-    nome_user: "",
-    email_user: "",
-    login: "",
-    senha_user: "",
-    pasta_cliente: "",
-    // Add other properties as needed
-  });
+  // Estado para os campos do formulário
+  const [nomeUser, setNomeUser] = useState("");
+  const [emailUser, setEmailUser] = useState("");
+  const [login, setLogin] = useState("");
+  const [senhaUser, setSenhaUser] = useState("");
+  const [pastaCliente, setPastaCliente] = useState("");
+  const [role, setRole] = useState("");
+  const [isenabled, setIsenabled] = useState("");
+  const [reset, setReset] = useState("");
 
   // useEffect para carregar os dados do cliente
-  const carregarCliente = async () => {
-    try {
-      const idUserObj = {
-        id_user: idUser,
-      };
-
-      const response = await fetch(
-        "http://localhost:8000/api.php?action=carregarCliente",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(idUserObj),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Erro ao carregar cliente: ${response.status}`);
-      }
-
-      const clienteData = await response.json();
-
-      // Atualize o estado com os valores obtidos da API
-      setClienteData(clienteData);
-    } catch (error) {
-      console.error("Error fetching cliente:", error.message);
-    }
-  };
-
-  // Uso do useEffect
   useEffect(() => {
+    const carregarCliente = async () => {
+      try {
+        const idUserObj = {
+          id_user: idUser,
+        };
+
+        const response = await fetch(
+          "http://localhost:8000/api.php?action=carregarCliente",
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(idUserObj),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Erro ao carregar cliente: ${response.status}`);
+        }
+
+        const objClienteData = await response.json();
+
+        // Atualize os estados com os valores obtidos da API
+        setNomeUser(objClienteData.nome_user);
+        setEmailUser(objClienteData.email_user);
+        setLogin(objClienteData.login);
+        setSenhaUser(objClienteData.senha_user);
+        setPastaCliente(objClienteData.pasta_cliente);
+        setRole(objClienteData.role);
+        setIsenabled(objClienteData.is_enabled);
+        setReset(objClienteData.reset);
+      } catch (error) {
+        console.error("Error fetching cliente:", error.message);
+      }
+    };
+
     carregarCliente();
-  }, []);
+  }, [idUser]);
 
   // Função para lidar com a submissão do formulário
   const alterar = () => {
+    // Lógica para enviar os dados atualizados para o servidor
     const dadosAtualizados = {
-      idUser,
-      nomeUser: clienteData.nome_user,
-      emailCliente: clienteData.email_user,
-      login: clienteData.login,
-      senhaUser: clienteData.senha_user,
-      pastaCliente: clienteData.pasta_cliente,
-      role: "USER",
+        id_user: idUser,
+        nome_user: nomeUser,
+        login: login,
+        senha_user: senhaUser,
+        role: role,
+        email_user: emailUser,
+        is_enabled: isenabled,
+        pastaCliente: pastaCliente,
+        reset: reset,
     };
 
-    const token = localStorage.getItem("token");
-    fetch(`http://localhost:8080/cliente/alterar/${idUser}`, {
-      method: "PUT",
-      body: JSON.stringify(dadosAtualizados),
-      headers: {
-        "Content-type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
+        method: "PUT",
+        body: JSON.stringify(dadosAtualizados),
+        headers: {
+            "Content-type": "application/json",
+            Accept: "application/json",
+        },
     })
-      .then((response) => {
-        if (response.status === 422) {
-          return response.json().then((data) => {
-            toast.error(data.message);
-            carregarCliente();
-          });
-        } else if (response.status === 200) {
-          toast.success("Operação realizada com sucesso!");
-          return response.json();
-        } else {
-          console.error(
-            `Erro na requisição: ${response.status} ${response.statusText}`
-          );
-          toast.error("Erro na requisição");
-          // Pode adicionar tratamento para outros status aqui, se necessário
-        }
-      })
-      .catch((error) => {
-        console.error(`Erro na requisição: ${error.message}`);
-        toast.error(`Erro na requisição: ${error.message}`);
-      });
+        .then((response) => {
+            if (response.status === 422) {
+                return response.json().then((data) => {
+                    toast.error(`Erro: ${data.error}`);
+                });
+            } else if (response.status === 200) {
+                toast.success("Operação realizada com sucesso!");
+            } else {
+                console.error(
+                    `Erro na requisição: ${response.status} ${response.statusText}`
+                );
+                toast.error("Erro na requisição");
+            }
+        })
+        .catch((error) => {
+            console.error(`Erro na: ${error.message}`);
+            toast.error(`Erro na: ${error.message}`);
+        });
+};
+
+  const voltar = () => {
+    // Usando window.history.back() ou window.history.go(-1) para voltar
+    window.history.back();
   };
 
   return (
@@ -111,47 +119,47 @@ const AlterarCliente = () => {
         <form className="Form">
           <div className="input-cad">
             <Input
-              placeholder="Nome"
-              label="Nome"
-              name="nome_user"
-              eventoTeclado={(e) => setClienteData({ ...clienteData, nome_user: e.target.value })}
-              value={clienteData.nome_user}
+              placeholder="Nome do Usuário"
+              label="Nome do Usuário"
+              name="nomeUser"
+              eventoTeclado={(e) => setNomeUser(e.target.value)}
+              obj={nomeUser}
             />
           </div>
           <div className="input-cad">
             <Input
               className="input-cad"
-              placeholder="Email"
-              name="email_user"
-              label="Email"
-              eventoTeclado={(e) => setClienteData({ ...clienteData, email_user: e.target.value })}
-              value={clienteData.email_user}
+              placeholder="E-mail"
+              name="emailUser"
+              label="E-mail"
+              eventoTeclado={(e) => setEmailUser(e.target.value)}
+              obj={emailUser}
             />
           </div>
           <div className="input-cad">
             <Input
               className="input-cad"
-              placeholder="Nome de Usuario"
+              placeholder="Login"
               name="login"
-              label="Nome de Usuario"
-              eventoTeclado={(e) => setClienteData({ ...clienteData, login: e.target.value })}
-              value={clienteData.login}
+              label="Login"
+              eventoTeclado={(e) => setLogin(e.target.value)}
+              obj={login}
             />
           </div>
 
           <div className="input-cad">
             <Input
               className="input-cad"
-              placeholder="Pasta"
-              label="Pasta"
-              name="pasta_cliente"
-              eventoTeclado={(e) => setClienteData({ ...clienteData, pasta_cliente: e.target.value })}
-              value={clienteData.pasta_cliente}
+              placeholder="Pasta do Cliente"
+              label="Pasta do Cliente"
+              name="pastaCliente"
+              eventoTeclado={(e) => setPastaCliente(e.target.value)}
+              obj={pastaCliente}
             />
           </div>
           <div className="button">
             <Button nome="Alterar" classname="Alterar" funcao={alterar} />
-            <LinkButton nome="Voltar" classname="Voltar" link="/listCliente" />
+            <Button nome="Voltar" funcao={voltar} />
           </div>
         </form>
       </div>

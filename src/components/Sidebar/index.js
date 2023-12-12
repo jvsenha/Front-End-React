@@ -4,50 +4,19 @@ import "./style.css";
 import { Link } from 'react-router-dom';
 
 const Side = ({ page }) => {
-  const token = localStorage.getItem('token');
   const [nome, setNome] = useState(null);
   const [username, setUsername] = useState(null);
   const [idUser, setIdUser] = useState(null);
 
   useEffect(() => {
-    const handleArrowClick = (e) => {
-      const arrowParent = e.target.parentElement.parentElement; // Selecionando o elemento pai principal da seta
-      arrowParent.classList.toggle("showMenu");
-    };
-
-    const handleSidebarClick = () => {
-      const sidebar = document.querySelector(".sidebar");
-      sidebar.classList.toggle("close");
-    };
-
-    const setupEventListeners = () => {
-      const arrow = document.querySelectorAll(".arrow");
-      for (let i = 0; i < arrow.length; i++) {
-        arrow[i].addEventListener("click", handleArrowClick);
-      }
-
-      const sidebarBtn = document.querySelector(".bx-menu");
-      sidebarBtn.addEventListener("click", handleSidebarClick);
-    };
-
-    const removeEventListeners = () => {
-      const arrow = document.querySelectorAll(".arrow");
-      for (let i = 0; i < arrow.length; i++) {
-        arrow[i].removeEventListener("click", handleArrowClick);
-      }
-
-      const sidebarBtn = document.querySelector(".bx-menu");
-      sidebarBtn.removeEventListener("click", handleSidebarClick);
-    };
-
-    const fetchData = async () => {
+    const fetchDados = async () => {
       try {
         const response = await fetch("http://localhost:8080/auth/dadosUser", {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
+            
           }
         });
 
@@ -64,23 +33,42 @@ const Side = ({ page }) => {
       }
     };
 
-    if (token) {
-      fetchData();
-      setupEventListeners();
+    fetchDados();
+
+    const handleArrowClick = (e) => {
+      const arrowParent = e.target.parentElement.parentElement; // selecionando o elemento pai principal da seta
+      arrowParent.classList.toggle("showMenu");
+    };
+
+    const handleSidebarClick = () => {
+      const sidebar = document.querySelector(".sidebar");
+      sidebar.classList.toggle("close");
+    };
+
+    const arrow = document.querySelectorAll(".arrow");
+    for (let i = 0; i < arrow.length; i++) {
+      arrow[i].addEventListener("click", handleArrowClick);
     }
 
+    const sidebarBtn = document.querySelector(".bx-menu");
+    sidebarBtn.addEventListener("click", handleSidebarClick);
+
+    // Remover os ouvintes de evento quando o componente é desmontado
     return () => {
-      removeEventListeners();
+      for (let i = 0; i < arrow.length; i++) {
+        arrow[i].removeEventListener("click", handleArrowClick);
+      }
+      sidebarBtn.removeEventListener("click", handleSidebarClick);
     };
-  }, [token]);
+  }, []);
 
   const logout = () => {
-    const token = localStorage.getItem('token');
+  
 
     fetch('http://localhost:8080/auth/logout', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`
+        
       }
     })
       .then(response => {
