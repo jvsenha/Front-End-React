@@ -10,13 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 const Home = () => {
   const Credeciais = {
     login: "",
-    senhaUser: "",
+    senha_user: "",
   };
   const [objCredeciais, setObjCredeciais] = useState(Credeciais);
 
-  const navigate = useNavigate();
+ 
   const [mostrarSenha, setMostrarSenha] = useState(false);
-
+  const [isBtnVisible, setIsBtnVisible] = useState(false);
   const toggleMostrarSenha = () => {
       setMostrarSenha(!mostrarSenha);
     };
@@ -25,7 +25,7 @@ const Home = () => {
     const token = localStorage.getItem("token");
     if (token === null) {
       localStorage.removeItem("token");
-      fetch("http://localhost:8080/auth/login", {
+      fetch("http://localhost:8000/api.php?action=login", {
         method: "POST",
         body: JSON.stringify(objCredeciais),
         headers: {
@@ -88,6 +88,7 @@ const Home = () => {
 
   const digitar = (e) => {
     setObjCredeciais({ ...objCredeciais, [e.target.name]: e.target.value });
+    setIsBtnVisible(e.target.name === "senha_user" && e.target.value !== "");
   };
 
   return (
@@ -109,7 +110,7 @@ const Home = () => {
                 <Input
                   className="input-cad"
                   placeholder="Senha"
-                  name="senhaUser"
+                  name="senha_user"
                   label="Senha"
                   type={mostrarSenha ? "text" : "password"}
                   eventoTeclado={digitar}
@@ -117,7 +118,7 @@ const Home = () => {
                 <button
                   type="button"
                   onClick={toggleMostrarSenha}
-                  className="vision-cad"
+                  className={`vision-cad ${isBtnVisible ? "" : "close-btn"}`}
                 >
                   <span>
                     {mostrarSenha ? "Esconder Senha" : "Mostrar Senha"}

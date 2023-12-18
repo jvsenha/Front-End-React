@@ -7,7 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+
+const validarEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 const AlterarCliente = () => {
+  const token = localStorage.getItem('token');
   const { idUser } = useParams();
 
   // Estado para os campos do formulário
@@ -35,6 +42,7 @@ const AlterarCliente = () => {
             headers: {
               "Content-type": "application/json",
               Accept: "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(idUserObj),
           }
@@ -65,6 +73,13 @@ const AlterarCliente = () => {
 
   // Função para lidar com a submissão do formulário
   const alterar = () => {
+
+    // Validação do e-mail
+    if (!validarEmail(emailUser)) {
+      toast.error("Por favor, insira um e-mail válido.");
+      return;
+    }
+
     // Lógica para enviar os dados atualizados para o servidor
     const dadosAtualizados = {
         id_user: idUser,
@@ -84,6 +99,7 @@ const AlterarCliente = () => {
         headers: {
             "Content-type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${token}`,
         },
     })
         .then((response) => {

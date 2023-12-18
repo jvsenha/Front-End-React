@@ -1,3 +1,4 @@
+
 .body-container {
   width: 100vw;
   height: 100vh;
@@ -106,41 +107,18 @@
 }
 
 .Main-cadC {
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  background: #ffffff;
-  -webkit-box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  border: 0.3px solid#cecece11;
-  position: absolute;
-  top: 16%;
-  display: flex;
-  width: auto;
-  height: 80%;
+ 
   margin: 0 2em 0 6em;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  flex-wrap: wrap;
+
 }
 .Main-cadC-reset{
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  background: #ffffff;
-  -webkit-box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  border: 0.3px solid#cecece11;
-  position: absolute;
-  top: 16%;
+  width: 90;
   display: flex;
-  width: auto;
-  height: 80%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   align-content: center;
+  flex-direction: column;
   flex-wrap: wrap;
+  align-items: center;
+  background: rgb(255, 255, 255);
 }
 
 .Main {
@@ -201,10 +179,13 @@
 
 
 .button {
-  margin: 0 0 0 2%;
+  margin: 0 0 3% 2%;
   width: 35%;
   height: auto;
   flex: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 
@@ -219,7 +200,7 @@
   align-content: center;
 }
 .Form-clt{
-  margin: 3em;
+  margin:3em;
   display: flex;
   flex-flow: row wrap;
   justify-items: start;
@@ -227,6 +208,7 @@
   flex-basis: 100%;
   justify-content: center;
   align-content: center;
+  gap: 2em;
 }
 
 .input {
@@ -256,8 +238,9 @@
 
 
 .button Button {
-  margin-right: 4em;
+  margin: 0;
 }
+
 
 .button svg {
   display: none;
@@ -310,20 +293,13 @@
 }
 
 .Main-listC {
-  -webkit-border-radius: 0px;
-  border-radius: 0px;
-  background: #ffffff;
-  -webkit-box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  border: 0.3px solid#cecece11;
-  position: absolute;
-  top: 16%;
-  display: flex;
-  width: 90.304%;
-  height: 82%;
-  margin: 0 1em 0 6em;
-  flex-direction: column;
-  justify-content: center;
+    position: absolute;
+    top: 16%;
+    display: flex;
+    width: 90.304%;
+    margin: 0 1em 0 6em;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .header-listC {
@@ -388,26 +364,22 @@
 }
 
 .main-reset {
-  border-radius: 0px;
-  background: #ffffff;
-  box-shadow: 12px 12px 24px #ebebeb, -12px -12px 24px #ffffff;
-  border: 1px solid#cecece11;
-  position: absolute;
-  top: 16%;
-  width: 90.304%;
-  height: 82%;
-  display: flex;
-  margin: 0 1em 0 6em;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+    position: absolute;
+    top: 16%;
+    width: 90.304%;
+    height: 82%;
+    display: flex;
+    margin: 0 1em 0 6em;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 .teste-div{
 width: 70%;
 height: 100%;
 }
 .solicitacao-div{
-width: 30%;
+width: 100%;
 height: 100%;
 
 display: flex;
@@ -418,8 +390,8 @@ overflow-y: auto;
 }
 
 .solicitacao-div .Title{
-  margin: 3% 0 5% 1%;
-  font-size: 25px;
+  margin: 0 0 2% 0;
+  font-size: 35px;
 }
 .div-button{
   position: relative;
@@ -467,6 +439,16 @@ display: none;
   color: black;
   font-weight: bold;
 }
+
+.menu-item{
+background: transparent;
+color: #ffffff;
+}
+
+
+.close-btn{
+  visibility: hidden;
+}
 @media (max-width: 995px) {
   .main {
     display: flex;
@@ -498,20 +480,18 @@ display: none;
   }
 
   .main-reset {
-    width: 85%;
+    margin: 0 1em 0 7em;
     }
+ 
 }
 
 
 @media (max-width: 770px) {
 
   .main-reset {
-    flex-direction: column;
+    width: 85%;
     }
     .teste-div{
-      width: 80%;
-    }
-    .solicitacao-div{
       width: 80%;
     }
   .upload h1 {
@@ -559,15 +539,16 @@ display: none;
     width: 75%;
 
   }
-  .main-reset { 
-    width: 75%;
-  }
 
   .Title {
     padding: 2%;
     font-size: 30px;
   }
 
+  .solicitacao-div .Title{
+    margin: 0 0 2% 0;
+    font-size: 30px;
+  }
   .input-cad {
     margin: 0 0 0 2%;
     width: 70%;
@@ -622,6 +603,7 @@ display: none;
   .button {
     width: 70%;
   }
+  
 }
 
 @media (max-width: 480px) {
@@ -631,12 +613,18 @@ display: none;
   .teste-div{
     display: none;
   }
-  .solicitacao-div{
-    width: 90%;
-  }
 
   .main-reset { 
     width: 70%;
+    margin: 0 0.5em 0 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .solicitacao-div {
+    width: 90%;
   }
 
   .Main-listC {

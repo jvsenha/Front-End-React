@@ -21,13 +21,13 @@ import './App.css';
 import { useEffect, useState } from "react";
 
 function App() {
-  const [UserRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     if (token) {
-      fetch('http://localhost:8080/auth/validarToken', {
+      fetch('http://localhost:8000/api.php?action=decodeToken', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -35,18 +35,18 @@ function App() {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then(retorno => retorno.json())
-      .then(retorno_convert => {
-        if (retorno_convert.message !== undefined) {
-          alert(retorno_convert.message);
-        } else {
-          const authorities = retorno_convert.map(obj => obj.authority);
-          setUserRole(authorities[0]);
-        }
-      })
-      .finally(() => setLoading(false)); // Set loading to false after authentication check
+        .then(retorno => retorno.json())
+        .then(retorno_convert => {
+          if (retorno_convert.message !== undefined) {
+            alert(retorno_convert.message);
+          } else {
+            // Se o retorno_convert já é um objeto, você pode acessar diretamente a propriedade 'role'
+            setUserRole(retorno_convert.role);
+          }
+        })
+        .finally(() => setLoading(false)); // Defina loading para false após a verificação de autenticação
     } else {
-      setLoading(false); // No token, set loading to false
+      setLoading(false); // Sem token, defina loading para false
     }
   }, [token]);
 

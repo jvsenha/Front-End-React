@@ -18,6 +18,7 @@ const HomeEmp = () => {
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
@@ -71,6 +72,7 @@ const HomeEmp = () => {
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
+                Authorization: `Bearer ${token}`,
             }
         })
             .then(retorno => retorno.json())
@@ -96,6 +98,7 @@ const HomeEmp = () => {
             headers: {
                 'Content-type': 'application/json',
                 'Accept': 'application/json',
+                Authorization: `Bearer ${token}`,
             }
         })
             .then(retorno => retorno.json())

@@ -4,6 +4,7 @@ import "./style.css";
 import { Link } from 'react-router-dom';
 
 const Side = ({ page }) => {
+  const token = localStorage.getItem('token');
   const [nome, setNome] = useState(null);
   const [username, setUsername] = useState(null);
   const [idUser, setIdUser] = useState(null);
@@ -11,20 +12,29 @@ const Side = ({ page }) => {
   useEffect(() => {
     const fetchDados = async () => {
       try {
-        const response = await fetch("http://localhost:8080/auth/dadosUser", {
+        const response = await fetch("http://localhost:8000/api.php?action=dadosUser", {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
             'Accept': 'application/json',
-            
+            Authorization: `Bearer ${token}`,
           }
         });
-
+    
         if (response.ok) {
           const retorno_convert = await response.json();
-          setNome(retorno_convert.nomeUser);
-          setUsername(retorno_convert.login);
-          setIdUser(retorno_convert.idUser);
+    
+          // Verifique se há pelo menos um objeto no array antes de acessar suas propriedades
+          if (retorno_convert.length > 0) {
+            const primeiroUsuario = retorno_convert[0];
+    
+            setNome(primeiroUsuario.nome_user);
+            setUsername(primeiroUsuario.login);
+            setIdUser(primeiroUsuario.id_user);
+          } else {
+            // O array está vazio
+            throw new Error('Nenhum dado de usuário encontrado na resposta.');
+          }
         } else {
           throw new Error('Erro ao obter os dados do usuário.');
         }
@@ -32,7 +42,7 @@ const Side = ({ page }) => {
         console.error('Erro ao fazer a solicitação:', error);
       }
     };
-
+    
     fetchDados();
 
     const handleArrowClick = (e) => {
@@ -63,13 +73,12 @@ const Side = ({ page }) => {
   }, []);
 
   const logout = () => {
-  
-
-    fetch('http://localhost:8080/auth/logout', {
+    fetch('http://localhost:8000/api.php?action=logout', {
       method: 'POST',
       headers: {
-        
-      }
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(response => {
         if (response.ok) {
@@ -111,7 +120,6 @@ const Side = ({ page }) => {
                 <i className='bx bx-list-check'></i>
                 <span className="link_name">Clientes</span>
               </Link>
-              <i className='bx bxs-chevron-down arrow' ></i>
             </div>
             <ul className="sub-menu">
               <li><Link className="link_name" to="/listCliente">Clientes</Link></li>

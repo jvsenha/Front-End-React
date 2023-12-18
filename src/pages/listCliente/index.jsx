@@ -21,6 +21,7 @@ const ListClienteEmp = () => {
           headers: {
             "Content-type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -86,7 +87,8 @@ const ListClienteEmp = () => {
       body: JSON.stringify(objEneabled),
       headers: {
         "Content-type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
       },
     })
       .then((response) => {
@@ -129,6 +131,7 @@ const ListClienteEmp = () => {
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((retorno) => retorno.json())

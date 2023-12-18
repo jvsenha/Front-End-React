@@ -5,8 +5,18 @@ import Button from "../../components/Button";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+
+const validarEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+
 const CadClienteEmp = () => {
+  const token = localStorage.getItem('token');
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [isBtnVisible, setIsBtnVisible] = useState(false);
   //Objeto cliente
   const cliente = {
     nome_user: "",
@@ -27,6 +37,12 @@ const CadClienteEmp = () => {
   // dados dos formularios
   const cadastrar = async () => {
     try {
+        // Adicione a validação de e-mail antes de enviar os dados para o servidor
+        if (!validarEmail(objCliente.email_user)) {
+          toast.error("Por favor, insira um e-mail válido.");
+          return;
+        }
+
       const responseCliente = await fetch(
         "http://localhost:8000/api.php?action=cadastrarUsuario",
         {
@@ -35,6 +51,7 @@ const CadClienteEmp = () => {
           headers: {
             "Content-type": "application/json",
             Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -63,7 +80,8 @@ const CadClienteEmp = () => {
 
   const digitar = (e) => {
     setObjCliente({ ...objCliente, [e.target.name]: e.target.value });
-    console.log({ ...objCliente, [e.target.name]: e.target.value });
+    setIsBtnVisible(e.target.name === "senha_user" && e.target.value !== "");
+
   };
   const toggleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
@@ -118,7 +136,7 @@ const CadClienteEmp = () => {
             <button
               type="button"
               onClick={toggleMostrarSenha}
-              className="vision-cad">
+              className={`vision-cad ${isBtnVisible ? "" : "close-btn"}`}>
               <span>
               {mostrarSenha ? "Esconder Senha" : "Mostrar Senha"}
               </span>

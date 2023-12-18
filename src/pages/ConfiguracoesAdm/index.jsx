@@ -1,120 +1,172 @@
-import "../../assets/style.css"
+import "../../assets/style.css";
 import Sidebar from "../../components/Sidebar";
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+
+
+
+const validarEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
 const ConfiguracoesAdm = () => {
-    const { idUser } = useParams();
-    // Estado para os campos do formulário
-    const [nomeUser, setNomeUser] = useState("");
-    const [smtpEmpresa, setSmtpEmpresa] = useState("");
-    const [login, setLogin] = useState("");
-    const [senhaUser, setSenhaUser] = useState("");
-    const [portaEmpresa, setPortaEmpresa] = useState("");
+  const token = localStorage.getItem('token');
+  const { idUser } = useParams();
+  // Estado para os campos do formulário
+  const [nomeUser, setNomeUser] = useState("");
+  const [emailUser, setEmailUser] = useState("");
+  const [login, setLogin] = useState("");
+  const [senhaUser, setSenhaUser] = useState("");
+ const [role, setRole] = useState("");
+  const [isenabled, setIsenabled] = useState("");
 
-    // useEffect para carregar os dados do cliente
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/empresa/carregar/${idUser}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(retorno => retorno.json())
-            .then(retorno_convert => {
-                // Define os estados com os valores obtidos da API
-                setNomeUser(retorno_convert.nomeUser);
-                setSmtpEmpresa(retorno_convert.smtpEmpresa);
-                setLogin(retorno_convert.login);
-                setSenhaUser(retorno_convert.senhaUser);
-                setPortaEmpresa(retorno_convert.portaEmpresa);
-            })
-            .catch(error => console.error('Error fetching cliente:', error));
-    }, [idUser]); // Certifique-se de definir idUser antes de usar neste useEffect
-
-    // Função para lidar com a submissão do formulário
-    const alterar = () => {
-
-        // Lógica para enviar os dados atualizados para o servidor
-        const dadosAtualizados = {
-            idUser: idUser,
-            nomeUser,
-            smtpEmpresa,
-            login,
-            senhaUser,
-            portaEmpresa,
-            role: "EMP"
+  // useEffect para carregar os dados do empresa
+  useEffect(() => {
+    const carregarEmpresa = async () => {
+      try {
+        const idUserObj = {
+          id_user: idUser,
         };
 
-
-        const token = localStorage.getItem('token');
-        fetch(`http://localhost:8080/empresa/alterar/${idUser}`, {
-            method: 'PUT',
-            body: JSON.stringify(dadosAtualizados),
+        const response = await fetch(
+          "http://localhost:8000/api.php?action=carregarEmpresa",
+          {
+            method: "POST",
             headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
+              "Content-type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(idUserObj),
+          }
+        );
 
-        .then(retorno => {
-            if (retorno.status === 200) {
-                return retorno.json();
-            } else {
-                return retorno.json().then(errorData => {
-                    throw new Error(errorData.message || 'Erro desconhecido ao atualizar o cliente.');
-                });
-            }
-        })
-        .then(retorno_convert => {
-            if (retorno_convert.message !== undefined) {
-                toast.success(retorno_convert.message);
-            }
-        })
-        .catch(error => {
-            toast.error(error.message);
-        });
+        if (!response.ok) {
+          throw new Error(`Erro ao carregar empresa: ${response.status}`);
+        }
+
+        const objempresaData = await response.json();
+
+        // Atualize os estados com os valores obtidos da API
+        setNomeUser(objempresaData.nome_user);
+        setEmailUser(objempresaData.email_user);
+        setLogin(objempresaData.login);
+        setSenhaUser(objempresaData.senha_user);
+        setRole(objempresaData.role);
+        setIsenabled(objempresaData.is_enabled);
+      } catch (error) {
+        console.error("Error fetching empresa:", error.message);
+      }
+    };
+
+    carregarEmpresa();
+  }, [idUser]);
+ // Certifique-se de definir idUser antes de usar neste useEffect
+
+  // Função para lidar com a submissão do formulário
+  const alterar = () => {
+
+     // Validação do e-mail
+     if (!validarEmail(emailUser)) {
+      toast.error("Por favor, insira um e-mail válido.");
+      return;
     }
 
-    const voltar = () => {
-        // Usando window.history.back() ou window.history.go(-1) para voltar
-        window.history.back();
-      };
+    // Lógica para enviar os dados atualizados para o servidor
+    const dadosAtualizados = {
+        id_user: idUser,
+        nome_user: nomeUser,
+        login: login,
+        senha_user: senhaUser,
+        role: role,
+        email_user: emailUser,
+        is_enabled: isenabled,
+    };
 
-    return (
-        <>
+    fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
+        method: "PUT",
+        body: JSON.stringify(dadosAtualizados),
+        headers: {
+            "Content-type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .then((response) => {
+            if (response.status === 422) {
+                return response.json().then((data) => {
+                    toast.error(`Erro: ${data.error}`);
+                });
+            } else if (response.status === 200) {
+                toast.success("Operação realizada com sucesso!");
+            } else {
+                console.error(
+                    `Erro na requisição: ${response.status} ${response.statusText}`
+                );
+                toast.error("Erro na requisição");
+            }
+        })
+        .catch((error) => {
+            console.error(`Erro na: ${error.message}`);
+            toast.error(`Erro na: ${error.message}`);
+        });
+};
 
-            <Sidebar page="Configurações" />
-            <ToastContainer />
-            < div className="Main-cadC">
-                <form className="Form">
-                    <div className="input-cad">
-                        <Input placeholder="Nome" label="Nome" name="nomeUser" eventoTeclado={e => setNomeUser(e.target.value)} obj={nomeUser} />
-                    </div>
-                    <div className="input-cad">
-                        <Input className="input-cad" placeholder="Nome de Usuario" name="login" label="Nome de Usuario" eventoTeclado={e => setLogin(e.target.value)} obj={login} />
+  const voltar = () => {
+    // Usando window.history.back() ou window.history.go(-1) para voltar
+    window.history.back();
+  };
 
-                    </div>
+  return (
+    <>
+      <Sidebar page="Configurações" />
+      <ToastContainer />
+      <div className="Main-cadC">
+        <form className="Form">
+          <div className="input-cad">
+            <Input
+              placeholder="Nome"
+              label="Nome"
+              name="nomeUser"
+              eventoTeclado={(e) => setNomeUser(e.target.value)}
+              obj={nomeUser}
+            />
+          </div>
+          <div className="input-cad">
+            <Input
+              className="input-cad"
+              placeholder="Nome de Usuario"
+              name="login"
+              label="Nome de Usuario"
+              eventoTeclado={(e) => setLogin(e.target.value)}
+              obj={login}
+            />
+          </div>
+          <div className="input-cad">
+            <Input
+              className="input-cad"
+              placeholder="E-mail"
+              name="emailUser"
+              label="E-mail"
+              type="email"
+              eventoTeclado={(e) => setEmailUser(e.target.value)}
+              obj={emailUser}
+            />
+          </div>
 
-                    <div className="button">
-                        <Button nome="Alterar" classname="Alterar" funcao={alterar} />
-                        <Button nome="Voltar"  funcao={voltar} />
-                
-                    </div>
-                </form>
-
-            </div>
-
-        </>
-    )
-}
+          <div className="button">
+            <Button nome="Alterar" classname="Alterar" funcao={alterar} />
+            <Button nome="Voltar" funcao={voltar} />
+          </div>
+        </form>
+      </div>
+    </>
+  );
+};
 
 export { ConfiguracoesAdm };
