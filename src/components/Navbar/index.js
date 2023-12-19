@@ -10,6 +10,8 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isBellDropdownVisible, setIsBellDropdownVisible] = useState(false);
   const [isCogDropdownVisible, setIsCogDropdownVisible] = useState(false);
+  const token = localStorage.getItem('token');
+  const [idUser, setIdUser] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuVisible(!isMenuVisible);
@@ -19,25 +21,61 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
     setIsMenuVisible(false);
   };
 
-  const logout = () => {
-    const token = localStorage.getItem("token");
+  useEffect(() => {
+    const fetchDados = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api.php?action=dadosUser", {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            Authorization: `Bearer ${token}`,
+          }
+        });
+    
+        if (response.ok) {
+          const retorno_convert = await response.json();
+    
+          // Verifique se há pelo menos um objeto no array antes de acessar suas propriedades
+          if (retorno_convert.length > 0) {
+            const primeiroUsuario = retorno_convert[0];
+    
+          
+            setReset(primeiroUsuario.reset);
+            setIdUser(primeiroUsuario.id_user);
+          } else {
+            // O array está vazio
+            throw new Error('Nenhum dado de usuário encontrado na resposta.');
+          }
+        } else {
+          throw new Error('Erro ao obter os dados do usuário.');
+        }
+      } catch (error) {
+        console.error('Erro ao fazer a solicitação:', error);
+      }
+    };
+    
+    fetchDados();
+  }, []);
 
-    fetch("http://localhost:8080/auth/logout", {
-      method: "POST",
+  const logout = () => {
+    fetch('http://localhost:8000/api.php?action=logout', {
+      method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((response) => {
+      .then(response => {
         if (response.ok) {
+          // Logout bem-sucedido
           localStorage.clear();
-          // Usar roteamento do React, se aplicável
-          // Exemplo: history.push("/");
+          window.location.href = 'http://localhost:3000/';
         } else {
-          throw new Error("Erro ao fazer logout.");
+          throw new Error('Erro ao fazer logout.');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         alert(error.message);
       });
   };
@@ -120,13 +158,13 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
           {isCogDropdownVisible && (
             <div className="dropdown-content">
               <Link
-                to={"/configuracoesCliente/30"}
+                to={`/configuracoesCliente/${idUser}`}
                 onClick={() => handleDropdownItemClick("Configurações")}
               >
                 Configurações
               </Link>
               <Link
-                to={`/alterarSenha/30`}
+                to={`/alterarSenha/${idUser}`}
                 onClick={() => handleDropdownItemClick("Alterar a Senha")}
               >
                 Alterar a Senha
@@ -141,7 +179,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
           {/* Menu items are now inside the menu-items-container div */}
           <div className="menu-items-container">
             <Link
-              to={`/configuracoesCliente/30`}
+              to={`/configuracoesCliente/${idUser}`}
               className="menu-item"
               onClick={closeMenu}
             >
@@ -149,11 +187,11 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
               <p  className="p-icon">Perfil</p>
             </Link>
             <Link
-              to={`/alterarSenha/30`}
+              to={`/alterarSenha/${idUser}`}
               className="menu-item"
               onClick={closeMenu}
             >
-              <i class="bx bx-lock-open-alt"></i>
+              <i className="bx bx-lock-open-alt"></i>
               <p className="p-icon">Alterar senha</p>
             </Link>
             <Link className="menu-item" onClick={logout}>

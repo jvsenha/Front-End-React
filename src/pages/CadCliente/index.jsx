@@ -7,10 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
-const validarEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+
 
 
 const CadClienteEmp = () => {
@@ -37,11 +34,6 @@ const CadClienteEmp = () => {
   // dados dos formularios
   const cadastrar = async () => {
     try {
-        // Adicione a validação de e-mail antes de enviar os dados para o servidor
-        if (!validarEmail(objCliente.email_user)) {
-          toast.error("Por favor, insira um e-mail válido.");
-          return;
-        }
 
       const responseCliente = await fetch(
         "http://localhost:8000/api.php?action=cadastrarUsuario",

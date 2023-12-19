@@ -8,6 +8,7 @@ import Button from "../../components/Button";
 import Navbar from "../../components/Navbar";
 
 const AlterarSenha = () => {
+  const token = localStorage.getItem('token');
   const { idUser } = useParams();
   const [senhaUser, setSenhaUser] = useState("");
   const [confirmSenhaUser, setConfirmSenhaUser] = useState("");
@@ -26,6 +27,7 @@ const AlterarSenha = () => {
         headers: {
           "Content-type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((retorno) => {

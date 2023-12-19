@@ -9,7 +9,7 @@ import "../../assets/style.css";
 
 const ListClienteEmp = () => {
   const [clientes, setClientes] = useState([]);
-  const token = localStorage.getItem("token");
+const token = localStorage.getItem('token');
   const statusRef = useRef(null);
 
   const fetchClientes = async () => {

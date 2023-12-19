@@ -8,51 +8,51 @@ const HomeCliente = () => {
   const [pastaCliente, setPastaCliente] = useState('');
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Busca dados do usuário para obter o nome da pasta
-        const responseDadosUser = await fetch('http://localhost:8080/auth/dadosUser', {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       // Busca dados do usuário para obter o nome da pasta
+  //       const responseDadosUser = await fetch('http://localhost:8080/auth/dadosUser', {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-type': 'application/json',
+  //           'Accept': 'application/json',
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
 
-        if (responseDadosUser.ok) {
-          const dadosUser = await responseDadosUser.json();
-          const pastaCliente = dadosUser.pastaCliente;
+  //       if (responseDadosUser.ok) {
+  //         const dadosUser = await responseDadosUser.json();
+  //         const pastaCliente = dadosUser.pastaCliente;
 
-          // Realiza chamada à API para listar arquivos usando o nome da pasta
-          const responseListarArquivos = await fetch(`http://localhost:8000/listarArquivos/${pastaCliente}`, {
-            method: 'GET',
-            headers: {
-              'Content-type': 'application/json',
-            },
-          });
+  //         // Realiza chamada à API para listar arquivos usando o nome da pasta
+  //         const responseListarArquivos = await fetch(`http://localhost:8000/listarArquivos/${pastaCliente}`, {
+  //           method: 'GET',
+  //           headers: {
+  //             'Content-type': 'application/json',
+  //           },
+  //         });
 
-          if (responseListarArquivos.ok) {
-            const data = await responseListarArquivos.json();
-            const fileResponses = data; // Não precisa usar data.responses, pois o retorno já é o array de arquivos
+  //         if (responseListarArquivos.ok) {
+  //           const data = await responseListarArquivos.json();
+  //           const fileResponses = data; // Não precisa usar data.responses, pois o retorno já é o array de arquivos
 
-            // Atualiza o estado arquivos
-            setArquivos(fileResponses);
-          } else {
-            throw new Error('Erro ao obter dados do usuário.');
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao buscar documentos', error);
-      }
-    };
+  //           // Atualiza o estado arquivos
+  //           setArquivos(fileResponses);
+  //         } else {
+  //           throw new Error('Erro ao obter dados do usuário.');
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Erro ao buscar documentos', error);
+  //     }
+  //   };
 
-    if (token) {
-      fetchData();
-    }
+  //   if (token) {
+  //     fetchData();
+  //   }
     
-  }, [token]);
+  // }, [token]);
   
   const downloadFile = async (fileId, nomeDocumento) => {
     try {

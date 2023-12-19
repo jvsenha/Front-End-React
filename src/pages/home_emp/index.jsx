@@ -18,10 +18,11 @@ const HomeEmp = () => {
                 headers: {
                     'Content-type': 'application/json',
                     'Accept': 'application/json',
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
+                credentials: 'include', // Adicione esta linha para incluir cookies na solicitação
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 const updatedReset = data.map((cliente) => {
@@ -38,6 +39,7 @@ const HomeEmp = () => {
             console.error('Erro ao buscar clientes', error);
         }
     };
+    
 
     useEffect(() => {
         fetchReset();

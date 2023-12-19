@@ -5,7 +5,6 @@ import Logo from "../../assets/Imagens/Primus_branca.png";
 import LinkButton from "../../components/Link-Button";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { Navigate, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 const Home = () => {
   const Credeciais = {
@@ -13,77 +12,70 @@ const Home = () => {
     senha_user: "",
   };
   const [objCredeciais, setObjCredeciais] = useState(Credeciais);
-
- 
+  const [userRole, setUserRole] = useState(null);
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [isBtnVisible, setIsBtnVisible] = useState(false);
   const toggleMostrarSenha = () => {
-      setMostrarSenha(!mostrarSenha);
-    };
-  
-  const logar = () => {
-    const token = localStorage.getItem("token");
-    if (token === null) {
-      localStorage.removeItem("token");
-      fetch("http://localhost:8000/api.php?action=login", {
-        method: "POST",
-        body: JSON.stringify(objCredeciais),
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-        },
-      })
-        .then((retorno) => retorno.json())
-        .then((retorno_convert) => {
-          if (retorno_convert.message !== undefined) {
-            toast.error(retorno_convert.message);
-          } else {
-            // Armazene o token no localStorage
-            localStorage.setItem("token", retorno_convert.token);
+    setMostrarSenha(!mostrarSenha);
+  };
 
-            window.location.assign("http://localhost:3000/homeclt");
-          }
-        });
+  const redirectToHome = (role) => {
+    if (role !== "cliente") {
+      // Redireciona para a home do emp se o usuário não for cliente
+      window.location.href = "http://localhost:3000/homeemp";
     } else {
-      fetch("http://localhost:8080/auth/validarToken", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((retorno) => retorno.json())
-        .then((retorno_convert) => {
-          const authority = retorno_convert.map((obj) => obj.authority);
-          const authorities = authority.join();
-
-          if (authorities !== "ROLE_USER") {
-            localStorage.removeItem("token");
-            fetch("http://localhost:8080/auth/login", {
-              method: "POST",
-              body: JSON.stringify(objCredeciais),
-              headers: {
-                "Content-type": "application/json",
-                Accept: "application/json",
-              },
-            })
-              .then((retorno) => retorno.json())
-              .then((retorno_convert) => {
-                if (retorno_convert.message !== undefined) {
-                  toast.error(retorno_convert.message);
-                } else {
-                  // Armazene o token no localStorage
-                  localStorage.setItem("token", retorno_convert.token);
-
-                  window.location.assign("http://localhost:3000/homeclt");
-                }
-              });
-          } else {
-            window.location.assign("http://localhost:3000/homeclt");
-          }
-        });
+      // Redireciona para a home do cliente se o usuário for cliente
+      window.location.href = "http://localhost:3000/homeclt";
     }
+  };
+
+  const logar = () => {
+    // Faz a autenticação diretamente
+    fetch("http://localhost:8000/api.php?action=login", {
+      method: "POST",
+      body: JSON.stringify(objCredeciais),
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((retorno) => retorno.json())
+      .then((retorno_convert) => {
+        if (retorno_convert.message !== undefined) {
+          toast.error(retorno_convert.message);
+        } else {
+          // Armazena o token na sessão
+          localStorage.setItem("token", retorno_convert.session_data.token);
+
+          // Verifica o token após o login
+          fetch("http://localhost:8000/api.php?action=decodeToken", {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${retorno_convert.session_data.token}`, 
+            },
+          })
+            .then((retorno) => retorno.json())
+            .then((retorno_convert) => {
+              if (retorno_convert.message !== undefined) {
+                alert(retorno_convert.message);
+              } else {
+                // Se o retorno_convert já é um objeto, você pode acessar diretamente a propriedade 'role'
+                setUserRole(retorno_convert.role);
+
+                // Redireciona para a home com base na role
+                redirectToHome(retorno_convert.role);
+              }
+            })
+            .catch((error) => {
+              console.error("Erro ao verificar token após o login:", error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao autenticar:", error);
+      });
   };
 
   const digitar = (e) => {

@@ -14,7 +14,7 @@ const validarEmail = (email) => {
 
 const ConfiguracoesCliente = () => {
   const { idUser } = useParams();
-
+  const token = localStorage.getItem('token');
   // Estado para os campos do formulário
   const [nomeUser, setNomeUser] = useState("");
   const [emailUser, setEmailUser] = useState("");
@@ -40,6 +40,7 @@ const ConfiguracoesCliente = () => {
             headers: {
               "Content-type": "application/json",
               Accept: "application/json",
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(idUserObj),
           }
@@ -96,6 +97,7 @@ const ConfiguracoesCliente = () => {
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
