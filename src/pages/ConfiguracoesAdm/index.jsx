@@ -133,6 +133,7 @@ const ConfiguracoesAdm = () => {
               placeholder="Nome"
               label="Nome"
               name="nomeUser"
+              maxLength={99}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
             />
@@ -142,6 +143,7 @@ const ConfiguracoesAdm = () => {
               className="input-cad"
               placeholder="Nome de Usuario"
               name="login"
+              maxLength={49}
               label="Nome de Usuario"
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}
@@ -153,6 +155,7 @@ const ConfiguracoesAdm = () => {
               placeholder="E-mail"
               name="emailUser"
               label="E-mail"
+              maxLength={99}
               type="email"
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}

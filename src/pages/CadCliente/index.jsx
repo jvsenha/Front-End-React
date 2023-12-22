@@ -61,6 +61,7 @@ const CadClienteEmp = () => {
 
   // dados dos formularios
   const cadastrar = async () => {
+    console.log(objCliente)
     try {
       const responseCliente = await fetch(
         "http://localhost:8000/api.php?action=cadastrarUsuario",
@@ -118,7 +119,7 @@ const CadClienteEmp = () => {
               placeholder="Nome do cliente"
               label="Nome do cliente"
               name="nome_user"
-              maxLength={100}
+              maxLength={99}
               eventoTeclado={digitar}
               obj={objCliente.nome_user}
             />
@@ -129,7 +130,7 @@ const CadClienteEmp = () => {
               placeholder="Email"
               name="email_user"
               label="Email"
-              maxLength={100}
+              maxLength={99}
               eventoTeclado={digitar}
               obj={objCliente.email_user}
             />
@@ -139,7 +140,7 @@ const CadClienteEmp = () => {
               className="input-cadC"
               placeholder="Login"
               name="login"
-              maxLength={50}
+              maxLength={49}
               label="Login"
               eventoTeclado={digitar}
               obj={objCliente.login}
@@ -151,7 +152,7 @@ const CadClienteEmp = () => {
               placeholder="Senha"
               name="senha_user"
               label="Senha"
-              maxLength={50}
+              maxLength={49}
               type={mostrarSenha ? "text" : "password"}
               eventoTeclado={digitar}
               obj={objCliente.senha_user}

@@ -137,6 +137,7 @@ const ConfiguracoesCliente = () => {
               placeholder="Nome do Usuário"
               label="Nome do Usuário"
               name="nomeUser"
+              maxLength={99}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
             />
@@ -148,6 +149,7 @@ const ConfiguracoesCliente = () => {
               name="emailUser"
               label="E-mail"
               type="email"
+              maxLength={99}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}
             />
@@ -158,6 +160,7 @@ const ConfiguracoesCliente = () => {
               placeholder="Login"
               name="login"
               label="Login"
+              maxLength={49}
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}
             />

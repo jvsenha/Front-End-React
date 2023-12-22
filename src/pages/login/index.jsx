@@ -97,6 +97,7 @@ const Home = () => {
                   placeholder="Nome de Usuario"
                   name="login"
                   label="Nome de Usuario"
+                  maxLength={49}
                   eventoTeclado={digitar}
                 />
                 <Input
