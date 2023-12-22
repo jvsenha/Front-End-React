@@ -118,6 +118,7 @@ const CadClienteEmp = () => {
               placeholder="Nome do cliente"
               label="Nome do cliente"
               name="nome_user"
+              maxLength={100}
               eventoTeclado={digitar}
               obj={objCliente.nome_user}
             />
@@ -128,6 +129,7 @@ const CadClienteEmp = () => {
               placeholder="Email"
               name="email_user"
               label="Email"
+              maxLength={100}
               eventoTeclado={digitar}
               obj={objCliente.email_user}
             />
@@ -137,6 +139,7 @@ const CadClienteEmp = () => {
               className="input-cadC"
               placeholder="Login"
               name="login"
+              maxLength={50}
               label="Login"
               eventoTeclado={digitar}
               obj={objCliente.login}
@@ -148,6 +151,7 @@ const CadClienteEmp = () => {
               placeholder="Senha"
               name="senha_user"
               label="Senha"
+              maxLength={50}
               type={mostrarSenha ? "text" : "password"}
               eventoTeclado={digitar}
               obj={objCliente.senha_user}

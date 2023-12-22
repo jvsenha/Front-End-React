@@ -7,14 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-
 const validarEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
 const AlterarCliente = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const { idUser } = useParams();
 
   // Estado para os campos do formulário
@@ -26,11 +25,32 @@ const AlterarCliente = () => {
   const [role, setRole] = useState("");
   const [isenabled, setIsenabled] = useState("");
   const [reset, setReset] = useState("");
+  const [pastas, setPastas] = useState([]);
 
-  // useEffect para carregar os dados do cliente
   useEffect(() => {
-    const carregarCliente = async () => {
+    const fetchData = async () => {
       try {
+        // Fetch pastas
+        const filesResponse = await fetch(
+          "http://localhost:8000/api.php?action=listarArquivo",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (filesResponse.ok) {
+          const filesData = await filesResponse.json();
+          setPastas(filesData);
+        } else {
+          throw new Error("Erro ao obter os arquivos.");
+        }
+
+        // Fetch client data
         const idUserObj = {
           id_user: idUser,
         };
@@ -54,7 +74,7 @@ const AlterarCliente = () => {
 
         const objClienteData = await response.json();
 
-        // Atualize os estados com os valores obtidos da API
+        // Update states with values from the API
         setNomeUser(objClienteData.nome_user);
         setEmailUser(objClienteData.email_user);
         setLogin(objClienteData.login);
@@ -64,66 +84,67 @@ const AlterarCliente = () => {
         setIsenabled(objClienteData.is_enabled);
         setReset(objClienteData.reset);
       } catch (error) {
-        console.error("Error fetching cliente:", error.message);
+        console.error("Error fetching data:", error.message);
       }
     };
 
-    carregarCliente();
-  }, [idUser]);
+    if (token) {
+      fetchData();
+    }
+  }, [idUser, token]);
 
-  // Função para lidar com a submissão do formulário
+  // Function to handle form submission
   const alterar = () => {
-
-    // Validação do e-mail
+    // Email validation
     if (!validarEmail(emailUser)) {
       toast.error("Por favor, insira um e-mail válido.");
       return;
     }
-
-    // Lógica para enviar os dados atualizados para o servidor
+  
+    // Logic to send updated data to the server
     const dadosAtualizados = {
-        id_user: idUser,
-        nome_user: nomeUser,
-        login: login,
-        senha_user: senhaUser,
-        role: role,
-        email_user: emailUser,
-        is_enabled: isenabled,
-        pastaCliente: pastaCliente,
-        reset: reset,
+      id_user: idUser,
+      nome_user: nomeUser,
+      login: login,
+      senha_user: senhaUser,
+      role: role,
+      email_user: emailUser,
+      is_enabled: isenabled,
+      pastaCliente: pastaCliente,
+      reset: reset,
     };
-
+  
     fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
-        method: "PUT",
-        body: JSON.stringify(dadosAtualizados),
-        headers: {
-            "Content-type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-        },
+      method: "PUT",
+      body: JSON.stringify(dadosAtualizados),
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
-        .then((response) => {
-            if (response.status === 422) {
-                return response.json().then((data) => {
-                    toast.error(`Erro: ${data.error}`);
-                });
-            } else if (response.status === 200) {
-                toast.success("Operação realizada com sucesso!");
-            } else {
-                console.error(
-                    `Erro na requisição: ${response.status} ${response.statusText}`
-                );
-                toast.error("Erro na requisição");
-            }
-        })
-        .catch((error) => {
-            console.error(`Erro na: ${error.message}`);
-            toast.error(`Erro na: ${error.message}`);
-        });
-};
+      .then((response) => {
+        if (response.status === 422) {
+          return response.json().then((data) => {
+            toast.error(`Erro: ${data.error}`);
+          });
+        } else if (response.status === 200) {
+          toast.success("Operação realizada com sucesso!");
+        } else {
+          console.error(
+            `Erro na requisição: ${response.status} ${response.statusText}`
+          );
+          toast.error("Erro na requisição");
+        }
+      })
+      .catch((error) => {
+        console.error(`Erro na: ${error.message}`);
+        toast.error(`Erro na: ${error.message}`);
+      });
+  };
 
   const voltar = () => {
-    // Usando window.history.back() ou window.history.go(-1) para voltar
+    // Use window.history.back() or window.history.go(-1) to go back
     window.history.back();
   };
 
@@ -138,6 +159,7 @@ const AlterarCliente = () => {
               placeholder="Nome do Usuário"
               label="Nome do Usuário"
               name="nomeUser"
+              maxLength={100}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
             />
@@ -148,6 +170,7 @@ const AlterarCliente = () => {
               placeholder="E-mail"
               name="emailUser"
               label="E-mail"
+              maxLength={100}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}
             />
@@ -160,18 +183,25 @@ const AlterarCliente = () => {
               label="Login"
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}
+              maxLength={50}
             />
           </div>
-
-          <div className="input-cad">
-            <Input
-              className="input-cad"
-              placeholder="Pasta do Cliente"
-              label="Pasta do Cliente"
+          <div className="input-cadC">
+            <select
+              id="selectPasta"
               name="pastaCliente"
-              eventoTeclado={(e) => setPastaCliente(e.target.value)}
-              obj={pastaCliente}
-            />
+              value={pastaCliente}
+              onChange={(e) => {
+                setPastaCliente(e.target.value);
+              }}
+            >
+              <option value="">Selecione uma pasta</option>
+              {pastas.map((pasta) => (
+                <option key={pasta.name} value={pasta.name}>
+                  {pasta.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="button">
             <Button nome="Alterar" classname="Alterar" funcao={alterar} />
