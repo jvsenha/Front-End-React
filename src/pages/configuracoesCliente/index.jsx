@@ -83,10 +83,10 @@ const ConfiguracoesCliente = () => {
 };
 
 
-    const voltar = () => {
-        // Usando window.history.back() ou window.history.go(-1) para voltar
-        window.location.assign("http://localhost:3000/homeclt");
-    };
+const voltar = () => {
+    // Usando window.history.back() ou window.history.go(-1) para voltar
+    window.history.back();
+  };
 
     return (
         <>

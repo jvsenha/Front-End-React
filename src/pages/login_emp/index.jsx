@@ -33,7 +33,7 @@ const LoginEmp = () => {
                         // Armazene o token no localStorage
                         localStorage.setItem('token', retorno_convert.token);
                        
-                        window.location.assign("http://localhost:3000/homeemp");
+                        window.location.assign("http://192.168.1.250/Primus/homeemp");
                     }
                 });
         } else {
@@ -66,12 +66,12 @@ const LoginEmp = () => {
                                     // Armazene o token no localStorage
                                     localStorage.setItem('token', retorno_convert.token);
                                    
-                                    window.location.assign("http://localhost:3000/homeemp");
+                                    window.location.assign("http://192.168.1.250/Primus/homeemp");
                                 }
                             });
                     } else {
                        
-                        window.location.assign("http://localhost:3000/homeemp")
+                        window.location.assign("http://192.168.1.250/Primus/homeemp")
                     }
                 });
         }
@@ -113,4 +113,3 @@ const LoginEmp = () => {
 
 export { LoginEmp };
 
-// <Link to="/login"> Fazer login</Link> 

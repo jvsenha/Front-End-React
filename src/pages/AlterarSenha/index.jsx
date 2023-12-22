@@ -35,7 +35,7 @@ const AlterarSenha = () => {
                         toast.success(retorno_convert.message, {
                             autoClose: 3000, // Tempo em milissegundos (3 segundos neste exemplo)
                         });
-                        window.location.assign("http://localhost:3000/homeclt")
+                        window.location.assign("http://192.168.1.250/Primus/homeclt")
                     }
                 });
         } else {

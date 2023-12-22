@@ -57,7 +57,7 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar, onAbrirPasta }) => {
                                             </span>
                                             <ul className={`menu-options ${statusClientes[cliente.idUser] === 'show' ? 'show' : ''}`}>
                                                 <li onClick={() => onRemover(cliente.idUser)} className='link-li'>Deletar</li>
-                                                <li><Link to={`/alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
+                                                <li><Link to={`alterarCliente/${cliente.idUser}`} className='link-li'>Alterar</Link></li>
                                                 {cliente.isEnabled === 'Ativo' ? (
                                                     <li onClick={() => onAtivar(cliente.idUser, 'Inativar')} className="link-li">
 

@@ -31,7 +31,7 @@ const ForgotPassword = () => {
                     } else {
                         toast.success('Aguarde a empresa analisar seu pedido');
 
-                        window.location.assign("http://localhost:3000/");
+                        window.location.assign("http://192.168.1.250/Primus/");
                     }
                 });
         } catch (error) {

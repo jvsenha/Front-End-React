@@ -40,7 +40,7 @@ const Home = () => {
                         // Armazene o token no localStorage
                         localStorage.setItem('token', retorno_convert.token);
                     
-                        window.location.assign("http://localhost:3000/homeclt");
+                        window.location.assign("http://192.168.1.250/Primus/homeclt");
                     }
                 });
         } else {
@@ -74,11 +74,11 @@ const Home = () => {
                                     // Armazene o token no localStorage
                                     localStorage.setItem('token', retorno_convert.token);
                                 
-                                    window.location.assign("http://localhost:3000/homeclt");
+                                    window.location.assign("http://192.168.1.250/Primus/homeclt");
                                 }
                             });
                     } else {
-                        window.location.assign("http://localhost:3000/homeclt")
+                        window.location.assign("http://192.168.1.250/Primus/homeclt")
                     }
                 });
         }
@@ -107,7 +107,7 @@ const Home = () => {
 
                             <Button nome="Entrar" classname="Button" funcao={logar} />
                             <div>
-                            <LinkButton nome="Esqueci a senha" classname="Voltar" link="/forgotPassword" />
+                            <LinkButton nome="Esqueci a senha" classname="Voltar" link="forgotPassword" />
                             </div>
                         </div >
 

@@ -76,7 +76,7 @@ const Side = ({ page }) => {
         if (response.ok) {
           // Logout bem-sucedido
           localStorage.clear();
-          window.location.href = 'http://localhost:3000/'; // Ou use o roteamento do React, se aplicável
+          window.location.href = 'http://192.168.1.250/Primus/'; // Ou use o roteamento do React, se aplicável
         } else {
           throw new Error('Erro ao fazer logout.');
         }
@@ -101,13 +101,13 @@ const Side = ({ page }) => {
          
         <li>
             <div className="iocn-link">
-              <Link to="/homeemp" className="link_name">
+              <Link to="homeemp" className="link_name">
                 <i className='bx bx-grid-alt' ></i>
                 <span className="link_name">Dashboard</span>
               </Link>
             </div>
             <ul className="sub-menu">
-              <li><Link to="/homeemp" className="link_name">Dashboard</Link></li>
+              <li><Link to="homeemp" className="link_name">Dashboard</Link></li>
             </ul>
           </li>
 
@@ -121,8 +121,8 @@ const Side = ({ page }) => {
             </div>
             <ul className="sub-menu">
               <li><Link className="link_name">Clientes</Link></li>
-              <li><Link to="/listCliente" >Clientes Ativos</Link></li>
-              <li><Link to="/listClienteInativos" >Clientes Inativos</Link></li>
+              <li><Link to="listCliente" >Clientes Ativos</Link></li>
+              <li><Link to="listClienteInativos" >Clientes Inativos</Link></li>
        
             </ul>
           </li>

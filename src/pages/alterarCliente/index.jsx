@@ -121,7 +121,7 @@ const AlterarCliente = () => {
                     </div>
                     <div className="button">
                         <Button nome="Alterar" classname="Alterar" funcao={alterar} />
-                        <LinkButton nome="Voltar" classname="Voltar" link="/listCliente" />
+                        <LinkButton nome="Voltar" classname="Voltar" link="listCliente" />
                     </div>
                 </form>
 

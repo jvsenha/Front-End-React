@@ -52,7 +52,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
         if (response.ok) {
           // Logout bem-sucedido
           localStorage.clear();
-          window.location.href = 'http://localhost:3000/'; // Ou use o roteamento do React, se aplicável
+          window.location.href = 'http://192.168.1.250/Primus/'; // Ou use o roteamento do React, se aplicável
         } else {
           throw new Error('Erro ao fazer logout.');
         }
@@ -88,7 +88,7 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
       <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet" />
 
       <nav className="nav">
-        <Link to={"http://localhost:3000/homeclt"}>
+        <Link to={"http://192.168.1.250/Primus/homeclt"}>
           <img className="img-nav" src={Logo} alt="" />
         </Link>
         <div className="div_icons">
@@ -128,8 +128,8 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
           {isCogDropdownVisible && (
             <div className="dropdown-content">
               {/* Dropdown content here */}
-              <Link to={`/configuracoesCliente/${idUser}`} onClick={() => handleDropdownItemClick('Configurações')}>Configurações</Link>
-              <Link to={`/alterarSenha/${idUser}`} onClick={() => handleDropdownItemClick('Alterar a Senha')}>Alterar a Senha</Link>
+              <Link to={`configuracoesCliente/${idUser}`} onClick={() => handleDropdownItemClick('Configurações')}>Configurações</Link>
+              <Link to={`alterarSenha/${idUser}`} onClick={() => handleDropdownItemClick('Alterar a Senha')}>Alterar a Senha</Link>
               {/* Add more links as needed */}
             </div>
           )}

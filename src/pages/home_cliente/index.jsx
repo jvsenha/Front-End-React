@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Navbar from "../../components/Navbar";
+import Search from '../../components/Search';
 import TabelaCliente from "../../components/TabelaCliente";
 import "../../assets/style.css";
 
@@ -53,6 +54,16 @@ const HomeCliente = () => {
     }
     
   }, [token]);
+
+  const [busca, setBusca] = useState('');
+
+  const arquivosFiltrados = useMemo(() => {
+    const lowerBusca = busca.toLowerCase().trim();
+    return arquivos.filter(
+      (arquivo) =>
+      arquivo.name.toLowerCase().trim().includes(lowerBusca)
+    );
+  }, [busca, arquivos]);
   
   const downloadFile = async (fileId, nomeDocumento) => {
     try {
@@ -88,9 +99,10 @@ const HomeCliente = () => {
       <section className="main-cliente">
         <section className="section-header">
           <h1 className="Title">Arquivo</h1>
+          <Search funcao={(ev) => setBusca(ev.target.value)} value={busca} />
         </section>
         <section className="table">
-          <TabelaCliente vetor={arquivos} onDownload={downloadFile} />
+          <TabelaCliente vetor={arquivosFiltrados} onDownload={downloadFile} />
         </section>
       </section>
     </>

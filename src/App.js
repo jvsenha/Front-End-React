@@ -59,26 +59,26 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/empresa" element={<LoginEmp />} />
-        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="Primus/" element={<Home />} />
+        <Route path="Primus/empresa" element={<LoginEmp />} />
+        <Route path="Primus/forgotPassword" element={<ForgotPassword />} />
 
         {UserRole === "ROLE_EMP" && (
           <>
-            <Route path="/homeemp" element={<HomeEmp />} />
-            <Route path="/cadCliente" element={<CadClienteEmp />} />
-            <Route path="/listCliente" element={<ListClienteEmp />} />
-            <Route path="/listClienteInativos" element={<ListCltInativosEmp />} />
-            <Route path="/alterarCliente/:idUser" element={<AlterarCliente />} />
-            <Route path="/configuracoesAdm/:idUser" element={<ConfiguracoesAdm />} />
+            <Route path="Primus/homeemp" element={<HomeEmp />} />
+            <Route path="Primus/cadCliente" element={<CadClienteEmp />} />
+            <Route path="Primus/listCliente" element={<ListClienteEmp />} />
+            <Route path="Primus/listClienteInativos" element={<ListCltInativosEmp />} />
+            <Route path="Primus/alterarCliente/:idUser" element={<AlterarCliente />} />
+            <Route path="Primus/configuracoesAdm/:idUser" element={<ConfiguracoesAdm />} />
           </>
         )}
 
         {UserRole === "ROLE_USER" && (
           <>
-            <Route path="/homeclt" element={<HomeCliente />} />
-            <Route path="/configuracoesCliente/:idUser" element={<ConfiguracoesCliente />} />
-            <Route path="/alterarSenha/:idUser" element={<AlterarSenha />} />
+            <Route path="Primus/homeclt" element={<HomeCliente />} />
+            <Route path="Primus/configuracoesCliente/:idUser" element={<ConfiguracoesCliente />} />
+            <Route path="Primus/alterarSenha/:idUser" element={<AlterarSenha />} />
           </>
         )}
 
