@@ -42,9 +42,9 @@ const Tabela = ({ vetor, onRemover, onAtivar, onInativar, onAbrirPasta }) => {
             {vetor.map((cliente) => (
               <tr key={cliente.idUser}>
                 <td>{cliente.idUser}</td>
-                <td>{cliente.login}</td>
-                <td>{cliente.nomeUser}</td>
-                <td>{cliente.emailCliente}</td>
+                <td className="ellipsis">{cliente.login}</td>
+                <td className="ellipsis">{cliente.nomeUser}</td>
+                <td className="ellipsis">{cliente.emailCliente}</td>
                 <td>
                   <i className='bx bx-link' onClick={() => onAbrirPasta(cliente.pastaId)}></i>
                 </td>
