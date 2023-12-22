@@ -12,7 +12,6 @@ import { ListClienteEmp } from "./pages/listCliente";
 import { AlterarCliente } from "./pages/alterarCliente";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { Loading } from "./pages/Loading";
-import APIIndex from "./pages/API/index";
 import "./App.css";
 import { useEffect, useState } from "react";
 
@@ -54,7 +53,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/api" element={<APIIndex />} />
+       
         <Route path="/" element={<Home />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
 

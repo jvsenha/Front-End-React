@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './style.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./style.css";
 
-const TabelaCliente = ({ vetor, onDownload }) => {
-  
+const TabelaCliente = ({ vetor }) => {
   return (
     <>
       <div className="tbl-header">
-        <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
+        <table
+          className="tb-cliente"
+          cellPadding="0"
+          cellSpacing="0"
+          border="0"
+        >
           <thead>
             <tr>
               <th>Nome do Documento</th>
@@ -19,22 +23,31 @@ const TabelaCliente = ({ vetor, onDownload }) => {
         </table>
       </div>
       <div className="tbl-content">
-        <table className='tb-cliente' cellPadding="0" cellSpacing="0" border="0">
+        <table
+          className="tb-cliente"
+          cellPadding="0"
+          cellSpacing="0"
+          border="0"
+        >
           <tbody>
             {vetor.map((arquivo) => (
               <tr key={arquivo.id}>
                 <td>{arquivo.name}</td>
                 <td>{arquivo.size}</td>
                 <td>
-                  <Link to={arquivo.webViewLink} target="_blank" rel="noopener noreferrer" className='Link-doc'>
+                  <Link
+                    to={arquivo.webViewLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="Link-doc"
+                  >
                     Visualizar Documento
                   </Link>
                 </td>
                 <td>
-                <Link onClick={() => onDownload(arquivo.id,arquivo.name)} className='Link-doc'
-                  >
+                  <a href={arquivo.LinkDownload} download className="Link-doc">
                     Download
-                  </Link>
+                  </a>
                 </td>
               </tr>
             ))}

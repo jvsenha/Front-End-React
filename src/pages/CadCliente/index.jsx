@@ -2,19 +2,16 @@ import "../../assets/style.css";
 import Sidebar from "../../components/Sidebar";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-
-
-
 const CadClienteEmp = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [isBtnVisible, setIsBtnVisible] = useState(false);
-  //Objeto cliente
+  const [pastas, setPastas] = useState([]);
+  // Objeto cliente
   const cliente = {
     nome_user: "",
     login: "",
@@ -31,10 +28,40 @@ const CadClienteEmp = () => {
     setObjCliente(cliente);
   };
 
+  useEffect(() => {
+    const fetchArquivos = async () => {
+      try {
+        const filesResponse = await fetch(
+          "http://localhost:8000/api.php?action=listarArquivo",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (filesResponse.ok) {
+          const filesData = await filesResponse.json();
+          setPastas(filesData);
+        } else {
+          throw new Error("Erro ao obter os arquivos.");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar arquivos", error);
+      }
+    };
+
+    if (token) {
+      fetchArquivos();
+    }
+  }, [token]);
+
   // dados dos formularios
   const cadastrar = async () => {
     try {
-
       const responseCliente = await fetch(
         "http://localhost:8000/api.php?action=cadastrarUsuario",
         {
@@ -73,8 +100,8 @@ const CadClienteEmp = () => {
   const digitar = (e) => {
     setObjCliente({ ...objCliente, [e.target.name]: e.target.value });
     setIsBtnVisible(e.target.name === "senha_user" && e.target.value !== "");
-
   };
+
   const toggleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
@@ -128,21 +155,28 @@ const CadClienteEmp = () => {
             <button
               type="button"
               onClick={toggleMostrarSenha}
-              className={`vision-cad ${isBtnVisible ? "" : "close-btn"}`}>
-              <span>
-              {mostrarSenha ? "Esconder Senha" : "Mostrar Senha"}
-              </span>
+              className={`vision-cad ${isBtnVisible ? "" : "close-btn"}`}
+            >
+              <span>{mostrarSenha ? "Esconder Senha" : "Mostrar Senha"}</span>
             </button>
           </div>
           <div className="input-cadC">
-            <Input
-              className="input-cadC"
-              placeholder="Pasta"
-              label="Pasta"
+            <select
+              id="selectPasta"
               name="pastaCliente"
-              eventoTeclado={digitar}
-              obj={objCliente.pastaCliente}
-            />
+              value={objCliente.pastaCliente}
+              onChange={(e) => {
+                const selectedPasta = pastas.find(pasta => pasta.name === e.target.value);
+                setObjCliente({ ...objCliente, pastaCliente: selectedPasta ? selectedPasta.name : "" });
+              }}
+            >
+              <option value="">Selecione uma pasta</option>
+              {pastas.map((pasta) => (
+                <option key={pasta.name} value={pasta.name}>
+                  {pasta.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="button">
             <Button nome="Cadastrar" classname="Cadastrar" funcao={cadastrar} />

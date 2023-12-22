@@ -9,11 +9,49 @@ import "../../assets/style.css";
 
 const ListClienteEmp = () => {
   const [clientes, setClientes] = useState([]);
-const token = localStorage.getItem('token');
+  const [pastas, setPastas] = useState([]);
+  const token = localStorage.getItem("token");
   const statusRef = useRef(null);
 
+  const fetchArquivos = async () => {
+    try {
+      const filesResponse = await fetch(
+        "http://localhost:8000/api.php?action=listarArquivo",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (filesResponse.ok) {
+        const filesData = await filesResponse.json();
+  
+        // Retorna um array de objetos { id, name }
+        const pastasInfo = filesData.map((pasta) => ({
+          id: pasta.id,
+          name: pasta.name,
+        }));
+  
+        setPastas(pastasInfo);
+  
+        // Retorna apenas os IDs das pastas
+        return pastasInfo;
+      } else {
+        throw new Error("Erro ao obter os arquivos.");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar arquivos", error);
+    }
+  };
+  
   const fetchClientes = async () => {
     try {
+      const pastaInfo = await fetchArquivos(); // Obtem as informações das pastas
+  
       const response = await fetch(
         "http://localhost:8000/api.php?action=listarCliente",
         {
@@ -25,53 +63,53 @@ const token = localStorage.getItem('token');
           },
         }
       );
-
+  
       if (response.ok) {
         const data = await response.json();
-
+  
         const updatedClientes = [];
-
+  
         for (const cliente of data) {
           try {
             let pastaId = ""; // Valor padrão caso não haja pasta cadastrada
-
+  
             // Verifica se o cliente possui uma pasta cadastrada antes de obter o ID
-            if (cliente.pastaCliente) {
-              const response = await fetch(
-                `http://localhost:8000/obterIdPasta/${cliente.pastaCliente}`
+            if (cliente.pasta_cliente) {
+              // Encontra a pasta correspondente no pastasInfo
+              const pastaCorrespondente = pastaInfo.find(
+                (pasta) => pasta.name === cliente.pasta_cliente
               );
-              if (response.ok) {
-                const responseData = await response.json();
-                pastaId = responseData.pastaId;
-              } else {
-                console.error(
-                  "Erro ao obter ID da pasta:",
-                  response.statusText
-                );
+  
+              // Se encontrou, atribui o ID da pasta
+              if (pastaCorrespondente) {
+                pastaId = pastaCorrespondente.id;
               }
             }
-
+  
             updatedClientes.push({
               idUser: cliente.idUser,
               login: cliente.login,
               nomeUser: cliente.nomeUser,
               emailCliente: cliente.emailCliente,
-              pastaCliente: cliente.pastaCliente,
+              pasta_cliente: cliente.pasta_cliente,
               pastaId: pastaId, // Adicionando o ID da pasta ao objeto do cliente
               isEnabled: cliente.isEnabled,
             });
+  
+            // Mostra o pastaId no console
+            console.log(`Cliente: ${cliente.nomeUser}, Pasta ID: ${pastaId}`);
           } catch (error) {
             console.error("Erro ao processar cliente:", error);
           }
         }
-
+  
         setClientes(updatedClientes);
       }
     } catch (error) {
       console.error("Erro ao buscar clientes", error);
     }
   };
-
+  
   useEffect(() => {
     fetchClientes();
   }, [token]);
@@ -88,7 +126,7 @@ const token = localStorage.getItem('token');
       headers: {
         "Content-type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
@@ -122,8 +160,8 @@ const token = localStorage.getItem('token');
 
   const handleConfirmAction = (userId) => {
     const idUserObj = {
-      id_user:userId
-  }
+      id_user: userId,
+    };
     // Remova o cliente aqui se o usuário confirmar
     fetch(`http://localhost:8000/api.php?action=deletarCliente`, {
       method: "DELETE",
@@ -152,8 +190,10 @@ const token = localStorage.getItem('token');
     );
   }, [busca, clientes]);
 
-  const handleAbrirPasta = (pastaId) => {
+  const handleAbrirPasta = (pastaId, nomeUsuario) => {
     try {
+
+      console.log(pastaId)
       if (pastaId) {
         const urlDoDrive = `https://drive.google.com/drive/folders/${pastaId}`;
 
@@ -162,7 +202,7 @@ const token = localStorage.getItem('token');
         toast.success("Pasta do Google Drive aberta com sucesso!");
       } else {
         toast.error(
-          "ID da pasta não encontrado. Não é possível abrir a pasta."
+          `ID da pasta não encontrado para o usuário ${nomeUsuario}. Não é possível abrir a pasta.`
         );
       }
     } catch (error) {

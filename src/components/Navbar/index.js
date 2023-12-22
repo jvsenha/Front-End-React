@@ -39,8 +39,6 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
           // Verifique se há pelo menos um objeto no array antes de acessar suas propriedades
           if (retorno_convert.length > 0) {
             const primeiroUsuario = retorno_convert[0];
-    
-          
             setReset(primeiroUsuario.reset);
             setIdUser(primeiroUsuario.id_user);
           } else {
