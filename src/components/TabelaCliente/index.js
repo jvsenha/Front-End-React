@@ -32,8 +32,8 @@ const TabelaCliente = ({ vetor }) => {
           <tbody>
             {vetor.map((arquivo) => (
               <tr key={arquivo.id}>
-                <td>{arquivo.name}</td>
-                <td>{arquivo.size}</td>
+                <td className="ellipsis">{arquivo.name}</td>
+                <td className="ellipsis">{arquivo.size}</td>
                 <td>
                   <Link
                     to={arquivo.webViewLink}
