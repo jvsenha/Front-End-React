@@ -11,7 +11,7 @@ const HomeCliente = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api.php?action=dadosUser", {
+        const response = await fetch("https://app.compreagua.com.br/api.php?action=dadosUser", {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -27,7 +27,7 @@ const HomeCliente = () => {
             const primeiroUsuario = retorno_convert[0];
             setPastaCliente(primeiroUsuario.pasta_cliente);
   
-            const filesResponse = await fetch("http://localhost:8000/api.php?action=listarArquivo", {
+            const filesResponse = await fetch("https://app.compreagua.com.br/api.php?action=listarArquivo", {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

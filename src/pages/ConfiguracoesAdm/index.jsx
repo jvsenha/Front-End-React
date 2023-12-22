@@ -34,7 +34,7 @@ const ConfiguracoesAdm = () => {
         };
 
         const response = await fetch(
-          "http://localhost:8000/api.php?action=carregarEmpresa",
+          "https://app.compreagua.com.br/api.php?action=carregarEmpresa",
           {
             method: "POST",
             headers: {
@@ -88,7 +88,7 @@ const ConfiguracoesAdm = () => {
         is_enabled: isenabled,
     };
 
-    fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
+    fetch(`https://app.compreagua.com.br/api.php?action=alterarUsuario`, {
         method: "PUT",
         body: JSON.stringify(dadosAtualizados),
         headers: {

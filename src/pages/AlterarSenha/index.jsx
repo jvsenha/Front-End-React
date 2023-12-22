@@ -21,7 +21,7 @@ const AlterarSenha = () => {
         senha_user: senhaUser,
       };
 
-      fetch(`http://localhost:8000/api.php?action=alterarSenha`, {
+      fetch(`https://app.compreagua.com.br/api.php?action=alterarSenha`, {
         method: "PUT",
         body: JSON.stringify(dadosAtualizados),
         headers: {

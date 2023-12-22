@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      fetch("http://localhost:8000/api.php?action=decodeToken", {
+      fetch("https://app.compreagua.com.br/api.php?action=decodeToken", {
         method: "POST",
         headers: {
           "Content-type": "application/json",

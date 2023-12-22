@@ -32,7 +32,7 @@ const CadClienteEmp = () => {
     const fetchArquivos = async () => {
       try {
         const filesResponse = await fetch(
-          "http://localhost:8000/api.php?action=listarArquivo",
+          "https://app.compreagua.com.br/api.php?action=listarArquivo",
           {
             method: "POST",
             headers: {
@@ -63,7 +63,7 @@ const CadClienteEmp = () => {
   const cadastrar = async () => {
     try {
       const responseCliente = await fetch(
-        "http://localhost:8000/api.php?action=cadastrarUsuario",
+        "https://app.compreagua.com.br/api.php?action=cadastrarUsuario",
         {
           method: "POST",
           body: JSON.stringify(objCliente),

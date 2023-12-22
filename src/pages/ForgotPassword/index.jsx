@@ -14,7 +14,7 @@ const ForgotPassword = () => {
 
     const resetSenha = () => {
         try {
-            fetch('http://localhost:8000/api.php?action=forgot-password', {
+            fetch('https://app.compreagua.com.br/api.php?action=forgot-password', {
                 method: 'PUT',
                 body: JSON.stringify(objLogin),
                 headers: {

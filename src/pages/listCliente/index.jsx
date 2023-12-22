@@ -16,7 +16,7 @@ const ListClienteEmp = () => {
   const fetchArquivos = async () => {
     try {
       const filesResponse = await fetch(
-        "http://localhost:8000/api.php?action=listarArquivo",
+        "https://app.compreagua.com.br/api.php?action=listarArquivo",
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ const ListClienteEmp = () => {
       const pastaInfo = await fetchArquivos(); // Obtem as informações das pastas
   
       const response = await fetch(
-        "http://localhost:8000/api.php?action=listarCliente",
+        "https://app.compreagua.com.br/api.php?action=listarCliente",
         {
           method: "GET",
           headers: {
@@ -120,7 +120,7 @@ const ListClienteEmp = () => {
       is_enabled: isEnabled,
     };
 
-    fetch("http://localhost:8000/api.php?action=mudarStatus", {
+    fetch("https://app.compreagua.com.br/api.php?action=mudarStatus", {
       method: "PUT",
       body: JSON.stringify(objEneabled),
       headers: {
@@ -163,7 +163,7 @@ const ListClienteEmp = () => {
       id_user: userId,
     };
     // Remova o cliente aqui se o usuário confirmar
-    fetch(`http://localhost:8000/api.php?action=deletarCliente`, {
+    fetch(`https://app.compreagua.com.br/api.php?action=deletarCliente`, {
       method: "DELETE",
       body: JSON.stringify(idUserObj),
       headers: {

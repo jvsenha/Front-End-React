@@ -12,7 +12,7 @@ const Side = ({ page }) => {
   useEffect(() => {
     const fetchDados = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api.php?action=dadosUser", {
+        const response = await fetch("https://app.compreagua.com.br/api.php?action=dadosUser", {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
@@ -73,7 +73,7 @@ const Side = ({ page }) => {
   }, []);
 
   const logout = () => {
-    fetch('http://localhost:8000/api.php?action=logout', {
+    fetch('https://app.compreagua.com.br/api.php?action=logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const Side = ({ page }) => {
         if (response.ok) {
           // Logout bem-sucedido
           localStorage.clear();
-          window.location.href = 'http://localhost:3000/';
+          window.location.href = 'https://compreagua.com.br/';
         } else {
           throw new Error('Erro ao fazer logout.');
         }

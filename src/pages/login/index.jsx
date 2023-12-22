@@ -22,16 +22,16 @@ const Home = () => {
   const redirectToHome = (role) => {
     if (role !== "cliente") {
       // Redireciona para a home do emp se o usuário não for cliente
-      window.location.href = "http://localhost:3000/homeemp";
+      window.location.href = "https://compreagua.com.br/homeemp";
     } else {
       // Redireciona para a home do cliente se o usuário for cliente
-      window.location.href = "http://localhost:3000/homeclt";
+      window.location.href = "https://compreagua.com.br/homeclt";
     }
   };
 
   const logar = () => {
     // Faz a autenticação diretamente
-    fetch("http://localhost:8000/api.php?action=login", {
+    fetch("https://app.compreagua.com.br/api.php?action=login", {
       method: "POST",
       body: JSON.stringify(objCredeciais),
       headers: {
@@ -48,7 +48,7 @@ const Home = () => {
           localStorage.setItem("token", retorno_convert.session_data.token);
 
           // Verifica o token após o login
-          fetch("http://localhost:8000/api.php?action=decodeToken", {
+          fetch("https://app.compreagua.com.br/api.php?action=decodeToken", {
             method: "POST",
             headers: {
               "Content-type": "application/json",

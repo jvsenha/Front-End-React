@@ -36,7 +36,7 @@ const AlterarCliente = () => {
         };
 
         const response = await fetch(
-          "http://localhost:8000/api.php?action=carregarCliente",
+          "https://app.compreagua.com.br/api.php?action=carregarCliente",
           {
             method: "POST",
             headers: {
@@ -93,7 +93,7 @@ const AlterarCliente = () => {
         reset: reset,
     };
 
-    fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
+    fetch(`https://app.compreagua.com.br/api.php?action=alterarUsuario`, {
         method: "PUT",
         body: JSON.stringify(dadosAtualizados),
         headers: {

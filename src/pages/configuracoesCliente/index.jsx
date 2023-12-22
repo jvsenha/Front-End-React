@@ -34,7 +34,7 @@ const ConfiguracoesCliente = () => {
         };
 
         const response = await fetch(
-          "http://localhost:8000/api.php?action=carregarCliente",
+          "https://app.compreagua.com.br/api.php?action=carregarCliente",
           {
             method: "POST",
             headers: {
@@ -91,7 +91,7 @@ const ConfiguracoesCliente = () => {
       reset: reset,
     };
 
-    fetch(`http://localhost:8000/api.php?action=alterarUsuario`, {
+    fetch(`https://app.compreagua.com.br/api.php?action=alterarUsuario`, {
       method: "PUT",
       body: JSON.stringify(dadosAtualizados),
       headers: {
@@ -122,7 +122,7 @@ const ConfiguracoesCliente = () => {
 
   const voltar = () => {
     // Usando window.history.back() ou window.history.go(-1) para voltar
-    window.location.assign("http://localhost:3000/homeclt");
+    window.location.assign("https://compreagua.com.br/homeclt");
   };
 
   return (
