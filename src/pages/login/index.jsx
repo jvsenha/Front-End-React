@@ -96,6 +96,7 @@ const Home = () => {
                   className="input-cad"
                   placeholder="Nome de Usuario"
                   name="login"
+                  maxLength={49}
                   label="Nome de Usuario"
                   eventoTeclado={digitar}
                 />

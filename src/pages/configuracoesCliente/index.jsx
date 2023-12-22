@@ -136,6 +136,7 @@ const ConfiguracoesCliente = () => {
             <Input
               placeholder="Nome do Usuário"
               label="Nome do Usuário"
+              maxLength={99}
               name="nomeUser"
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
@@ -146,6 +147,7 @@ const ConfiguracoesCliente = () => {
               className="input-cad"
               placeholder="E-mail"
               name="emailUser"
+              maxLength={99}
               label="E-mail"
               type="email"
               eventoTeclado={(e) => setEmailUser(e.target.value)}
@@ -156,6 +158,7 @@ const ConfiguracoesCliente = () => {
             <Input
               className="input-cad"
               placeholder="Login"
+              maxLength={49}
               name="login"
               label="Login"
               eventoTeclado={(e) => setLogin(e.target.value)}

@@ -159,7 +159,7 @@ const AlterarCliente = () => {
               placeholder="Nome do Usuário"
               label="Nome do Usuário"
               name="nomeUser"
-              maxLength={100}
+              maxLength={99}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
             />
@@ -170,7 +170,7 @@ const AlterarCliente = () => {
               placeholder="E-mail"
               name="emailUser"
               label="E-mail"
-              maxLength={100}
+              maxLength={99}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}
             />
@@ -183,7 +183,7 @@ const AlterarCliente = () => {
               label="Login"
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}
-              maxLength={50}
+              maxLength={49}
             />
           </div>
           <div className="input-cadC">
