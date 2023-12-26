@@ -156,8 +156,8 @@ const AlterarCliente = () => {
         <form className="Form">
           <div className="input-cad">
             <Input
-              placeholder="Nome do Usuário"
-              label="Nome do Usuário"
+              placeholder="Nome do Cliente"
+              label="Nome do Cliente"
               name="nomeUser"
               maxLength={99}
               eventoTeclado={(e) => setNomeUser(e.target.value)}

@@ -109,14 +109,14 @@ const CadClienteEmp = () => {
   //cadastrar produto
   return (
     <>
-      <Sidebar page="Cadastrar cliente" />
+      <Sidebar page="Cadastrar Cliente" />
       <ToastContainer />
       <section className="Main-cadC">
         <form className="Form-cadC">
           <div className="input-cadC">
             <Input
-              placeholder="Nome do cliente"
-              label="Nome do cliente"
+              placeholder="Nome do Cliente"
+              label="Nome do Cliente"
               name="nome_user"
               maxLength={99}
               eventoTeclado={digitar}
@@ -126,9 +126,9 @@ const CadClienteEmp = () => {
           <div className="input-cadC">
             <Input
               className="input-cadC"
-              placeholder="Email"
+              placeholder="E-mail"
               name="email_user"
-              label="Email"
+              label="E-mail"
               maxLength={99}
               eventoTeclado={digitar}
               obj={objCliente.email_user}

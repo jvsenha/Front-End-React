@@ -80,7 +80,7 @@ const AlterarSenha = () => {
             <div className="Main_content_reset">
               <h1>Alterar Senha</h1>
               <p>
-                Escreva a nova senha e a confirme, as duas devem ser idênticas{" "}
+                Escreva a nova senha e confirme, as duas devem ser idênticas{" "}
               </p>
               <form className="FormSenha">
                 <div className="div-senha">

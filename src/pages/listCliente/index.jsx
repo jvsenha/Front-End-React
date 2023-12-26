@@ -217,10 +217,10 @@ const ListClienteEmp = () => {
     <>
       <section className="listcliente">
         <ToastContainer />
-        <Sidebar page="Lista de clientes" />
+        <Sidebar page="Lista de Clientes" />
         <section className="Main-listC">
           <section className="header-listC">
-            <h1 className="Title">clientes</h1>
+            <h1 className="Title">Clientes</h1>
             <Search funcao={(ev) => setBusca(ev.target.value)} value={busca} />
           </section>
           <section className="table">

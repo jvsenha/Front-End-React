@@ -58,7 +58,7 @@ const ForgotPassword = () => {
                             <h1>Esqueceu a senha?</h1>
                             <p>Se você  esqueceu sua senha poderá solicitar uma redefinição inserindo seu Login </p>
                             <form className="FormLogin">
-                                <Input className="input-cad" placeholder="Nome de Usuario" name="login" label="Nome de Usuario" eventoTeclado={digitar} />
+                                <Input className="input-cad" placeholder="Login" name="login" label="Login" eventoTeclado={digitar} />
                             </form>
                             <div className="div-button">
                                 <Button nome="Solicitar" classname="Button" funcao={resetSenha} />

@@ -134,8 +134,8 @@ const ConfiguracoesCliente = () => {
         <form className="Form-clt">
           <div className="input-cad">
             <Input
-              placeholder="Nome do Usuário"
-              label="Nome do Usuário"
+              placeholder="Nome"
+              label="Nome"
               maxLength={99}
               name="nomeUser"
               eventoTeclado={(e) => setNomeUser(e.target.value)}

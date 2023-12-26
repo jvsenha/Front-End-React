@@ -90,14 +90,14 @@ const Home = () => {
         <section className="Container">
           <section className="Content">
             <div className="Main_content">
-              <h1>Fazer login</h1>
+              <h1>Fazer Login</h1>
               <form className="FormLogin">
                 <Input
                   className="input-cad"
-                  placeholder="Nome de Usuario"
+                  placeholder="Login"
                   name="login"
                   maxLength={49}
-                  label="Nome de Usuario"
+                  label="Login"
                   eventoTeclado={digitar}
                 />
                 <Input

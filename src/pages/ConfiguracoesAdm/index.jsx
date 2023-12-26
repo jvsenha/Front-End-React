@@ -141,10 +141,10 @@ const ConfiguracoesAdm = () => {
           <div className="input-cad">
             <Input
               className="input-cad"
-              placeholder="Nome de Usuario"
+              placeholder="Login"
               name="login"
               maxLength={49}
-              label="Nome de Usuario"
+              label="Login"
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}
             />
