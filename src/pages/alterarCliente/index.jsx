@@ -100,7 +100,7 @@ const AlterarCliente = () => {
       toast.error("Por favor, insira um e-mail válido.");
       return;
     }
-  
+
     // Logic to send updated data to the server
     const dadosAtualizados = {
       id_user: idUser,
@@ -113,7 +113,7 @@ const AlterarCliente = () => {
       pastaCliente: pastaCliente,
       reset: reset,
     };
-  
+
     fetch(`https://app.compreagua.com.br/api.php?action=alterarUsuario`, {
       method: "PUT",
       body: JSON.stringify(dadosAtualizados),
@@ -148,6 +148,13 @@ const AlterarCliente = () => {
     window.history.back();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      alterar();
+    }
+  };
+
   return (
     <>
       <Sidebar page="Alterar cliente" />
@@ -158,6 +165,7 @@ const AlterarCliente = () => {
             <Input
               placeholder="Nome do Cliente"
               label="Nome do Cliente"
+              onKeyDown={handleKeyDown}
               name="nomeUser"
               maxLength={99}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
@@ -169,6 +177,7 @@ const AlterarCliente = () => {
               className="input-cad"
               placeholder="E-mail"
               name="emailUser"
+              onKeyDown={handleKeyDown}
               label="E-mail"
               maxLength={99}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
@@ -182,6 +191,7 @@ const AlterarCliente = () => {
               name="login"
               label="Login"
               eventoTeclado={(e) => setLogin(e.target.value)}
+              onKeyDown={handleKeyDown}
               obj={login}
               maxLength={49}
             />

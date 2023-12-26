@@ -53,7 +53,7 @@ const Home = () => {
             headers: {
               "Content-type": "application/json",
               Accept: "application/json",
-              Authorization: `Bearer ${retorno_convert.session_data.token}`, 
+              Authorization: `Bearer ${retorno_convert.session_data.token}`,
             },
           })
             .then((retorno) => retorno.json())
@@ -83,6 +83,13 @@ const Home = () => {
     setIsBtnVisible(e.target.name === "senha_user" && e.target.value !== "");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      logar();
+    }
+  };
+
   return (
     <>
       <section className="body-container">
@@ -93,6 +100,7 @@ const Home = () => {
               <h1>Fazer Login</h1>
               <form className="FormLogin">
                 <Input
+                  onKeyDown={handleKeyDown}
                   className="input-cad"
                   placeholder="Login"
                   name="login"
@@ -101,6 +109,7 @@ const Home = () => {
                   eventoTeclado={digitar}
                 />
                 <Input
+                  onKeyDown={handleKeyDown}
                   className="input-cad"
                   placeholder="Senha"
                   name="senha_user"

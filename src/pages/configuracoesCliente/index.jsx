@@ -125,6 +125,14 @@ const ConfiguracoesCliente = () => {
     window.location.assign("https://compreagua.com.br/homeclt");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      alterar();
+    }
+  };
+  
+
   return (
     <>
       <Navbar></Navbar>
@@ -134,6 +142,7 @@ const ConfiguracoesCliente = () => {
         <form className="Form-clt">
           <div className="input-cad">
             <Input
+            onKeyDown={handleKeyDown}
               placeholder="Nome"
               label="Nome"
               maxLength={99}
@@ -144,6 +153,7 @@ const ConfiguracoesCliente = () => {
           </div>
           <div className="input-cad">
             <Input
+            onKeyDown={handleKeyDown}
               className="input-cad"
               placeholder="E-mail"
               name="emailUser"
@@ -156,6 +166,7 @@ const ConfiguracoesCliente = () => {
           </div>
           <div className="input-cad">
             <Input
+            onKeyDown={handleKeyDown}
               className="input-cad"
               placeholder="Login"
               maxLength={49}

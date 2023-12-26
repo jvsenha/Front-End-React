@@ -106,7 +106,12 @@ const CadClienteEmp = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
-  //cadastrar produto
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      cadastrar();
+    }
+  };
   return (
     <>
       <Sidebar page="Cadastrar Cliente" />
@@ -115,6 +120,7 @@ const CadClienteEmp = () => {
         <form className="Form-cadC">
           <div className="input-cadC">
             <Input
+              onKeyDown={handleKeyDown}
               placeholder="Nome do Cliente"
               label="Nome do Cliente"
               name="nome_user"
@@ -125,6 +131,7 @@ const CadClienteEmp = () => {
           </div>
           <div className="input-cadC">
             <Input
+              onKeyDown={handleKeyDown}
               className="input-cadC"
               placeholder="E-mail"
               name="email_user"
@@ -136,6 +143,7 @@ const CadClienteEmp = () => {
           </div>
           <div className="input-cadC">
             <Input
+              onKeyDown={handleKeyDown}
               className="input-cadC"
               placeholder="Login"
               name="login"
@@ -147,6 +155,7 @@ const CadClienteEmp = () => {
           </div>
           <div className="input-cadC">
             <Input
+              onKeyDown={handleKeyDown}
               className="input-cadC"
               placeholder="Senha"
               name="senha_user"
@@ -170,8 +179,13 @@ const CadClienteEmp = () => {
               name="pastaCliente"
               value={objCliente.pastaCliente}
               onChange={(e) => {
-                const selectedPasta = pastas.find(pasta => pasta.name === e.target.value);
-                setObjCliente({ ...objCliente, pastaCliente: selectedPasta ? selectedPasta.name : "" });
+                const selectedPasta = pastas.find(
+                  (pasta) => pasta.name === e.target.value
+                );
+                setObjCliente({
+                  ...objCliente,
+                  pastaCliente: selectedPasta ? selectedPasta.name : "",
+                });
               }}
             >
               <option value="">Selecione uma pasta</option>
