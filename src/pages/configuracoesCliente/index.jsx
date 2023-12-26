@@ -124,6 +124,14 @@ const ConfiguracoesCliente = () => {
     // Usando window.history.back() ou window.history.go(-1) para voltar
     window.location.assign("http://localhost:3000/homeclt");
   };
+  
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      alterar();
+    }
+  };
+
 
   return (
     <>
@@ -138,6 +146,7 @@ const ConfiguracoesCliente = () => {
               label="Nome do Usuário"
               name="nomeUser"
               maxLength={99}
+              onKeyDown={handleKeyDown}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
             />
@@ -149,6 +158,7 @@ const ConfiguracoesCliente = () => {
               name="emailUser"
               label="E-mail"
               type="email"
+              onKeyDown={handleKeyDown}
               maxLength={99}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}
@@ -160,6 +170,7 @@ const ConfiguracoesCliente = () => {
               placeholder="Login"
               name="login"
               label="Login"
+              onKeyDown={handleKeyDown}
               maxLength={49}
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}

@@ -148,6 +148,13 @@ const AlterarCliente = () => {
     window.history.back();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      alterar();
+    }
+  };
+
   return (
     <>
       <Sidebar page="Alterar cliente" />
@@ -159,6 +166,7 @@ const AlterarCliente = () => {
               placeholder="Nome do Usuário"
               label="Nome do Usuário"
               name="nomeUser"
+              onKeyDown={handleKeyDown}
               maxLength={99}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
@@ -170,6 +178,7 @@ const AlterarCliente = () => {
               placeholder="E-mail"
               name="emailUser"
               label="E-mail"
+              onKeyDown={handleKeyDown}
               maxLength={99}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}
@@ -180,6 +189,7 @@ const AlterarCliente = () => {
               className="input-cad"
               placeholder="Login"
               name="login"
+              onKeyDown={handleKeyDown}
               label="Login"
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}

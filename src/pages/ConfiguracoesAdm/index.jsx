@@ -122,6 +122,12 @@ const ConfiguracoesAdm = () => {
     window.history.back();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      alterar();
+    }
+  };
   return (
     <>
       <Sidebar page="Configurações" />
@@ -134,6 +140,7 @@ const ConfiguracoesAdm = () => {
               label="Nome"
               name="nomeUser"
               maxLength={99}
+              onKeyDown={handleKeyDown}
               eventoTeclado={(e) => setNomeUser(e.target.value)}
               obj={nomeUser}
             />
@@ -145,6 +152,7 @@ const ConfiguracoesAdm = () => {
               name="login"
               maxLength={49}
               label="Nome de Usuario"
+              onKeyDown={handleKeyDown}
               eventoTeclado={(e) => setLogin(e.target.value)}
               obj={login}
             />
@@ -157,6 +165,7 @@ const ConfiguracoesAdm = () => {
               label="E-mail"
               maxLength={99}
               type="email"
+              onKeyDown={handleKeyDown}
               eventoTeclado={(e) => setEmailUser(e.target.value)}
               obj={emailUser}
             />

@@ -95,9 +95,6 @@ const ListClienteEmp = () => {
               pastaId: pastaId, // Adicionando o ID da pasta ao objeto do cliente
               isEnabled: cliente.isEnabled,
             });
-  
-            // Mostra o pastaId no console
-            console.log(`Cliente: ${cliente.nomeUser}, Pasta ID: ${pastaId}`);
           } catch (error) {
             console.error("Erro ao processar cliente:", error);
           }
@@ -192,8 +189,6 @@ const ListClienteEmp = () => {
 
   const handleAbrirPasta = (pastaId, nomeUsuario) => {
     try {
-
-      console.log(pastaId)
       if (pastaId) {
         const urlDoDrive = `https://drive.google.com/drive/folders/${pastaId}`;
 

@@ -61,7 +61,6 @@ const CadClienteEmp = () => {
 
   // dados dos formularios
   const cadastrar = async () => {
-    console.log(objCliente)
     try {
       const responseCliente = await fetch(
         "http://localhost:8000/api.php?action=cadastrarUsuario",
@@ -108,6 +107,12 @@ const CadClienteEmp = () => {
   };
 
   //cadastrar produto
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      cadastrar();
+    }
+  };
   return (
     <>
       <Sidebar page="Cadastrar cliente" />
@@ -118,6 +123,7 @@ const CadClienteEmp = () => {
             <Input
               placeholder="Nome do cliente"
               label="Nome do cliente"
+              onKeyDown={handleKeyDown}
               name="nome_user"
               maxLength={99}
               eventoTeclado={digitar}
@@ -130,6 +136,7 @@ const CadClienteEmp = () => {
               placeholder="Email"
               name="email_user"
               label="Email"
+              onKeyDown={handleKeyDown}
               maxLength={99}
               eventoTeclado={digitar}
               obj={objCliente.email_user}
@@ -142,6 +149,7 @@ const CadClienteEmp = () => {
               name="login"
               maxLength={49}
               label="Login"
+              onKeyDown={handleKeyDown}
               eventoTeclado={digitar}
               obj={objCliente.login}
             />
@@ -155,6 +163,7 @@ const CadClienteEmp = () => {
               maxLength={49}
               type={mostrarSenha ? "text" : "password"}
               eventoTeclado={digitar}
+              onKeyDown={handleKeyDown}
               obj={objCliente.senha_user}
             />
             <button

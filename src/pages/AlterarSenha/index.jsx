@@ -65,6 +65,14 @@ const AlterarSenha = () => {
     window.history.back();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      resetSenha();
+    }
+  };
+
+
   return (
     <>
       <link
@@ -87,6 +95,7 @@ const AlterarSenha = () => {
                   <Input
                     className="input-cad"
                     placeholder="Senha"
+                    onKeyDown={handleKeyDown}
                     name="senhaUser"
                     type={mostrarSenha ? "text" : "password"}
                     label="Senha"
@@ -99,6 +108,7 @@ const AlterarSenha = () => {
                     placeholder="Confirmar Senha"
                     name="confirmsenha"
                     type={mostrarSenha ? "text" : "password"}
+                    onKeyDown={handleKeyDown}
                     label="Confirmar Senha"
                     eventoTeclado={(e) => setSenhaUser(e.target.value)}
                   />{" "}

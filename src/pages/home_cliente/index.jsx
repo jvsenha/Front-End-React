@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Navbar from "../../components/Navbar";
 import TabelaCliente from "../../components/TabelaCliente";
+import Search from "../../components/Search";
 import "../../assets/style.css";
 
 const HomeCliente = () => {
@@ -61,6 +62,15 @@ const HomeCliente = () => {
     }
   }, [token]);
   
+  const [busca, setBusca] = useState("");
+
+  const arquivosFiltrados = useMemo(() => {
+    const lowerBusca = busca.toLowerCase().trim();
+    return arquivos.filter(
+      (arquivo) =>
+        arquivo.name.toLowerCase().trim().includes(lowerBusca)
+    );
+  }, [busca, arquivos]);
 
   return (
     <>
@@ -68,9 +78,10 @@ const HomeCliente = () => {
       <section className="main-cliente">
         <section className="section-header">
           <h1 className="Title">Arquivo</h1>
+          <Search funcao={(ev) => setBusca(ev.target.value)} value={busca} />
         </section>
         <section className="table">
-        <TabelaCliente vetor={arquivos}/>
+        <TabelaCliente vetor={arquivosFiltrados}/>
         </section>
       </section>
     </>

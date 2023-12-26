@@ -89,7 +89,6 @@ const Navbar = ({ placeholder, label, eventoTeclado, name, obj }) => {
   };
 
   const handleDropdownItemClick = (item) => {
-    console.log(`Item clicado: ${item}`);
     setIsBellDropdownVisible(false);
     setIsCogDropdownVisible(false);
   };

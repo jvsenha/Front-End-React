@@ -1,3 +1,5 @@
+// pages/Home/index.jsx
+
 import "../../assets/style.css";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -6,6 +8,7 @@ import LinkButton from "../../components/Link-Button";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const Home = () => {
   const Credeciais = {
     login: "",
@@ -15,22 +18,20 @@ const Home = () => {
   const [userRole, setUserRole] = useState(null);
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [isBtnVisible, setIsBtnVisible] = useState(false);
+
   const toggleMostrarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
 
   const redirectToHome = (role) => {
     if (role !== "cliente") {
-      // Redireciona para a home do emp se o usuário não for cliente
       window.location.href = "http://localhost:3000/homeemp";
     } else {
-      // Redireciona para a home do cliente se o usuário for cliente
       window.location.href = "http://localhost:3000/homeclt";
     }
   };
 
   const logar = () => {
-    // Faz a autenticação diretamente
     fetch("http://localhost:8000/api.php?action=login", {
       method: "POST",
       body: JSON.stringify(objCredeciais),
@@ -44,10 +45,8 @@ const Home = () => {
         if (retorno_convert.message !== undefined) {
           toast.error(retorno_convert.message);
         } else {
-          // Armazena o token na sessão
           localStorage.setItem("token", retorno_convert.session_data.token);
 
-          // Verifica o token após o login
           fetch("http://localhost:8000/api.php?action=decodeToken", {
             method: "POST",
             headers: {
@@ -61,10 +60,7 @@ const Home = () => {
               if (retorno_convert.message !== undefined) {
                 alert(retorno_convert.message);
               } else {
-                // Se o retorno_convert já é um objeto, você pode acessar diretamente a propriedade 'role'
                 setUserRole(retorno_convert.role);
-
-                // Redireciona para a home com base na role
                 redirectToHome(retorno_convert.role);
               }
             })
@@ -83,6 +79,13 @@ const Home = () => {
     setIsBtnVisible(e.target.name === "senha_user" && e.target.value !== "");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      logar();
+    }
+  };
+
   return (
     <>
       <section className="body-container">
@@ -99,6 +102,7 @@ const Home = () => {
                   label="Nome de Usuario"
                   maxLength={49}
                   eventoTeclado={digitar}
+                  onKeyDown={handleKeyDown}
                 />
                 <Input
                   className="input-cad"
@@ -107,6 +111,7 @@ const Home = () => {
                   label="Senha"
                   type={mostrarSenha ? "text" : "password"}
                   eventoTeclado={digitar}
+                  onKeyDown={handleKeyDown}
                 />
                 <button
                   type="button"
