@@ -66,9 +66,9 @@ const ForgotPassword = () => {
               <form className="FormLogin">
                 <Input
                   className="input-cad"
-                  placeholder="Nome de Usuario"
+                  placeholder="Login"
                   name="login"
-                  label="Nome de Usuario"
+                  label="Login"
                   eventoTeclado={digitar}
                 />
               </form>
