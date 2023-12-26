@@ -30,14 +30,7 @@ const AlterarSenha = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((retorno) => {
-          if (!retorno.ok) {
-            throw new Error(
-              `Erro na requisição: ${retorno.status} ${retorno.statusText}`
-            );
-          }
-          return retorno.json();
-        })
+        .then((retorno) => retorno.json())
         .then((retorno_convert) => {
           if (retorno_convert.error !== undefined) {
             toast.error(retorno_convert.error);
